@@ -1,4 +1,4 @@
-import {LOGIN} from "./loginTypes";
+import {LOGIN_SUCCESS} from "./loginTypes";
 
 const initialState = {
     loading: false,
@@ -9,10 +9,11 @@ const initialState = {
 
 const loginReducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case LOGIN:
+        case LOGIN_SUCCESS:
             return {
                 ...state,
-                loading: !state.loading
+                loading: false,
+                token: action.token,
             }
 
         default:

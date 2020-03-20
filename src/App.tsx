@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import "antd/dist/antd.css";
 
 // components
 import Login from './components/Login'

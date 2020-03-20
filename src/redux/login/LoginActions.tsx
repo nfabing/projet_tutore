@@ -1,8 +1,9 @@
 // Actions creators
-import {LOGIN} from "./loginTypes";
+import {LOGIN_SUCCESS} from "./loginTypes";
 
-export const login = () => {
+export const loginSuccess = (data: any) => {
     return {
-        type: LOGIN,
+        type: LOGIN_SUCCESS,
+        token: data.idToken,
     }
 }
