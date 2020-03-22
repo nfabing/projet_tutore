@@ -3,7 +3,8 @@ import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from "redux-logger";
 import loginReducer from "./login/loginReducer";
-import {watchLogin} from "../saga/saga";
+import DashboardFournisseurReducer from "./dashboardFournisseur/DashboardFournisseurReducer";
+import {watchLogin, watchEquipments} from "../saga/saga";
 
 // Firebase imports
 import firebase from 'firebase';
@@ -26,6 +27,7 @@ const sagaMiddleware = createSagaMiddleware();
 // Reducers
 const rootReducer = combineReducers({
     login: loginReducer,
+    dashboardFournisseur: DashboardFournisseurReducer
 })
 
 
@@ -36,5 +38,6 @@ const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logge
 
 // run sagaMiddleware
  sagaMiddleware.run(watchLogin)
+ sagaMiddleware.run(watchEquipments)
 
 export default store
