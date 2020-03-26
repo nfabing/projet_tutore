@@ -1,7 +1,9 @@
 import {LIST_EQUIPMENTS} from "./DashboardFournisseurType";
+import {LIST_LOAN} from "./DashboardFournisseurType";
 
 const initialState = {
-    equipments: []
+    equipments: [],
+    listLoan: []
 }
 
 const listEquipmentReducer = (state = initialState, action: any) => {
@@ -11,7 +13,11 @@ const listEquipmentReducer = (state = initialState, action: any) => {
                 ...state,
                 equipments: action
             }
-
+        case LIST_LOAN:
+            return {
+                ...state,
+                listLoan: action
+            }
         default:
             return state;
     }

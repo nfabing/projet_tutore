@@ -1,32 +1,47 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { Button, Col, Row } from "antd";
-import { listEquipments } from "../redux/dashboardFournisseur/DashboardFournisseurAction";
+import { CardLoan } from "./cardsDashboardFournisseur/CardLoan";
+import { CardTotal } from "./cardsDashboardFournisseur/CardTotal";
+import { CardBooked } from "./cardsDashboardFournisseur/CardBooked";
+import { CardOverdue } from "./cardsDashboardFournisseur/CardOverdue";
+
+import { Row, Col, Button, Card } from "antd";
+import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
 
 interface Iprops {
   equipments: any;
   getEquipments: any;
+  listLoan: any;
 }
 
-let listEquipment = null;
+const DashboardFournisseur = ({
+  equipments,
+  getEquipments,
+  listLoan
+}: Iprops) => {
+  if (equipments.length != 0) {
+    console.log(equipments);
 
-const DashboardFournisseur = ({ equipments, getEquipments }: Iprops) => {
-  if (equipments.length === 0) {
-    listEquipment = null;
-  } else {
-    listEquipment = equipments.equipments;
-    // listEquipment = equipments.equipments[0].doc.proto.fields.name.stringValue;
-  }
-  if (listEquipment != null) {
+    
     return (
       <div>
-        <Button onClick={getEquipments} size={"large"}>
-          Get Equipments
-        </Button>
-        {listEquipment.map((equipment: any) => {
-          return <p>{equipment.doc.proto.fields.name.stringValue}</p>;
-        })}
+        <div className="site-card-wrapper">
+          <Row gutter={[16, 16]}>
+            <Col span={5} offset={2}>
+              <CardTotal total={equipments}/>
+            </Col>
+            <Col span={5}>
+              <CardLoan loan={listLoan}/>
+            </Col>
+            <Col span={5}>
+              <CardOverdue overdue={11}/>
+            </Col>
+            <Col span={5}>
+              <CardBooked booked={123}/>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   } else {
@@ -41,7 +56,8 @@ const DashboardFournisseur = ({ equipments, getEquipments }: Iprops) => {
 const mapStateToProps = (state: any) => {
   console.log(state);
   return {
-    equipments: state.dashboardFournisseur.equipments
+    equipments: state.dashboardFournisseur.equipments,
+    listLoan: state.dashboardFournisseur.listLoan
   };
 };
 
