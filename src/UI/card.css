@@ -1,32 +1,59 @@
-.card{
+.card {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
-    height: 250px;
-    width: 200px;
+    height: 150px;
+    width: 65%px;
     background: #e9eef1;
     padding: 10px;
     border-radius: 10px;
     margin: 5px;
     box-shadow: 1px 1px 5px grey;
-
 }
-.card img{
-    height: 180px;
-    width: 180px;
+.card .nameImg{
+    display: flex;
+    justify-content: start;
+}
+.card .nameImg .name{
+display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.card .nameImg .name h4{
+font-size: 20px;
+}
+.card img {
+    display: inline-block;
+    height: 130px;
+    width: 130px;
     border-radius: 10px;
 }
-.card .bottom{
+
+.card .bottom {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    align-items: end;
 }
-.card .green{
+.card .bottom .btn{
+    display: flex;
+    justify-content: space-between;
+    width: 80px;
+}
+.card .bottom .btn a{
+   text-decoration: none;
+    color: #515354;
+}
+
+.card .green {
     float: right;
     color: forestgreen;
-    text-shadow:limegreen 1px 0px 5px ;
+    text-shadow: limegreen 1px 0px 5px;
+
 }
-.card .orange{
+.card .orange {
     float: right;
     color: orangered;
-    text-shadow:orange 1px 0px 5px ;
+    text-shadow: orange 1px 0px 5px;
 }
