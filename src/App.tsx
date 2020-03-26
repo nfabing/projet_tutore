@@ -3,12 +3,14 @@ import './App.css';
 import "antd/dist/antd.css";
 
 // components
-import Login from './components/Login'
+import Login from './components/Login/Login'
 
 function App() {
   return (
     <div className="App">
-      <Login/>
+      <Login>
+          <p>ENFANT DU LOGIN</p>
+      </Login>
     </div>
   );
 }
