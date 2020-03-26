@@ -130,7 +130,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                 </Row>
                 : null}
 
-            {logged ?
+            {logged && !providerSignUp ?
                 <div>
                 <Button onClick={logout}>LOGOUT</Button>
                     {children}

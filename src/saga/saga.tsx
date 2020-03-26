@@ -18,9 +18,9 @@ let defaultPhoto = 'defaultPhotoURL'
 function* googleLoginAsync() {
 
     try {
-        const user = yield call(reduxSagaFirebase.auth.signInWithPopup, authGoogleProvider)
+        yield call(reduxSagaFirebase.auth.signInWithPopup, authGoogleProvider)
         // successful login will trigger the watchUser, which will update the state
-        console.log('GOOGLE LOGIN', user)
+        console.log('GOOGLE LOGIN SUCCESS')
 
     } catch (error) {
         console.log('ERREUR DE LOGIN !', error.message)
@@ -30,9 +30,9 @@ function* googleLoginAsync() {
 function* githubLoginAsync() {
 
     try {
-        const user = yield call(reduxSagaFirebase.auth.signInWithPopup, authGithubProvider)
+        yield call(reduxSagaFirebase.auth.signInWithPopup, authGithubProvider)
         // successful login will trigger the watchUser, which will update the state
-        console.log('GITHUB LOGIN', user)
+        console.log('GITHUB LOGIN SUCCESS')
 
     } catch (error) {
         console.log(error.code)

@@ -9,7 +9,7 @@ const SupplierForm = () => {
                 <h3>Informations Fournisseur</h3>
 
                 <Form.Item
-                    label={'ADRESSE'}
+                    label={'Adresse'}
                     name={'adress'}
                     rules={[
                         {
@@ -20,7 +20,7 @@ const SupplierForm = () => {
                 </Form.Item>
 
                 <Form.Item
-                    label={'VILLE'}
+                    label={'Ville'}
                     name={'city'}
                     rules={[
                         {
@@ -33,7 +33,7 @@ const SupplierForm = () => {
                 </Form.Item>
 
                 <Form.Item
-                    label={'CODE POSTAL'}
+                    label={'Code postal'}
                     name={'postalCode'}
                     rules={[
                         {
@@ -45,7 +45,7 @@ const SupplierForm = () => {
                 </Form.Item>
 
                 <Form.Item
-                    label={'NOM BOUTIQUE'}
+                    label={'Nom boutique'}
                     name={'storeName'}
                     rules={[
                         {
