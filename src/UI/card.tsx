@@ -4,12 +4,14 @@ import {
     SearchOutlined,
     CarryOutOutlined,
 } from '@ant-design/icons';
-import {Popover} from 'antd';
+import {Button, Popover, Form} from 'antd';
 import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
 import moment from 'moment';
+import './popup.css';
+
 
 type CardProps = {
     img: string,
@@ -38,21 +40,25 @@ const Card = ({img, name, status, id}: CardProps) => {
     });
     const {RangePicker} = DatePicker;
 
-    const handleVisibleChange = () => {
-        setVisible(true);
-    };
 
-    const hide = () => {
-        setVisible(false);
-    };
     const dateFormat = 'DD/MM/YYYY';
     let date = new Date();
     let date1sem = new Date();
-    date1sem.setDate(date.getDate()+7);
-    let dateNow = date.getDate()+'/'+(date.getMonth()+1)+'/'+date.getFullYear();
-    let dateNowPlus1sem = (date1sem.getDate())+'/'+(date1sem.getMonth()+1)+'/'+date1sem.getFullYear();
-    return (
-        <div className={'card'} id={'test'}>
+    date1sem.setDate(date.getDate() + 7);
+    let dateNow = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
+
+    const disabledDate = (current: any) => {
+        let date: any[] = ['27/03/2020'];
+        return current && current < moment().endOf('day');
+    };
+
+    const onFinish = (values: any) => {
+        console.log(values);
+    };
+
+return (
+    <div className={'card'} id={'test'}>
             <span className={'nameImg'}>
                 <img src={imgSrc}/>
                 <span className={'name'}>
@@ -65,39 +71,68 @@ const Card = ({img, name, status, id}: CardProps) => {
                     </p>
                 </span>
             </span>
-            <span className={'bottom'}>
+        <span className={'bottom'}>
                 <span className={'btn'}>
                     <a href={`/Details/${id}`}> <SearchOutlined style={{fontSize: '30px'}}/></a>
 
-<Popup trigger={<CarryOutOutlined style={{ fontSize: '30px' }}  />}
-       modal
->
+                        <Popup trigger={<CarryOutOutlined style={{fontSize: '30px'}}/>}
+                               modal
+                        >
+                            <span className={'contentPopup'}>
+                            <h1>Réservation</h1>
+                              <Form
+                                  name="form"
+                                  onFinish={onFinish}
+                              >
+                                <span className={'rangePicker'}>
+                                    <h3>Date de réservation :</h3><br/>
+                                    <Form.Item
+                                        name="range"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Indiquez vos dates de réservation !',
+                                            },
+                                        ]}
+                                    >
+                                    <RangePicker
+                                        disabledDate={disabledDate}
+                                        defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
+                                        format={dateFormat}
+                                    />
+                                    </Form.Item>
+                                </span>
+                                  <Form.Item>
+                                        <Button type="primary" htmlType="submit">
+                                                Confirmer la réservation
+                                         </Button>
+                                  </Form.Item>
+                              </Form>
 
-                        <RangePicker
-                            defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
-                            format={dateFormat}
-                        />
+                            </span>
 
-</Popup>
+                        </Popup>
                 </span>
                 <p>
                     Disponibilité : <h4 className={statuColor}>{statu}</h4>
                 </p>
             </span>
 
-        </div>
-    )/* <a href={`/Details/${id}`}>
-                     <Popover
-                    content={
-                        <a onClick={hide}>Close</a>}
-                    placement={"bottomRight"}
-                    title="Title"
-                    trigger="click"
-                    visible={visible}
-                    onVisibleChange={handleVisibleChange}
-                >
-                    <CarryOutOutlined style={{ fontSize: '30px' }}  />
-                </Popover>*/
+    </div>
+)
 }
+/*
+<a href={`/Details/${id}`}>
+<Popover
+    content={
+        <a onClick={hide}>Close</a>}
+    placement={"bottomRight"}
+    title="Title"
+    trigger="click"
+    visible={visible}
+    onVisibleChange={handleVisibleChange}
+>
+    <CarryOutOutlined style={{fontSize: '30px'}}/>
+</Popover>*/
 
 export default Card

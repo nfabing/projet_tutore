@@ -1,0 +1,13 @@
+.contentPopup {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.contentPopup .rangePicker {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
