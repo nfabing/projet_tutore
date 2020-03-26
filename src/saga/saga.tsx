@@ -106,15 +106,4 @@ export function* watchLogin() {
   yield takeLatest("LOGIN_GOOGLE", googleLoginAsync);
 }
 
-export function* watchEquipments() {
-  yield takeLatest("GET_EQUIPMENTS", getAllEquipments);
-}
 
-export function* watchAddEquipment() {
-  yield takeEvery("ADD_EQUIPMENT", addEquipmentSaga);
-}
-
-export function* watchEditEquipment() {
-  yield takeLatest("EDIT_THAT_EQUIPMENT", editEquipmentSaga);
-  yield takeLatest("GET_THAT_EQUIPMENT", getOneEquipmentSaga);
-}
