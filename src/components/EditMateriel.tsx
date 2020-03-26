@@ -31,8 +31,6 @@ const DashboardFournisseur = ({ equipment, getEquipment}: Iprops) => {
   if (equipment.length != 0) {
     console.log(equipment)
     equipment = equipment.getOneEquipment;
-
-
     let date = equipment.buyingDate.stringValue;
     date = moment(date);
     

@@ -53,7 +53,6 @@ const DashboardFournisseur = ({
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     equipments: state.dashboardFournisseur.equipments,
     listLoan: state.dashboardFournisseur.listLoan

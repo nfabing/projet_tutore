@@ -14,7 +14,7 @@ function App() {
       <Login/>
       <DashboardFournisseur/>
       <EditMateriel/>
-      {/* <AjoutMateriel/> */}
+      <AjoutMateriel/>
     </div>
   );
 }
