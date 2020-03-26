@@ -1,0 +1,1 @@
+export const ADD_EQUIPMENT = 'ADD_EQUIPMENT';

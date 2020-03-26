@@ -1,0 +1,1 @@
+export const GET_ONE_EQUIPMENT = 'GET_ONE_EQUIPMENT';

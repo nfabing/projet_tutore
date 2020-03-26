@@ -12,7 +12,6 @@ interface Iprops {
 }
 
 const Login = ({loading, token, loginGoogle}: Iprops) => {
-
     return (
         <div>
             <h2>Connecté ? : {loading.toString()}</h2>
@@ -20,9 +19,7 @@ const Login = ({loading, token, loginGoogle}: Iprops) => {
 
 
             <Row  justify={'space-around'}>
-
                 {token ? <Col span={12}><b>TOKEN :</b> {token}</Col> : null}
-
                 <Col offset={12}/>
 
             </Row>

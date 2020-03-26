@@ -1,5 +1,6 @@
 import {LOGIN_SUCCESS} from "./loginTypes";
 
+
 const initialState = {
     loading: false,
     user: [],
@@ -13,9 +14,8 @@ const loginReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 loading: false,
-                token: action.token,
+                token: action.token,  
             }
-
         default:
             return state;
     }
