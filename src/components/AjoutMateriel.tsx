@@ -4,14 +4,12 @@ import { connect } from "react-redux";
 import {
   Form,
   Input,
-  InputNumber,
   Select,
   DatePicker,
   Button,
   Col,
   Row
 } from "antd";
-import { addEquipment } from "../redux/ajoutMateriel/AjoutMeterielAction";
 
 const { Option } = Select;
 const { YearPicker } = DatePicker;

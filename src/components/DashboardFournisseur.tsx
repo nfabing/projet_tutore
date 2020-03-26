@@ -6,8 +6,7 @@ import { CardTotal } from "./cardsDashboardFournisseur/CardTotal";
 import { CardBooked } from "./cardsDashboardFournisseur/CardBooked";
 import { CardOverdue } from "./cardsDashboardFournisseur/CardOverdue";
 
-import { Row, Col, Button, Card } from "antd";
-import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
+import { Row, Col, Button } from "antd";
 
 interface Iprops {
   equipments: any;

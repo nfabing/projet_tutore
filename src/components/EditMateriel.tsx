@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import {
   Form,
   Input,
-  InputNumber,
   Select,
   DatePicker,
   Button,
@@ -11,7 +10,6 @@ import {
   Row
 } from "antd";
 import moment from "moment";
-// import { editEquipments } from "../redux/editMateriel/EditMaterielAction";
 import store from "../redux/store";
 
 const { Option } = Select;
@@ -29,7 +27,7 @@ interface Iprops {
 }
 
 export const getEquipmentID = (state: any) => "NVY1JxmbYwhmMfwZwLmu";
-const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops) => {
+const DashboardFournisseur = ({ equipment, getEquipment}: Iprops) => {
   if (equipment.length != 0) {
     console.log(equipment)
     equipment = equipment.getOneEquipment;
