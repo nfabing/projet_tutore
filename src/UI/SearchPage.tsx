@@ -11,7 +11,7 @@ import Loader from "./infiniteLoader";
 const Search = () => {
     return (
         <div>
-    <Loader/>
+            <Loader/>
         </div>
     )
 }

@@ -17,23 +17,23 @@ type CardProps = {
     img: string,
     name: string,
     id: number,
-    status: number
+    status: string
 }
 const Card = ({img, name, status, id}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [statu, setStatu] = useState('Reserve');
-    const [imgSrc, setImg] = useState('https://cdn.discordapp.com/attachments/624590745096945704/690571801625100288/000000-default-placeholder.png');
+    const [imgSrc, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/projet-tutore-6833d.appspot.com/o/equipments%2F000000-default-placeholder.png?alt=media&token=b500524d-17e8-4ee1-ab7b-5bdcbfebe61b');
     const [statuColor, setStatuColor] = useState('orange');
 
     useEffect(() => {
         if (img !== 'null') {
-            setImg(img);
+            setImg('gs://projet-tutore-6833d.appspot.com/equipments/'+img);
         }
 
-        if (status === 0) {
+        if (status === '0') {
             setStatu('Disponible');
             setStatuColor('green');
-        } else if (status === 1) {
+        } else if (status === '1') {
             setStatu('Reserve');
             setStatuColor('orange');
         }

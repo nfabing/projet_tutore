@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -45,4 +43,11 @@
 
 .formAddMateriel{
   text-align: initial;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+  background: #141414;
 }
