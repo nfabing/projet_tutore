@@ -3,7 +3,7 @@ import './App.css';
 import "antd/dist/antd.css";
 
 import {Input} from 'antd';
-import Details from "./UI/DetailsPage";
+import Details from "./components/Search/DetailsPage";
 
 // components
 import Login from './components/Login';
@@ -11,7 +11,7 @@ import DashboardFournisseur from './components/DashboardFournisseur';
 import AjoutMateriel from './components/AjoutMateriel';
 import EditMateriel from './components/EditMateriel';
 import {Route, BrowserRouter as Router, Switch, Link} from "react-router-dom";
-import Search from "./UI/SearchPage";
+import Search from "./components/Search/SearchPage";
 import {Layout, Menu} from 'antd';
 
 

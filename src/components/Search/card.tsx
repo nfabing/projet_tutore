@@ -17,9 +17,11 @@ type CardProps = {
     img: string,
     name: string,
     id: number,
-    status: string
+    status: string,
+    tags: string,
+    category: string
 }
-const Card = ({img, name, status, id}: CardProps) => {
+const Card = ({img, name, status, id,tags, category}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [statu, setStatu] = useState('Reserve');
     const [imgSrc, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/projet-tutore-6833d.appspot.com/o/equipments%2F000000-default-placeholder.png?alt=media&token=b500524d-17e8-4ee1-ab7b-5bdcbfebe61b');
@@ -64,10 +66,10 @@ return (
                 <span className={'name'}>
                     <h4>{name}</h4>
                     <p>
-                        producteur : test
+                        Category : {category}
                     </p>
                     <p>
-                        tag : xx x xx
+                        tags : {tags}
                     </p>
                 </span>
             </span>

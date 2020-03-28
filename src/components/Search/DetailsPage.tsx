@@ -7,11 +7,17 @@ import
 import {
     SearchOutlined,
 } from '@ant-design/icons';
-import Loader from "./infiniteLoader";
 
 const Details = () => {
+    const [id, setId] = useState('');
 
     let { materialId } = useParams();
+    const test: any  = materialId;
+    useEffect(() => {
+        setId(test);
+        console.log(id);
+    });
+
 
     return (
         <div>
