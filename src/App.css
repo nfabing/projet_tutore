@@ -1,6 +1,4 @@
-.App {
 
-}
 
 .App-logo {
   height: 40vmin;
@@ -28,6 +26,12 @@
   color: #61dafb;
 }
 
+.content-card{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +39,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.formAddMateriel{
+  text-align: initial;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+  background: #141414;
 }
