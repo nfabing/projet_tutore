@@ -1,0 +1,34 @@
+.contentDetails{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.contentDetails .header{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+.contentDetails .header img {
+    height: 400px;
+    width: 400px;
+}
+.contentDetails .header .title {
+    align-items: center;
+    text-align: center;
+}
+.contentDetails .header .title h3{
+    opacity: 0.3;
+}
+.contentDetails .details{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.contentDetails .details .detailequipment{
+    align-items: start;
+}
+.contentDetails .details .detailfournisseur{
+    align-items: start;
+}
