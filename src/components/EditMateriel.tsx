@@ -31,8 +31,8 @@ interface Iprops {
 export const getEquipmentID = (state: any) => "NVY1JxmbYwhmMfwZwLmu";
 const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops) => {
   if (equipment.length != 0) {
-    console.log(equipment)
-    equipment = equipment.getOneEquipment;
+      console.log(equipment)
+      equipment = equipment.getOneEquipment;
 
 
     let date = equipment.buyingDate.stringValue;

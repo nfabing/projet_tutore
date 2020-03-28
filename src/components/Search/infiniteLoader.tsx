@@ -11,6 +11,7 @@ import {Button, Input} from "antd";
 import {connect} from "react-redux";
 
 import './infiniteLoader.css'
+import store from "../../redux/store";
 
 type LoaderProps = {
     data: any,
@@ -30,7 +31,12 @@ interface Iprops {
 const { Option } = Select;
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
+
+
+
+store.dispatch({type: 'GET_EQUIPMENTS'}   );
 const Loader = ({equipments, getEquipments}: Iprops) => {
+
 
     const [search, setSearch] = useState('');
     const [filtre, setFiltre] = useState('');
@@ -114,7 +120,7 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
 
         return (
 
-            <div className={'content'}>
+            <div className={'contentLoader'}>
                 <span className={'filter'}>
                     <Search
                         placeholder="input search text"
@@ -154,7 +160,6 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
                         })}
                       </Select>
                 </span>
-
                 <AutoSizer>
                     {({height, width}) => (
                         <List itemSize={170}
@@ -166,13 +171,6 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
                         </List>
                     )}
                 </AutoSizer>
-                {/*filterData.map(
-                (data) => {
-                    return <Card img={data.img} name={data.titre} id={data.id} status={data.status}/>
-                }
-            )}
-
-            */}
             </div>
         )
     } else {

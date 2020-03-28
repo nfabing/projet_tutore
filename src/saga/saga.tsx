@@ -70,8 +70,8 @@ function* addEquipmentSaga() {
   );
 }
 
-function* getOneEquipmentSaga(){
-  const id = yield select(getEquipmentID);
+function* getOneEquipmentSaga(value: any){
+  const id = yield value.value;
   const data = yield fork(
     reduxSagaFirebase.firestore.syncDocument,
     'equipment/'+id,
