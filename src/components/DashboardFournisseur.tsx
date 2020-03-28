@@ -1,4 +1,4 @@
-import React, {ReactDOM, useEffect} from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import { CardLoan } from "./cardsDashboardFournisseur/CardLoan";
@@ -6,9 +6,7 @@ import { CardTotal } from "./cardsDashboardFournisseur/CardTotal";
 import { CardBooked } from "./cardsDashboardFournisseur/CardBooked";
 import { CardOverdue } from "./cardsDashboardFournisseur/CardOverdue";
 
-import { Row, Col, Button, Card } from "antd";
-import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
-import {render} from "react-dom";
+import { Row, Col, Button } from "antd";
 
 interface Iprops {
   equipments: any;
@@ -22,12 +20,7 @@ const DashboardFournisseur = ({
   listLoan
 }: Iprops) => {
   if (equipments.length != 0) {
-    equipments.equipments.map( (data: any) => {
-      const equipement: any = data.doc.proto.fields;
-      const key: any = data.doc.key.path.segments[6];
-      console.log(key);
-      console.log(equipement.name.stringValue);
-    });
+    console.log(equipments);
 
     
     return (
@@ -60,7 +53,6 @@ const DashboardFournisseur = ({
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     equipments: state.dashboardFournisseur.equipments,
     listLoan: state.dashboardFournisseur.listLoan

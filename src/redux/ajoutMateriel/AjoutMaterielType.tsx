@@ -1,1 +1,2 @@
 export const ADD_EQUIPMENT = 'ADD_EQUIPMENT';
+export const LIST_CATEGORIES = 'LIST_CATEGORIES';
