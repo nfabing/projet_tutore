@@ -4,17 +4,19 @@ import {MailOutlined, LockOutlined} from "@ant-design/icons"
 
 interface SignInProps {
     error: any;
-    goToSignup: any;
-    onFinishLogin: any;
+    onFinish: any;
     loading: boolean
 }
 
-const SignIn = ({error, goToSignup, onFinishLogin, loading}: SignInProps) => {
+const SignIn = ({error, loading, onFinish}: SignInProps) => {
 
     return (
-        <Col span={8}>
-            <h2>CONNEXION</h2>
-            <Form onFinish={onFinishLogin} labelCol={{span: 8}} wrapperCol={{span: 16}}>
+            <Form onFinish={onFinish}
+                  labelCol={{span: 8}}
+                  wrapperCol={{span: 16}}
+                  hideRequiredMark={true}
+            >
+                <h2 className={'login-title'}>CONNEXION</h2>
                 <Form.Item
                     label={'Email'}
                     name={'email'}
@@ -44,10 +46,6 @@ const SignIn = ({error, goToSignup, onFinishLogin, loading}: SignInProps) => {
                     {error ? <b>{error}</b> : null}
                 </div>
                 <div className={'confirm'}>
-                    <div className={'confirm-text'}>
-                        <a onClick={goToSignup}>Pas encore inscrit ? clique ici !</a>
-                    </div>
-
                     <Form.Item wrapperCol={{span: 24}}>
                         <Button type="primary" htmlType="submit" loading={loading} block>
                             Connexion
@@ -55,7 +53,6 @@ const SignIn = ({error, goToSignup, onFinishLogin, loading}: SignInProps) => {
                     </Form.Item>
                 </div>
             </Form>
-        </Col>
     )
 
 }

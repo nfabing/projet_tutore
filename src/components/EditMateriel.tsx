@@ -14,7 +14,7 @@ import moment from "moment";
 import store from "../redux/store";
 import { UploadOutlined } from "@ant-design/icons";
 import firebase from "firebase";
-import { resolve } from "path";
+
 
 const { Option } = Select;
 const { YearPicker } = DatePicker;
@@ -38,7 +38,7 @@ interface Iprops {
   categories: any;
 }
 
-// export const getEquipmentID = (state: any) => "w9d008IJw1JxlsBeOLYP";
+ export const getEquipmentID = (state: any) => "w9d008IJw1JxlsBeOLYP";
 
 const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
   const [imgUrl, setImgUrl] = useState("");

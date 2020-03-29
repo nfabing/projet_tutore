@@ -1,14 +1,19 @@
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { createLogger } from "redux-logger";
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import createSagaMiddleware from 'redux-saga'
+import {composeWithDevTools} from 'redux-devtools-extension';
+import {createLogger} from "redux-logger";
 import loginReducer from "./login/loginReducer";
 import DashboardFournisseurReducer from "./dashboardFournisseur/DashboardFournisseurReducer";
 import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
-import { watchLogin } from "../saga/saga";
 import { watchAddEquipment } from "../saga/ajoutMateriel/ajoutMaterielSaga";
 import { watchEditEquipment } from "../saga/editMateriel/editMaterielSaga";
 import { watchEquipments } from "../saga/dashboardFournisseur/getMaterielSaga";
+import profilReducer from "./profil/profilReducer";
+import passwordReducer from "./password/passwordReducer";
+import {profilSaga} from "../saga/profilSaga"
+import {passwordSaga} from "../saga/passwordSaga"
+import {watchLogin} from "../saga/loginSaga";
+
 
 // Firebase imports
 import firebase from "firebase";
@@ -18,7 +23,7 @@ import ReduxSagaFirebase from "redux-saga-firebase";
 import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
 
 // init Firebase
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+export const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 // init redux saga firebase
 export const reduxSagaFirebase = new ReduxSagaFirebase(firebaseApp);
@@ -31,11 +36,14 @@ const sagaMiddleware = createSagaMiddleware();
 
 // Reducers
 const rootReducer = combineReducers({
-  login: loginReducer,
-  dashboardFournisseur: DashboardFournisseurReducer,
-  ajoutMateriel: AjoutMaterielReducer,
-  editMateriel: EditMaterielReducer
-});
+    login: loginReducer,
+    dashboardFournisseur: DashboardFournisseurReducer,
+    ajoutMateriel: AjoutMaterielReducer,
+    editMateriel: EditMaterielReducer,
+    user: profilReducer,
+    password: passwordReducer,
+})
+
 
 // Store Creation
 const store = createStore(
@@ -44,7 +52,9 @@ const store = createStore(
 );
 
 // run sagaMiddleware
-sagaMiddleware.run(watchLogin);
+sagaMiddleware.run(watchLogin)
+sagaMiddleware.run(profilSaga)
+sagaMiddleware.run(passwordSaga)
 sagaMiddleware.run(watchEquipments);
 sagaMiddleware.run(watchAddEquipment);
 sagaMiddleware.run(watchEditEquipment);

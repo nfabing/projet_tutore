@@ -1,0 +1,14 @@
+.row-profil-banner {
+   background-color: lightblue;
+    padding-bottom: 10px;
+}
+
+.col-banner-avatar {
+    border-right: solid;
+    border-right-width: 2px;
+    border-right-color: black;
+}
+
+.col-banner-infos {
+    padding-left: 20px;
+}

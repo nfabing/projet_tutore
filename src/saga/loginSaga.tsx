@@ -1,19 +1,36 @@
-import {takeLatest, put, call, take, fork, select} from 'redux-saga/effects'
+import {takeLatest, put, call, take, fork, select, all} from 'redux-saga/effects'
+import {eventChannel} from 'redux-saga'
 import {
     loginError,
     loginInProgress,
     loginProviderFirstTime,
     loginSuccess,
-    logoutSuccess
+    logoutSuccess, reLoginSuccess,
 } from "../redux/login/LoginActions";
-import {reduxSagaFirebase} from "../redux/store";
+import {firebaseApp, reduxSagaFirebase} from "../redux/store";
 import firebase from "firebase";
+
 
 // Auth Provider
 const authGoogleProvider = new firebase.auth.GoogleAuthProvider();
 const authGithubProvider = new firebase.auth.GithubAuthProvider()
 
-let defaultPhoto = 'defaultPhotoURL'
+let defaultPhoto: string
+
+export function* watchLogin() {
+
+    yield all([
+        fork(watchUser),
+        takeLatest('LOGIN_GOOGLE', googleLoginAsync),
+        takeLatest('LOGIN_GITHUB', githubLoginAsync),
+        takeLatest('LOGIN_EMAIL', emailLoginAsync),
+        takeLatest('SIGNUP_EMAIL', emailSignupAsync),
+        takeLatest('CHANGE_USER_TO_SUPPLIER', changeToSupplierAsync),
+        takeLatest('LOGOUT_REQUEST', signOut),
+
+    ]);
+
+}
 
 function* googleLoginAsync() {
 
@@ -24,6 +41,7 @@ function* googleLoginAsync() {
 
     } catch (error) {
         console.log('ERREUR DE LOGIN !', error.message)
+        yield put(loginError(error.code))
     }
 }
 
@@ -37,6 +55,7 @@ function* githubLoginAsync() {
     } catch (error) {
         console.log(error.code)
         console.log('ERREUR DE LOGIN !', error.message)
+        yield put(loginError(error.code))
     }
 }
 
@@ -50,13 +69,11 @@ function* signOut() {
     }
 }
 
-
 function* watchUser() {
     const channel = yield call(reduxSagaFirebase.auth.channel);
 
     while (true) {
         const {error, user} = yield take(channel);
-
 
         if (user) {
             const userExist = yield checkUserExist(user.uid)
@@ -71,7 +88,7 @@ function* watchUser() {
 
 
         } else {
-            console.log('NOT CONNECTED', error)
+            console.log('NOT CONNECTED', error )
             yield put(logoutSuccess())
 
         }
@@ -93,15 +110,15 @@ function* createUserDocument(user: any, action?: any) {
                 creationDate: new Date().toUTCString(),
                 displayName: action ? action.data.username : user.displayName,
                 useruid: user.uid,
-                userType: action ? action.data.userType : 'user',
+                userType: 'userType' in action ? action.data.userType : 'user',
                 email: user.email,
                 emailVerified: user.emailVerified,
-                phoneNumber: action ? action.data.phoneNumber : null,
+                phoneNumber: action ? action.data.phoneNumber : '',
                 photoURL: user.photoURL === null ? defaultPhoto : user.photoURL,
-                adress: action ? action.data.adress : null,
-                city: action ? action.data.city : null,
-                postalCode: action ? action.data.postalCode.postalCode : null,
-                storeName: action ? action.data.storeName : null,
+                adress: 'adress' in action ? action.data.adress : '',
+                city: 'city' in action ? action.data.city : '',
+                postalCode: 'postalCode' in action ? action.data.postalCode : '',
+                storeName: 'storeName' in action ? action.data.storeName : '',
 
             })
 }
@@ -116,6 +133,7 @@ function* emailSignupAsync(action: any) {
         defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png')
 
         console.log('NEW USER EMAIL', user);
+        console.log('NEW USER FORM', action)
         yield createUserDocument(user.user, action)
         yield call(reduxSagaFirebase.auth.updateProfile, {
             displayName: action.data.username,
@@ -136,8 +154,15 @@ function* emailSignupAsync(action: any) {
 function* emailLoginAsync(action: any) {
     try {
         yield put(loginInProgress())
+        const user = yield select(state => state.login.user)
         yield call(reduxSagaFirebase.auth.signInWithEmailAndPassword, action.data.email, action.data.password)
         // successful login will trigger the watchUser, which will update the state
+
+        if (user) {
+            yield put(reLoginSuccess())
+        }
+
+
 
     } catch (error) {
         console.log('code : ', error.code)
@@ -150,10 +175,9 @@ function* emailLoginAsync(action: any) {
 
 function* changeToSupplierAsync(action: any) {
 
-    console.log('DATA SUPPLIER', action.data)
     const user = yield select(state => state.login.user)
     const uid = user.uid;
-    console.log('HELLO UID', uid)
+    console.log('CHANGE USER TO SUPPLIER', uid)
 
     // @ts-ignore
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`,
@@ -166,14 +190,4 @@ function* changeToSupplierAsync(action: any) {
         }, {merge: true})
 }
 
-export function* watchLogin() {
-    yield fork(watchUser)
-    yield takeLatest('LOGIN_GOOGLE', googleLoginAsync)
-    yield takeLatest('LOGIN_GITHUB', githubLoginAsync)
-    yield takeLatest('LOGIN_EMAIL', emailLoginAsync)
-    yield takeLatest('SIGNUP_EMAIL', emailSignupAsync)
 
-    yield takeLatest('CHANGE_USER_TO_SUPPLIER', changeToSupplierAsync)
-
-    yield takeLatest('LOGOUT_REQUEST', signOut)
-}

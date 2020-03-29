@@ -2,7 +2,7 @@
 import {LIST_EQUIPMENTS, LIST_LOAN, DISPLAY_LIST_EQUIPMENTS} from "./DashboardFournisseurType";
 
 export const listEquipments = (data: any) => {
-    console.log(data)
+    console.log('ACTIONS', data)
     return {
         type: LIST_EQUIPMENTS,
         equipments: data
