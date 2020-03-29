@@ -1,4 +1,6 @@
-
+.App {
+  text-align: center;
+}
 
 .App-logo {
   height: 40vmin;
@@ -48,4 +50,16 @@
 }
 [data-theme="dark"] .site-layout .site-layout-background {
   background: #141414;
+}
+
+.imgEquipment{
+  width: 30%
+}
+
+.inputIdEdit{
+  display: none;
+}
+
+.listEquipment{
+  width: 90%;
 }
