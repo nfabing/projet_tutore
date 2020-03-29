@@ -207,7 +207,8 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
 const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
-        categories: state.ajoutMateriel.categories
+        categories: state.ajoutMateriel.categories,
+        uid : state.login.user.uid
     };
 };
 

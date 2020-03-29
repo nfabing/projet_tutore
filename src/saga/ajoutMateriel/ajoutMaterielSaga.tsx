@@ -12,11 +12,13 @@ function* addEquipmentSaga() {
   const data = yield take("ADD_EQUIPMENT");
   const date = data.values.equipment.buyingDate.format("YYYY");
   const nameFile = Date.now();
+  let equipementPhoto;
+  let defaultPhoto;
   console.log(data);
   const upload = reduxSagaFirebase.storage.uploadFile("equipments/"+nameFile, data.values.upload[0].originFileObj)
   yield upload;
-  defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png');
-  equipementPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png');
+  defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'equipments/defaultEquipment.png');
+  if(!upload)  equipementPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'equipments/'+upload);
   const doc = yield call(reduxSagaFirebase.firestore.addDocument, "equipment", {
     name: data.values.equipment.name,
     status: data.values.equipment.status,
@@ -26,9 +28,9 @@ function* addEquipmentSaga() {
     category: data.values.equipment.category,
     brand: data.values.equipment.marque,
     modele: data.values.equipment.modele,
-    img: nameFile,
+    img: upload ? defaultPhoto : equipementPhoto,
     reservation: [{dateDebut: '', dateFin: '', idUser: ''}]
-  });  
+  });
 }
 
 function* getCategories() {
