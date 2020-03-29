@@ -5,7 +5,8 @@ import { createLogger } from "redux-logger";
 import loginReducer from "./login/loginReducer";
 import DashboardFournisseurReducer from "./dashboardFournisseur/DashboardFournisseurReducer";
 import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
-import { watchLogin, watchEquipments, watchAddEquipment, watchEditEquipment } from "../saga/saga";
+import listReserveReducer from "./listReserve/listReserveReducer";
+import { watchLogin } from "../saga/saga";
 
 // Firebase imports
 import firebase from "firebase";
@@ -13,6 +14,8 @@ import "@firebase/firestore";
 import firebaseConfig from "../config/config";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
+import listReserve from "../components/listReserve/listReserve";
+import { watchReserve } from "../saga/listReserveSaga/listReserveSaga";
 
 // init Firebase
 const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -31,7 +34,8 @@ const rootReducer = combineReducers({
   login: loginReducer,
   dashboardFournisseur: DashboardFournisseurReducer,
   ajoutMateriel: AjoutMaterielReducer,
-  editMateriel: EditMaterielReducer
+  editMateriel: EditMaterielReducer,
+  listReserve: listReserveReducer
 });
 
 // Store Creation
@@ -42,8 +46,7 @@ const store = createStore(
 
 // run sagaMiddleware
 sagaMiddleware.run(watchLogin);
-sagaMiddleware.run(watchEquipments);
-sagaMiddleware.run(watchAddEquipment);
-sagaMiddleware.run(watchEditEquipment);
+sagaMiddleware.run(watchReserve);
+
 
 export default store;
