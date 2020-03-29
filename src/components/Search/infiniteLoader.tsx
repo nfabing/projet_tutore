@@ -56,20 +56,15 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
         style: any, // Style object to be applied to row (to position it)
     }
 
+console.log('Taille', equipments.length);
 
     if (equipments.length != 0 && categories.length != 0) {
+
         let i = 0;
         equipments.equipments.map((data: any) => {
             const equipement: any = data.doc.proto.fields;
             const key: any = data.doc.key.path.segments[6];
 
-            let img: string;
-            /*if(!equipement.img.integerValue || equipement.img.integerValue === "null" || equipement.img.integerValue === null || equipement.img.integerValue === '')
-            {
-                img = 'null';
-            } else {
-                img = ''+equipement.img.integerValue;
-            }*/
             let testBrand: boolean = false;
             for (let j = 0; j < arrayBrand.length; j++)
             {
@@ -83,7 +78,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
             let tags: string = equipement.modele.stringValue+','+equipement.brand.stringValue+','+equipement.category.stringValue;
             dataCard.push({
                 id: key,
-                img: 'null',
+                img: equipement.img.stringValue,
                 titre: equipement.name.stringValue,
                 status: equipement.status.stringValue,
                 tag: tags,
@@ -124,7 +119,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card img={'null'}
+                    {item ? <Card img={filterData[index].img}
                                   name={filterData[index].titre}
                                   id={filterData[index].id}
                                   tags={filterData[index].tag}
@@ -175,11 +170,27 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                             return <Option value={catId}>{cat}</Option>;
                         })}
                       </Select>
+                    <Select
+                        style={{width: 200, marginTop: '20px'}}
+                        placeholder="Select a category"
+                        optionFilterProp="children"
+                        onChange={(value: any) => setCategory(value)}
+                        filterOption={(input: any, option: any) =>
+                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        }
+                    >
+                        <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
+                        {categories.categories.map((cat: any) => {
+                            const catId = cat.doc.key.path.segments[6];
+                            cat = cat.doc.proto.fields.name.stringValue;
+                            return <Option value={catId}>{cat}</Option>;
+                        })}
+                      </Select>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (
                         <List itemSize={170}
-                              height={600}
+                              height={height}
                               itemCount={filterData.length}
                               width={width}
                         >
