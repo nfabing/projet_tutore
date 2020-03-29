@@ -12,7 +12,6 @@ import {connect} from "react-redux";
 
 import './infiniteLoader.css'
 import store from "../../redux/store";
-import {categories} from "../../redux/ajoutMateriel/AjoutMeterielAction";
 
 type LoaderProps = {
     data: any,
@@ -27,7 +26,7 @@ type rowRendererType = {
 
 interface Iprops {
     equipments: any;
-    listEquipments: any;
+    getEquipments: any;
     categories: any;
     getCategories: any;
 }
@@ -37,22 +36,10 @@ const {Header, Content, Footer, Sider} = Layout;
 
 
 
-store.dispatch({type: 'GET_EQUIPMENTS'}   );
-const Loader = ({equipments, listEquipments, categories, getCategories }: Iprops) => {
-
-
-    const [defined, setDefined] = useState(false)
-
-    useEffect(() => {
-        if ('type' in equipments && 'type' in categories) {
-            console.log('EQUIPMENTS', equipments)
-            setDefined(true)
-        }
-    }, [equipments])
 store.dispatch({type: 'GET_EQUIPMENTS'});
 store.dispatch({type: 'GET_CATEGORIES'});
 
-
+const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops) => {
 
 
     const [search, setSearch] = useState('');
@@ -69,14 +56,13 @@ store.dispatch({type: 'GET_CATEGORIES'});
         style: any, // Style object to be applied to row (to position it)
     }
 
+    console.log('Taille', equipments.length);
 
+    if (equipments.length != 0 && categories.length != 0) {
 
-
-    if (defined) {
-        console.log('TAILLE', equipments.length)
         equipments.equipments.map((data: any) => {
-            const equipement: any = data.doc.proto.fields;
-            const key: any = data.doc.key.path.segments[6];
+            const equipement: any = data;
+            const key: any = data.id;
 
             let testBrand: boolean = false;
             for (let j = 0; j < arrayBrand.length; j++)
@@ -98,7 +84,7 @@ store.dispatch({type: 'GET_CATEGORIES'});
                 brand: equipement.brand,
                 category: equipement.category
             });
-            i+=1;
+
         });
 
 
@@ -225,14 +211,12 @@ store.dispatch({type: 'GET_CATEGORIES'});
                 <Skeleton active />
             </>
         )
-
     }
 }
 
 const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
-        listEquipments: state.dashboardFournisseur.listEquipments
         categories: state.ajoutMateriel.categories,
         uid : state.login.user.uid
     };
