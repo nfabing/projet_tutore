@@ -15,6 +15,8 @@ function* addEquipmentSaga() {
   console.log(data);
   const upload = reduxSagaFirebase.storage.uploadFile("equipments/"+nameFile, data.values.upload[0].originFileObj)
   yield upload;
+  defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png');
+  equipementPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png');
   const doc = yield call(reduxSagaFirebase.firestore.addDocument, "equipment", {
     name: data.values.equipment.name,
     status: data.values.equipment.status,
