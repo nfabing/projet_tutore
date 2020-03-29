@@ -44,3 +44,15 @@
 .cancelBtnAddEquipment{
   margin-left: 15px;
 }
+
+.imgEquipment{
+  width: 30%
+}
+
+.inputIdEdit{
+  display: none;
+}
+
+.listEquipment{
+  width: 90%;
+}

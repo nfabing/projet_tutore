@@ -12,12 +12,22 @@ export const ListEquipments = (props: any) => {
   console.log(props);
 
   if (props.equipments.listEquipments != undefined) {
+
+    // let img = equipment.getOneEquipment.img.integerValue;
+    // let storage = firebase.storage();
+    // let path = storage.refFromURL(
+    //   "gs://projet-tutore-6833d.appspot.com/equipments/" + img
+    // );
+    // path.getDownloadURL().then(function(url) {
+    //   setImgUrl(url)
+    // })
+
     const editEquipment = (id: any) => {
       //A APPELER QUAND LE FORM EST SUBMIT
       store.dispatch({ type: "GET_THAT_EQUIPMENT", id: id });
     };
     return (
-      <div>
+      <div className="listEquipment">
         <List
           bordered
           dataSource={props.equipments.listEquipments}

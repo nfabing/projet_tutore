@@ -44,43 +44,40 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
   const [imgUrl, setImgUrl] = useState("");
 
   if (categories.length != 0) {
-    console.log(equipment.getOneEquipment.img);
-    let img = equipment.getOneEquipment.img.integerValue;
-    let storage = firebase.storage();
-    let path = storage.refFromURL(
-      "gs://projet-tutore-6833d.appspot.com/equipments/" + img
-    );
-    path.getDownloadURL().then(function(url) {
-      setImgUrl(url)
-    })
+    console.log(equipment.getOneEquipment);
+    console.log(categories);
 
     equipment = equipment.getOneEquipment;
-    let date = equipment.buyingDate.stringValue;
+    let date = equipment.buyingDate;
     date = moment(date);
     const onFinish = (values: any) => {
       if (values.equipment.name == undefined) {
-        values.equipment.name = equipment.name.stringValue;
+        values.equipment.name = equipment.name;
       }
       if (values.equipment.description == undefined) {
-        values.equipment.description = equipment.description.stringValue;
+        values.equipment.description = equipment.description;
       }
       if (values.equipment.buyingDate == undefined) {
-        values.equipment.buyingDate = equipment.buyingDate.stringValue;
+        values.equipment.buyingDate = equipment.buyingDate;
       }
       if (values.equipment.category == undefined) {
-        values.equipment.category = equipment.category.stringValue;
+        values.equipment.category = equipment.category;
       }
       if (values.equipment.marque == undefined) {
-        values.equipment.marque = equipment.brand.stringValue;
+        values.equipment.marque = equipment.brand;
       }
       if (values.equipment.modele == undefined) {
-        values.equipment.modele = equipment.modele.stringValue;
+        values.equipment.modele = equipment.modele;
       }
       if (values.equipment.status == undefined) {
-        values.equipment.status = equipment.status.stringValue;
+        values.equipment.status = equipment.status;
+      }
+      if (values.equipment.id == undefined) {
+        values.equipment.id = equipment.id;
       }
       store.dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values });
     };
+
     return (
       <Row>
         <Col span={12} offset={6}>
@@ -91,10 +88,10 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
             className="formAddMateriel"
           >
             <Form.Item name={["equipment", "name"]} label="Libellé">
-              <Input defaultValue={equipment.name.stringValue} />
+              <Input defaultValue={equipment.name} />
             </Form.Item>
             <Form.Item name={["equipment", "description"]} label="Description">
-              <Input defaultValue={equipment.description.stringValue} />
+              <Input defaultValue={equipment.description} />
             </Form.Item>
             <Form.Item name={["equipment", "buyingDate"]} label="Année d'achat">
               <YearPicker defaultValue={date} />
@@ -102,25 +99,26 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
             <Form.Item name={["equipment", "category"]} label="Catégorie">
               <Select
                 placeholder="Catégorie"
-                defaultValue={equipment.category.stringValue}
+                defaultValue={equipment.category}
               >
                 {categories.getListCategories.map((cat: any) => {
                   const catId = cat.doc.key.path.segments[6];
                   cat = cat.doc.proto.fields.name.stringValue;
+                  console.log(cat);
                   return <Option value={catId}>{cat}</Option>;
                 })}
               </Select>
             </Form.Item>
             <Form.Item name={["equipment", "marque"]} label="Marque">
-              <Input defaultValue={equipment.brand.stringValue} />
+              <Input defaultValue={equipment.brand} />
             </Form.Item>
             <Form.Item name={["equipment", "modele"]} label="Modèle">
-              <Input defaultValue={equipment.modele.stringValue} />
+              <Input defaultValue={equipment.modele} />
             </Form.Item>
             <Form.Item name={["equipment", "status"]} label="Statut">
               <Select
                 placeholder="Statut"
-                defaultValue={equipment.status.stringValue}
+                defaultValue={equipment.status}
               >
                 <Option value="0">Disponible</Option>
                 <Option value="1">Réservé</Option>
@@ -128,24 +126,18 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
                 <Option value="3">Perdu/Détérioré</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              name="upload"
-              label="Image"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-            >
-              <Upload name="logo" action="equipments/" listType="picture">
-                <Button>
-                  <UploadOutlined /> Cliquer pour ajouter
-                </Button>
-                <div>
-                  <img src={imgUrl}></img>
-                </div>
-              </Upload>
+            <div className="inputIdEdit">
+              <Form.Item name={["equipment", "id"]} label="Modèle" >
+              <Input defaultValue={equipment.id} disabled={true}/>
             </Form.Item>
+            </div>
+            
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
               <Button type="primary" htmlType="submit">
                 Submit
+              </Button>
+              <Button className="cancelBtnAddEquipment" >
+                Cancel
               </Button>
             </Form.Item>
           </Form>
