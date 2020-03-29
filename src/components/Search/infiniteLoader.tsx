@@ -26,7 +26,7 @@ type rowRendererType = {
 
 interface Iprops {
     equipments: any;
-    getEquipments: any;
+    listEquipments: any;
 }
 const { Option } = Select;
 const {SubMenu} = Menu;
@@ -35,7 +35,17 @@ const {Header, Content, Footer, Sider} = Layout;
 
 
 store.dispatch({type: 'GET_EQUIPMENTS'}   );
-const Loader = ({equipments, getEquipments}: Iprops) => {
+const Loader = ({equipments, listEquipments}: Iprops) => {
+
+
+    const [defined, setDefined] = useState(false)
+
+    useEffect(() => {
+        if ('type' in equipments) {
+            console.log('EQUIPMENTS', equipments)
+            setDefined(true)
+        }
+    }, [equipments])
 
 
     const [search, setSearch] = useState('');
@@ -53,10 +63,13 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
     }
 
 
-    if (equipments.length != 0) {
+
+
+    if (defined) {
+        console.log('TAILLE', equipments.length)
         equipments.equipments.map((data: any) => {
-            const equipement: any = data.doc.proto.fields;
-            const key: any = data.doc.key.path.segments[6];
+            const equipement: any = data;
+            const key: any = data.id;
 
             let img: string;
             /*if(!equipement.img.integerValue || equipement.img.integerValue === "null" || equipement.img.integerValue === null || equipement.img.integerValue === '')
@@ -65,17 +78,17 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
             } else {
                 img = ''+equipement.img.integerValue;
             }*/
-            arrayBrand.push(equipement.brand.stringValue);
-            arrayCategory.push(equipement.category.stringValue);
-            let tags: string = equipement.modele.stringValue+','+equipement.brand.stringValue+','+equipement.category.stringValue;
+            arrayBrand.push(equipement.brand);
+            arrayCategory.push(equipement.category);
+            let tags: string = equipement.modele+','+equipement.brand+','+equipement.category;
             dataCard.push({
                 id: key,
                 img: 'null',
-                titre: equipement.name.stringValue,
-                status: equipement.status.stringValue,
+                titre: equipement.name,
+                status: equipement.status,
                 tag: tags,
-                brand: equipement.brand.stringValue,
-                category: equipement.category.stringValue
+                brand: equipement.brand,
+                category: equipement.category
             });
         });
 
@@ -174,16 +187,17 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
             </div>
         )
     } else {
-
         return (
-            <Button onClick={getEquipments}>Get Équipments</Button>
+            <Button /*onClick={getEquipments}*/>Get Équipments</Button>
         )
+
     }
 }
 
 const mapStateToProps = (state: any) => {
     return {
-        equipments: state.dashboardFournisseur.equipments
+        equipments: state.dashboardFournisseur.equipments,
+        listEquipments: state.dashboardFournisseur.listEquipments
     };
 };
 
