@@ -1,19 +1,25 @@
-import {ADD_EQUIPMENT} from "./AjoutMaterielType";
+import { ADD_EQUIPMENT,LIST_CATEGORIES } from "./AjoutMaterielType";
 
 const initialState = {
-    addEquipment: []
-}
+  addEquipment: [],
+  categories: []
+};
 
 const addEquipmentReducer = (state = initialState, action: any) => {
-    switch (action.type) {
-        case ADD_EQUIPMENT:
-            return {
-                ...state,
-                addEquipment: action
-            }
-        default:
-            return state;
-    }
-}
+  switch (action.type) {
+    case ADD_EQUIPMENT:
+      return {
+        ...state,
+        addEquipment: action
+      };
+    case LIST_CATEGORIES:
+      return {
+        ...state,
+        categories: action
+      };
+    default:
+      return state;
+  }
+};
 
-export default addEquipmentReducer
+export default addEquipmentReducer;

@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 import {
   Form,
   Input,
-  InputNumber,
   Select,
   DatePicker,
   Button,
   Col,
-  Row
+  Row,
+  Upload
 } from "antd";
-import { addEquipment } from "../redux/ajoutMateriel/AjoutMeterielAction";
+import { UploadOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { YearPicker } = DatePicker;
@@ -32,103 +32,143 @@ const onFinish = (values: any) => {
   values.equipment["buyingDate"].format("YYYY");
 };
 
+const normFile = (e: any) => {
+  console.log("Upload event:", e);
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e && e.fileList;
+};
 
 interface Iprops {
   addEquipment: any;
   getEquipment: any;
+  categories: any;
+  getCategories: any;
 }
 
-const AjoutMateriel = ({ getEquipment }: Iprops) => {
-  return (
-    <Row>
-      <Col span={12} offset={6}>
-        <Form
-          {...layout}
-          name="nest-messages"
-          onFinish={getEquipment}
-          validateMessages={validateMessages}
-          className="formAddMateriel"
-        >
-          <Form.Item
-            name={["equipment", "name"]}
-            label="Libellé"
-            rules={[{ required: true }]}
+const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
+  
+  if (categories.length != 0) {
+    return (
+      <Row>
+        <Col span={12} offset={6}>
+          <Form
+            {...layout}
+            name="nest-messages"
+            onFinish={getEquipment}
+            validateMessages={validateMessages}
+            className="formAddMateriel"
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "description"]}
-            label="Description"
-            rules={[{ required: true }]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "buyingDate"]}
-            label="Année d'achat"
-            rules={[{ required: true }]}
-          >
-            <YearPicker />
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "category"]}
-            label="Catégorie"
-            rules={[{ required: true }]}
-          >
-            <Select placeholder="Catégorie">
-              <Option value="Jardin">Jardin</Option>
-              <Option value="Mécanique">Mécanique</Option>
-              <Option value="Maçonnerie">Maçonnerie</Option>
-              <Option value="Cuisine">Cuisine</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "marque"]}
-            label="Marque"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "modele"]}
-            label="Modèle"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name={["equipment", "status"]}
-            label="Statut"
-            rules={[{ required: true }]}
-          >
-            <Select placeholder="Statut">
-              <Option value="0">Disponible</Option>
-              <Option value="1">Réservé</Option>
-              <Option value="2">Emprunté</Option>
-              <Option value="3">Perdu/Détérioré</Option>
-            </Select>
-          </Form.Item>
-          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Col>
-    </Row>
-  );
+            <Form.Item
+              name={["equipment", "name"]}
+              label="Libellé"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "description"]}
+              label="Description"
+              rules={[{ required: true }]}
+            >
+              <Input.TextArea />
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "buyingDate"]}
+              label="Année d'achat"
+              rules={[{ required: true }]}
+            >
+              <YearPicker />
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "category"]}
+              label="Catégorie"
+              rules={[{ required: true }]}
+            >
+              <Select placeholder="Catégorie">
+                {categories.categories.map((cat: any) => {
+                  const catId = cat.doc.key.path.segments[6];
+                  cat = cat.doc.proto.fields.name.stringValue;
+                  return <Option value={catId}>{cat}</Option>;
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "marque"]}
+              label="Marque"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "modele"]}
+              label="Modèle"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name={["equipment", "status"]}
+              label="Statut"
+              rules={[{ required: true }]}
+            >
+              <Select placeholder="Statut">
+                <Option value="0">Disponible</Option>
+                <Option value="1">Réservé</Option>
+                <Option value="2">Emprunté</Option>
+                <Option value="3">Perdu/Détérioré</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="upload"
+              label="Image"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+              rules={[{ required: true }]}
+            >
+              <Upload name="logo" action="equipments/" listType="picture">
+                <Button>
+                  <UploadOutlined /> Cliquer pour ajouter
+                </Button>
+              </Upload>
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+              <Button className="cancelBtnAddEquipment" >
+                Cancel
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    );
+  } else {
+    return (
+      <Button onClick={getCategories} size={"large"}>
+        Add Equipment
+      </Button>
+    );
+  }
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    addEquipment: state.ajoutMateriel.addEquipment
+    addEquipment: state.ajoutMateriel.addEquipment,
+    categories: state.ajoutMateriel.categories
   };
-}; 
+};
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getEquipment: (values: any) => {
-        dispatch({ type: "ADD_EQUIPMENT", values: values })
+      dispatch({ type: "ADD_EQUIPMENT", values: values });
+    },
+    getCategories: () => {
+      dispatch({ type: "GET_CATEGORIES" });
     }
   };
 };

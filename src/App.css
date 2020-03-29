@@ -26,12 +26,6 @@
   color: #61dafb;
 }
 
-.content-card{
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -43,6 +37,10 @@
 
 .formAddMateriel{
   text-align: initial;
+}
+
+.cancelBtnAddEquipment{
+  margin-left: 15px;
 }
 
 .site-layout .site-layout-background {

@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   Form,
   Input,
-  InputNumber,
   Select,
   DatePicker,
   Button,
   Col,
-  Row
+  Row,
+  Upload
 } from "antd";
 import moment from "moment";
-// import { editEquipments } from "../redux/editMateriel/EditMaterielAction";
 import store from "../redux/store";
+import { UploadOutlined } from "@ant-design/icons";
+import firebase from "firebase";
+import { resolve } from "path";
 
 const { Option } = Select;
 const { YearPicker } = DatePicker;
@@ -22,47 +24,63 @@ const layout = {
   wrapperCol: { span: 18 }
 };
 
+const normFile = (e: any) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e && e.fileList;
+};
+
 interface Iprops {
   equipment: any;
   getEquipment: any;
   editEquipment: any;
+  categories: any;
 }
 
-export const getEquipmentID = (state: any) => "NVY1JxmbYwhmMfwZwLmu";
-const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops) => {
-  if (equipment.length != 0) {
-      console.log(equipment)
-      equipment = equipment.getOneEquipment;
+// export const getEquipmentID = (state: any) => "w9d008IJw1JxlsBeOLYP";
 
+const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
+  const [imgUrl, setImgUrl] = useState("");
 
+  if (categories.length != 0) {
+    console.log(equipment.getOneEquipment.img);
+    let img = equipment.getOneEquipment.img.integerValue;
+    let storage = firebase.storage();
+    let path = storage.refFromURL(
+      "gs://projet-tutore-6833d.appspot.com/equipments/" + img
+    );
+    path.getDownloadURL().then(function(url) {
+      setImgUrl(url)
+    })
+
+    equipment = equipment.getOneEquipment;
     let date = equipment.buyingDate.stringValue;
     date = moment(date);
-    
     const onFinish = (values: any) => {
-      if(values.equipment.name == undefined){
-        values.equipment.name = equipment.name.stringValue
+      if (values.equipment.name == undefined) {
+        values.equipment.name = equipment.name.stringValue;
       }
-      if(values.equipment.description == undefined){
-        values.equipment.description = equipment.description.stringValue
+      if (values.equipment.description == undefined) {
+        values.equipment.description = equipment.description.stringValue;
       }
-      if(values.equipment.buyingDate == undefined){
-        values.equipment.buyingDate = equipment.buyingDate.stringValue
+      if (values.equipment.buyingDate == undefined) {
+        values.equipment.buyingDate = equipment.buyingDate.stringValue;
       }
-      if(values.equipment.category == undefined){
-        values.equipment.category = equipment.category.stringValue
+      if (values.equipment.category == undefined) {
+        values.equipment.category = equipment.category.stringValue;
       }
-      if(values.equipment.marque == undefined){
-        values.equipment.marque = equipment.brand.stringValue
+      if (values.equipment.marque == undefined) {
+        values.equipment.marque = equipment.brand.stringValue;
       }
-      if(values.equipment.modele == undefined){
-        values.equipment.modele = equipment.modele.stringValue
+      if (values.equipment.modele == undefined) {
+        values.equipment.modele = equipment.modele.stringValue;
       }
-      if(values.equipment.status == undefined){
-        values.equipment.status = equipment.status.stringValue
+      if (values.equipment.status == undefined) {
+        values.equipment.status = equipment.status.stringValue;
       }
-      store.dispatch({type: "EDIT_THAT_EQUIPMENT", values: values})
+      store.dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values });
     };
-
     return (
       <Row>
         <Col span={12} offset={6}>
@@ -86,10 +104,11 @@ const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops
                 placeholder="Catégorie"
                 defaultValue={equipment.category.stringValue}
               >
-                <Option value="Jardin">Jardin</Option>
-                <Option value="Mécanique">Mécanique</Option>
-                <Option value="Maçonnerie">Maçonnerie</Option>
-                <Option value="Cuisine">Cuisine</Option>
+                {categories.getListCategories.map((cat: any) => {
+                  const catId = cat.doc.key.path.segments[6];
+                  cat = cat.doc.proto.fields.name.stringValue;
+                  return <Option value={catId}>{cat}</Option>;
+                })}
               </Select>
             </Form.Item>
             <Form.Item name={["equipment", "marque"]} label="Marque">
@@ -109,6 +128,21 @@ const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops
                 <Option value="3">Perdu/Détérioré</Option>
               </Select>
             </Form.Item>
+            <Form.Item
+              name="upload"
+              label="Image"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+            >
+              <Upload name="logo" action="equipments/" listType="picture">
+                <Button>
+                  <UploadOutlined /> Cliquer pour ajouter
+                </Button>
+                <div>
+                  <img src={imgUrl}></img>
+                </div>
+              </Upload>
+            </Form.Item>
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
               <Button type="primary" htmlType="submit">
                 Submit
@@ -119,28 +153,23 @@ const DashboardFournisseur = ({ equipment, getEquipment, editEquipment }: Iprops
       </Row>
     );
   } else {
-    return (
-      <Button onClick={getEquipment} size={"large"}>
-        Edit Equipment
-      </Button>
-    );
+    return <div></div>;
   }
 };
 
 const mapStateToProps = (state: any) => {
   return {
-    equipment: state.editMateriel.getOneEquipment
+    equipment: state.editMateriel.getOneEquipment,
+    categories: state.editMateriel.listCategories
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     getEquipment: () => dispatch({ type: "GET_THAT_EQUIPMENT" }),
-    editEquipment: (values: any) => dispatch({type: "EDIT_THAT_EQUIPMENT", values: values})
+    editEquipment: (values: any) =>
+      dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values })
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DashboardFournisseur);
+export default connect(mapStateToProps, mapDispatchToProps)(EditMateriel);
