@@ -8,7 +8,7 @@ import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
 import { watchLogin } from "../saga/saga";
 import { watchAddEquipment } from "../saga/ajoutMateriel/ajoutMaterielSaga";
 import { watchEditEquipment } from "../saga/editMateriel/editMaterielSaga";
-import { watchEquipments } from "../saga/getMateriel/getMaterielSaga";
+import { watchEquipments } from "../saga/dashboardFournisseur/getMaterielSaga";
 
 // Firebase imports
 import firebase from "firebase";

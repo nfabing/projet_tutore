@@ -48,8 +48,8 @@ interface Iprops {
 }
 
 const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
+  
   if (categories.length != 0) {
-    console.log(categories);
     return (
       <Row>
         <Col span={12} offset={6}>
@@ -125,6 +125,7 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
               label="Image"
               valuePropName="fileList"
               getValueFromEvent={normFile}
+              rules={[{ required: true }]}
             >
               <Upload name="logo" action="equipments/" listType="picture">
                 <Button>
@@ -136,6 +137,9 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
               <Button type="primary" htmlType="submit">
                 Submit
+              </Button>
+              <Button className="cancelBtnAddEquipment" >
+                Cancel
               </Button>
             </Form.Item>
           </Form>
@@ -152,7 +156,6 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     addEquipment: state.ajoutMateriel.addEquipment,
     categories: state.ajoutMateriel.categories

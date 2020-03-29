@@ -1,7 +1,8 @@
-import { GET_ONE_EQUIPMENT } from "./EditMaterielType";
+import { GET_ONE_EQUIPMENT, GET_LIST_CATEGORIES } from "./EditMaterielType";
 
 const initialState = {
   equipment: [],
+  listCategories: [],
   getOneEquipment: []
 };
 
@@ -10,7 +11,12 @@ const EditMaterielReducer = (state = initialState, action: any) => {
     case GET_ONE_EQUIPMENT:
       return {
         ...state,
-        getOneEquipment: action
+        getOneEquipment: action,
+      };
+      case GET_LIST_CATEGORIES:
+      return {
+        ...state,
+        listCategories: action
       };
     default:
       return state;

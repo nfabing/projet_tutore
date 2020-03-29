@@ -6,7 +6,6 @@ import { DatabaseOutlined } from "@ant-design/icons";
 let nbrTotal = null;
 
 export const CardOverdue = (props: any) => {
-  console.log(props);
 //   if (props.total.equipments.length === 0) {
 //     nbrTotal = 0;
 //   } else {

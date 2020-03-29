@@ -12,7 +12,6 @@ function* addEquipmentSaga() {
   const data = yield take("ADD_EQUIPMENT");
   const date = data.values.equipment.buyingDate.format("YYYY");
   const nameFile = Date.now();
-  console.log(data);
   const upload = reduxSagaFirebase.storage.uploadFile("equipments/"+nameFile, data.values.upload[0].originFileObj)
   yield upload;
   const doc = yield call(reduxSagaFirebase.firestore.addDocument, "equipment", {
