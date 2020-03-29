@@ -10,9 +10,10 @@ interface IPasswordChangeForm {
     message: string;
     passwordChange: any;
     needRelogin: boolean;
+    onCancel: any;
 }
 
-const ChangePassword = ({loading, message, passwordChange, needRelogin}: IPasswordChangeForm) => {
+const ChangePassword = ({loading, message, passwordChange, needRelogin, onCancel}: IPasswordChangeForm) => {
 
     const handleForm = (values: any) => {
         console.log(values)
@@ -47,7 +48,6 @@ const ChangePassword = ({loading, message, passwordChange, needRelogin}: IPasswo
 
                     <Form.Item
                         name={'confirm'}
-                        label={'Confirmation'}
                         dependencies={['password']}
                         rules={[
                             {
@@ -64,13 +64,14 @@ const ChangePassword = ({loading, message, passwordChange, needRelogin}: IPasswo
                             }),
                         ]}
                     >
-                        <Input.Password placeholder={'Mot de passe'} prefix={<LockOutlined/>}/>
+                        <Input.Password placeholder={'Confirmation'} prefix={<LockOutlined/>}/>
                     </Form.Item>
 
                     {message ? <div>{message}</div> : null}
 
                     <Form.Item>
                         <Button htmlType={'submit'} loading={loading}>Modifier le mot de passe</Button>
+                        <Button onClick={onCancel} danger>Annuler</Button>
                     </Form.Item>
 
                 </Form>

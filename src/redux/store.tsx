@@ -10,10 +10,11 @@ import { watchEditEquipment } from "../saga/editMateriel/editMaterielSaga";
 import { watchEquipments } from "../saga/dashboardFournisseur/getMaterielSaga";
 import profilReducer from "./profil/profilReducer";
 import passwordReducer from "./password/passwordReducer";
-import {profilSaga} from "../saga/profilSaga"
-import {passwordSaga} from "../saga/passwordSaga"
-import {watchLogin} from "../saga/loginSaga";
+import {profilSaga} from "../saga/profil/profilSaga"
+import {passwordSaga} from "../saga/changePassword/passwordSaga"
+import {watchLogin} from "../saga/login/loginSaga";
 
+//TODO: TRIER CE BORDEL
 
 // Firebase imports
 import firebase from "firebase";

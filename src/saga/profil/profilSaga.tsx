@@ -1,8 +1,8 @@
 import {all, call, fork, put, select, takeLatest, take, cancel, delay} from "redux-saga/effects";
 import {eventChannel} from 'redux-saga'
-import {reduxSagaFirebase} from "../redux/store";
-import {firebaseApp} from '../redux/store'
-import {syncProfil} from "../redux/profil/profilActions";
+import {reduxSagaFirebase} from "../../redux/store";
+import {firebaseApp} from '../../redux/store'
+import {syncProfil} from "../../redux/profil/profilActions";
 
 
 export function* profilSaga() {

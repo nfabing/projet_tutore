@@ -6,8 +6,8 @@ import {
     loginProviderFirstTime,
     loginSuccess,
     logoutSuccess, reLoginSuccess,
-} from "../redux/login/LoginActions";
-import {firebaseApp, reduxSagaFirebase} from "../redux/store";
+} from "../../redux/login/LoginActions";
+import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import firebase from "firebase";
 
 
@@ -110,21 +110,22 @@ function* createUserDocument(user: any, action?: any) {
                 creationDate: new Date().toUTCString(),
                 displayName: action ? action.data.username : user.displayName,
                 useruid: user.uid,
-                userType: 'userType' in action ? action.data.userType : 'user',
+                userType: action && 'userType' in action ? action.data.userType : 'user',
                 email: user.email,
                 emailVerified: user.emailVerified,
                 phoneNumber: action ? action.data.phoneNumber : '',
                 photoURL: user.photoURL === null ? defaultPhoto : user.photoURL,
-                adress: 'adress' in action ? action.data.adress : '',
-                city: 'city' in action ? action.data.city : '',
-                postalCode: 'postalCode' in action ? action.data.postalCode : '',
-                storeName: 'storeName' in action ? action.data.storeName : '',
+                adress: action && 'adress' in action ? action.data.adress : '',
+                city: action && 'city' in action ? action.data.city : '',
+                postalCode: action && 'postalCode' in action ? action.data.postalCode : '',
+                storeName: action && 'storeName' in action ? action.data.storeName : '',
 
             })
 }
 
 
 function* emailSignupAsync(action: any) {
+
 
     try {
         yield put(loginInProgress())

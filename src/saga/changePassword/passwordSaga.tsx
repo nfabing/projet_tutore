@@ -1,11 +1,11 @@
 import {all, takeLatest, take, call, put, select} from "redux-saga/effects";
-import {firebaseApp, reduxSagaFirebase} from "../redux/store";
+import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import {
     passwordChangeError,
     passwordChangeInprogress,
     passwordChangeNeedAuth, passwordChangeNeedAuthSuccess,
     passwordChangeSuccess
-} from "../redux/password/passwordActions";
+} from "../../redux/password/passwordActions";
 
 
 export function* passwordSaga() {

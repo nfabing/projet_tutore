@@ -6,6 +6,7 @@ import "../../css/profil.css"
 // components
 import FormEditProfil from "./FormEditProfil";
 import SupplierForm from "../Login/SupplierForm";
+import ChangePassword from "../Password/ChangePassword";
 
 interface Iprops {
     userData: any;
@@ -19,6 +20,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
 
     const [visible, setVisible] = useState(false)
     const [supplierFormVisible, setSupplierFormVisible] = useState(false)
+    const [editPassword, setEditPassword] = useState(false)
     const [edit, setEdit] = useState('')
 
     useEffect(() => {
@@ -39,6 +41,8 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
     }
 
     const beforeUpload = (file: any) => {
+        // TODO: A AMELIORER
+
         console.log(file)
         const isValid = file.type === 'image/jpeg' || file.type === 'image/png';
         return isValid
@@ -57,6 +61,10 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
     const supplierFormHandler = (values: any) => {
         console.log(values)
         changeToSupplier(values)
+    }
+
+    const handleChangePasswordCancel = () => {
+        setEditPassword(false)
     }
 
 
@@ -125,12 +133,6 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
                                 <span>{userData.postalCode} <EditOutlined onClick={() => showEditForm('postalCode')}/>
                         </span>} </div>
 
-                            <div>Téléphone : {edit === 'phoneNumber' ?
-                                <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
-                                                onSubmit={formSubmitHandler}/> :
-                                <span>{userData.phoneNumber} <EditOutlined onClick={() => showEditForm('phoneNumber')}/>
-                        </span>} </div>
-
                             <div>Nom boutique : {edit === 'storeName' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
@@ -143,6 +145,13 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
                                 <Button onClick={() => setSupplierFormVisible(true)}>Devenir fournisseur</Button>
                             </> : <SupplierForm type={'form'} formHandler={supplierFormHandler}/>}
                         </Col>}
+                </Row>
+                <Row>
+                    <Col>
+
+                        {editPassword ?  <ChangePassword onCancel={handleChangePasswordCancel}/> :  <Button onClick={() => setEditPassword(true)}>Modifier mot de passe</Button> }
+
+                    </Col>
                 </Row>
             </>
         )
