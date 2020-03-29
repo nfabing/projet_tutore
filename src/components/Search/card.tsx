@@ -56,7 +56,21 @@ const Card = ({img, name, status, id,tags, category}: CardProps) => {
     };
 
     const onFinish = (values: any) => {
-        console.log(values);
+        const dateDebut = new Date(values.range[0]._d);
+        console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
+        const dateFin = new Date(values.range[1]._d);
+        const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
+        const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
+        const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
+            [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
+
+
+        /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
+        const TestCalcul = testCalcul / (1000 * 3000 * 24);
+        console.log(Number((dateFin.getTime()/86400000)-(dateDebut.getTime()/86400000)).toFixed(0));
+        dateDebut.setTime(dateDebut.getTime()+ testCalcul);
+        console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());*/
+
     };
 
 return (

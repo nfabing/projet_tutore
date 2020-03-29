@@ -7,7 +7,7 @@ import {
     SearchOutlined,
 } from '@ant-design/icons';
 import Card from "./card";
-import {Button, Input} from "antd";
+import {Button, Input, Skeleton} from "antd";
 import {connect} from "react-redux";
 
 import './infiniteLoader.css'
@@ -27,6 +27,8 @@ type rowRendererType = {
 interface Iprops {
     equipments: any;
     getEquipments: any;
+    categories: any;
+    getCategories: any;
 }
 const { Option } = Select;
 const {SubMenu} = Menu;
@@ -34,8 +36,10 @@ const {Header, Content, Footer, Sider} = Layout;
 
 
 
-store.dispatch({type: 'GET_EQUIPMENTS'}   );
-const Loader = ({equipments, getEquipments}: Iprops) => {
+store.dispatch({type: 'GET_EQUIPMENTS'});
+store.dispatch({type: 'GET_CATEGORIES'});
+
+const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops) => {
 
 
     const [search, setSearch] = useState('');
@@ -44,7 +48,7 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
     const [category, setCategory] = useState('');
     const {Search} = Input;
     let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string }[] = [];
-    const arrayBrand: string[]= [];
+    let arrayBrand: string[]= [];
     const arrayCategory: string[]= [];
 
     type RowType = {
@@ -53,7 +57,8 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
     }
 
 
-    if (equipments.length != 0) {
+    if (equipments.length != 0 && categories.length != 0) {
+        let i = 0;
         equipments.equipments.map((data: any) => {
             const equipement: any = data.doc.proto.fields;
             const key: any = data.doc.key.path.segments[6];
@@ -65,7 +70,15 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
             } else {
                 img = ''+equipement.img.integerValue;
             }*/
-            arrayBrand.push(equipement.brand.stringValue);
+            let testBrand: boolean = false;
+            for (let j = 0; j < arrayBrand.length; j++)
+            {
+                if (arrayBrand[j] === equipement.brand.stringValue)
+                {
+                    testBrand = true;
+                }
+            }
+            if(!testBrand) arrayBrand.push(equipement.brand.stringValue);
             arrayCategory.push(equipement.category.stringValue);
             let tags: string = equipement.modele.stringValue+','+equipement.brand.stringValue+','+equipement.category.stringValue;
             dataCard.push({
@@ -77,7 +90,10 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
                 brand: equipement.brand.stringValue,
                 category: equipement.category.stringValue
             });
+            i+=1;
         });
+
+
 
         let filterData = dataCard.filter(
             (data: any) => {
@@ -153,10 +169,10 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
                         }
                     >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                        {arrayCategory.map( (data:string)=> {
-                            return(
-                                <Option value={data}>{data}</Option>
-                            )
+                        {categories.categories.map((cat: any) => {
+                            const catId = cat.doc.key.path.segments[6];
+                            cat = cat.doc.proto.fields.name.stringValue;
+                            return <Option value={catId}>{cat}</Option>;
                         })}
                       </Select>
                 </span>
@@ -176,20 +192,31 @@ const Loader = ({equipments, getEquipments}: Iprops) => {
     } else {
 
         return (
-            <Button onClick={getEquipments}>Get Équipments</Button>
+            <>
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+            </>
         )
     }
 }
 
 const mapStateToProps = (state: any) => {
     return {
-        equipments: state.dashboardFournisseur.equipments
+        equipments: state.dashboardFournisseur.equipments,
+        categories: state.ajoutMateriel.categories
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        getEquipments: () => dispatch({type: "GET_EQUIPMENTS"})
+        getEquipments: () => dispatch({type: "GET_EQUIPMENTS"}),
+        getCategories: () => {
+            dispatch({ type: "GET_CATEGORIES" });
+        }
     };
 };
 

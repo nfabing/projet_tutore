@@ -10,6 +10,7 @@ import {
 import store from "../../redux/store";
 import {connect} from "react-redux";
 import './DetailsPage.css';
+import {Skeleton} from "antd";
 
 interface Iprops {
     equipment: any;
@@ -26,7 +27,7 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
         store.dispatch({type: 'GET_THAT_EQUIPMENT', value: test.toString()});
         i += 1;
     }
-
+    console.log('dbhjeazg'+test+equipment.length);
     if (equipment.length != 0) {
         equipment = equipment.getOneEquipment;
 
@@ -89,7 +90,16 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
 
         )
     }else {
-        return (<> test </>)
+        return (
+            <>
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+            </>
+        )
     }
 }
 

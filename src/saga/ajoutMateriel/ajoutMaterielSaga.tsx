@@ -24,7 +24,8 @@ function* addEquipmentSaga() {
     category: data.values.equipment.category,
     brand: data.values.equipment.marque,
     modele: data.values.equipment.modele,
-    img: nameFile
+    img: nameFile,
+    reservation: [{dateDebut: '', dateFin: '', idUser: ''}]
   });  
 }
 
