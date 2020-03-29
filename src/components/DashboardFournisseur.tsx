@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactDOM, useEffect} from "react";
 import { connect } from "react-redux";
 
 import store from "../redux/store";
@@ -14,9 +14,15 @@ import EditMateriel from '../components/EditMateriel';
 import { ListEquipments } from "./displayEquipmentsDashboardFournisseur/ListEquipments";
 
 import { Row, Col, Button } from "antd";
+=========
+import { Row, Col, Button, Card } from "antd";
+import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
+import {render} from "react-dom";
+>>>>>>>>> Temporary merge branch 2
 
 interface Iprops {
   equipments: any;
+  getEquipments: any;
   listLoan: any;
   listEquipments: any;
 }
