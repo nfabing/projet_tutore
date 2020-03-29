@@ -6,9 +6,10 @@ interface IsupplierForm {
     type: string;
     loading?: boolean;
     formHandler?: any;
+    onCancel?: any;
 }
 
-const SupplierForm: any = ({type, loading, formHandler}: IsupplierForm) => {
+const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm) => {
     if (type === 'content') {
         return(
             <>
@@ -130,9 +131,10 @@ const SupplierForm: any = ({type, loading, formHandler}: IsupplierForm) => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{span: 24}}>
-                    <Button type="primary" htmlType="submit" /*loading={loading}*/  block>
+                    <Button type="primary" htmlType="submit" /*loading={loading}*/ >
                         Devenir Fournisseur
                     </Button>
+                    <Button onClick={onCancel} danger>Annuler</Button>
                 </Form.Item>
 
             </Form>

@@ -63,6 +63,10 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
         changeToSupplier(values)
     }
 
+    const supplierFormCancelHandler = () => {
+        setSupplierFormVisible(false)
+    }
+
     const handleChangePasswordCancel = () => {
         setEditPassword(false)
     }
@@ -113,7 +117,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
                     </Col>
 
                     {userData.userType === 'supplier' ?
-                        <Col>
+                        <Col offset = {1}>
                             <h3>Informations fournisseur</h3>
                             <div>Adresse : {edit === 'adress' ?
                                 <FormEditProfil fieldName={'adress'} fieldValue={userData[edit]}
@@ -139,17 +143,18 @@ const UserProfil = ({userData, loading, updateProfilPicture, updateProfilInfos, 
                                 <span>{userData.storeName} <EditOutlined onClick={() => showEditForm('storeName')}/>
                         </span>} </div>
                         </Col>
-                        : <Col>
+                        : <Col offset = {1}>
                             {!supplierFormVisible ? <>
-                                <h3>Vous n'étes pas encore un fournisseur</h3>
+                                <h3>Vous n'ètes pas un fournisseur</h3>
                                 <Button onClick={() => setSupplierFormVisible(true)}>Devenir fournisseur</Button>
-                            </> : <SupplierForm type={'form'} formHandler={supplierFormHandler}/>}
+                            </> : <SupplierForm type={'form'} formHandler={supplierFormHandler} onCancel={supplierFormCancelHandler}/>}
                         </Col>}
                 </Row>
-                <Row>
+                <Row className={'row-password'} justify={'center'}>
                     <Col>
 
-                        {editPassword ?  <ChangePassword onCancel={handleChangePasswordCancel}/> :  <Button onClick={() => setEditPassword(true)}>Modifier mot de passe</Button> }
+                        {editPassword ?  <ChangePassword onCancel={handleChangePasswordCancel}/>
+                        :  <Button onClick={() => setEditPassword(true)}>Modifier mot de passe</Button> }
 
                     </Col>
                 </Row>

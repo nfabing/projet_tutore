@@ -6,6 +6,11 @@ import {
     passwordChangeNeedAuth, passwordChangeNeedAuthSuccess,
     passwordChangeSuccess
 } from "../../redux/password/passwordActions";
+import firebase from "firebase";
+
+// Auth Provider
+const authGoogleProvider = new firebase.auth.GoogleAuthProvider();
+const authGithubProvider = new firebase.auth.GithubAuthProvider()
 
 
 export function* passwordSaga() {
@@ -46,6 +51,7 @@ function* authReauthenticate() {
                 // @ts-ignore
                 const result = yield call(reduxSagaFirebase.auth.signInWithPopup, authGoogleProvider)
                 console.log(result)
+                yield put(passwordChangeNeedAuthSuccess())
                 break
             } catch (error) {
                 console.log(error.code)
@@ -59,6 +65,7 @@ function* authReauthenticate() {
                 // @ts-ignore
                 const result = yield call(reduxSagaFirebase.auth.signInWithPopup, authGithubProvider)
                 console.log(result)
+                yield put(passwordChangeNeedAuthSuccess())
                 break
             }catch (error) {
                 console.log(error.code)
@@ -71,7 +78,6 @@ function* authReauthenticate() {
             try {
                 yield put(passwordChangeNeedAuth())
                 yield take('RELOGIN_SUCCESS')
-                console.log('YES LE RELOG MARCHE AHAHA')
                 yield put(passwordChangeNeedAuthSuccess())
                 break
             }catch (error) {
