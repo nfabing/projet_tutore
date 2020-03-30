@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 
-import { List, Badge, Row, Col, Button } from "antd";
-import {
-  EditOutlined
-} from "@ant-design/icons";
+import { List, Badge, Row, Col, Button, Table } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 import store from "../../redux/store";
 import EditMateriel from "../../components/EditMateriel";
-import { StatusBadge } from "../displayEquipmentsDashboardFournisseur/statusBadge/StatusBadge"
+import { StatusBadge } from "../displayEquipmentsDashboardFournisseur/statusBadge/StatusBadge";
 
 export const ListEquipments = (props: any) => {
-  console.log(props);
 
   if (props.equipments.listEquipments != undefined) {
-
-    console.log(props.equipments.listEquipments)
+    console.log(props.equipments.listEquipments);
     // let img = equipment.getOneEquipment.img.integerValue;
     // let storage = firebase.storage();
     // let path = storage.refFromURL(
@@ -27,9 +23,32 @@ export const ListEquipments = (props: any) => {
       //A APPELER QUAND LE FORM EST SUBMIT
       store.dispatch({ type: "GET_THAT_EQUIPMENT", id: id });
     };
+
+    const columns = [
+      { title: 'Nom', dataIndex: 'name', key: 'name' },
+      { title: 'Marque', dataIndex: 'brand', key: 'brand' },
+      { title: 'Modele', dataIndex: 'modele', key: 'modele' },
+      { title: 'Status', dataIndex: 'status', key: 'status'},
+      {
+        title: 'Action',
+        dataIndex: '',
+        key: 'x',
+        render: () => <a>Delete</a>,
+      },
+    ];
+
     return (
       <div className="listEquipment">
-        <List
+        <Table
+          columns={columns}
+          expandable={{
+            expandedRowRender: record => (
+              <p style={{ margin: 0 }}>{record.description}</p>
+            )
+          }}
+          dataSource={props.equipments.listEquipments}
+        />
+        {/* <List
           bordered
           dataSource={props.equipments.listEquipments}
           renderItem={(item: any) => (
@@ -55,7 +74,7 @@ export const ListEquipments = (props: any) => {
               </Col>
             </List.Item>
           )}
-        />
+        /> */}
       </div>
     );
   } else {
