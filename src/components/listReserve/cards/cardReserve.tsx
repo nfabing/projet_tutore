@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Card,Button} from "antd";
+import { Card,Button,Avatar} from "antd";
 
 
 export const CardReserve = (props: any) => {  
@@ -9,6 +9,7 @@ export const CardReserve = (props: any) => {
   return (
     
   <Card title={props.equipo.name} bordered={true}>
+      <p><Avatar size={100} src={props.equipo.img} /></p>
    Description: <p>{props.equipo.description}</p>
   Modele: <p>{props.equipo.modele}</p>
       <Button  type="primary" danger >
