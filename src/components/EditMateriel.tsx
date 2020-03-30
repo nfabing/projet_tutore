@@ -51,7 +51,7 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
       let date = equipment.buyingDate;
       date = moment(date);
       const validForm = (values: any) => {
-        onFinish(values)
+        onFinish(values);
         unSetCategories();
         success();
       };
@@ -60,7 +60,7 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
         Modal.success({
           content: "Votre équipement à bien été modifier !"
         });
-      }
+      };
       const onFinish = (values: any) => {
         if (values.equipment.name == undefined) {
           values.equipment.name = equipment.name;
@@ -90,76 +90,78 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
       };
 
       return (
-        <Row>
-          <Col span={12} offset={6}>
-            <Form
-              {...layout}
-              name="nest-messages"
-              onFinish={validForm}
-              className="formAddMateriel"
-            >
-              <Form.Item name={["equipment", "name"]} label="Libellé">
-                <Input defaultValue={equipment.name} />
-              </Form.Item>
-              <Form.Item
-                name={["equipment", "description"]}
-                label="Description"
+        <div className="formEdit" id="formEdit">
+          <Row>
+            <Col span={12} offset={6}>
+              <Form
+                {...layout}
+                name="nest-messages"
+                onFinish={validForm}
+                className="formAddMateriel"
               >
-                <Input defaultValue={equipment.description} />
-              </Form.Item>
-              <Form.Item
-                name={["equipment", "buyingDate"]}
-                label="Année d'achat"
-              >
-                <YearPicker defaultValue={date} />
-              </Form.Item>
-              <Form.Item name={["equipment", "category"]} label="Catégorie">
-                <Select
-                  placeholder="Catégorie"
-                  defaultValue={equipment.category}
-                >
-                  {categories.getListCategories.map((cat: any) => {
-                    const catId = cat.doc.key.path.segments[6];
-                    cat = cat.doc.proto.fields.name.stringValue;
-                    console.log(cat);
-                    return <Option value={catId}>{cat}</Option>;
-                  })}
-                </Select>
-              </Form.Item>
-              <Form.Item name={["equipment", "marque"]} label="Marque">
-                <Input defaultValue={equipment.brand} />
-              </Form.Item>
-              <Form.Item name={["equipment", "modele"]} label="Modèle">
-                <Input defaultValue={equipment.modele} />
-              </Form.Item>
-              <Form.Item name={["equipment", "status"]} label="Statut">
-                <Select placeholder="Statut" defaultValue={equipment.status}>
-                  <Option value="0">Disponible</Option>
-                  <Option value="1">Réservé</Option>
-                  <Option value="2">Emprunté</Option>
-                  <Option value="3">Perdu/Détérioré</Option>
-                </Select>
-              </Form.Item>
-              <div className="inputIdEdit">
-                <Form.Item name={["equipment", "id"]} label="Modèle">
-                  <Input defaultValue={equipment.id} disabled={true} />
+                <Form.Item name={["equipment", "name"]} label="Libellé">
+                  <Input defaultValue={equipment.name} />
                 </Form.Item>
-              </div>
-
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-                <Button
-                  className="cancelBtnAddEquipment"
-                  onClick={unSetCategories}
+                <Form.Item
+                  name={["equipment", "description"]}
+                  label="Description"
                 >
-                  Cancel
-                </Button>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
+                  <Input defaultValue={equipment.description} />
+                </Form.Item>
+                <Form.Item
+                  name={["equipment", "buyingDate"]}
+                  label="Année d'achat"
+                >
+                  <YearPicker defaultValue={date} />
+                </Form.Item>
+                <Form.Item name={["equipment", "category"]} label="Catégorie">
+                  <Select
+                    placeholder="Catégorie"
+                    defaultValue={equipment.category}
+                  >
+                    {categories.getListCategories.map((cat: any) => {
+                      const catId = cat.doc.key.path.segments[6];
+                      cat = cat.doc.proto.fields.name.stringValue;
+                      console.log(cat);
+                      return <Option value={catId}>{cat}</Option>;
+                    })}
+                  </Select>
+                </Form.Item>
+                <Form.Item name={["equipment", "marque"]} label="Marque">
+                  <Input defaultValue={equipment.brand} />
+                </Form.Item>
+                <Form.Item name={["equipment", "modele"]} label="Modèle">
+                  <Input defaultValue={equipment.modele} />
+                </Form.Item>
+                <Form.Item name={["equipment", "status"]} label="Statut">
+                  <Select placeholder="Statut" defaultValue={equipment.status}>
+                    <Option value="0">Disponible</Option>
+                    <Option value="1">Réservé</Option>
+                    <Option value="2">Emprunté</Option>
+                    <Option value="3">Perdu/Détérioré</Option>
+                  </Select>
+                </Form.Item>
+                <div className="inputIdEdit">
+                  <Form.Item name={["equipment", "id"]} label="Modèle">
+                    <Input defaultValue={equipment.id} disabled={true} />
+                  </Form.Item>
+                </div>
+
+                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                  <Button type="primary" htmlType="submit">
+                    Submit
+                  </Button>
+                  <Button
+                    className="cancelBtnAddEquipment"
+                    onClick={unSetCategories}
+                  >
+                    Cancel
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
+          </Row>
+        </div>
       );
     } else {
       return <div></div>;
