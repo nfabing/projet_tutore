@@ -47,6 +47,27 @@ function* editEquipmentSaga(values: any) {
   });
 }
 
+function* editReserveSaga(values: any) {
+  /*console.log(values);
+  const formValues = values.values.equipment;
+  let date = null;
+  if(formValues.buyingDate._d === undefined){
+    date = formValues.buyingDate;
+  }else{
+    date = formValues.buyingDate.format("YYYY");
+  }
+  yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+formValues.id, {
+    name: formValues.name,
+    status: formValues.status,
+    userHandle: "Nicolas",
+    description: formValues.description,
+    buyingDate: date,
+    category: formValues.category,
+    brand: formValues.marque,
+    modele: formValues.modele
+  });*/
+}
+
 function* unSetCategories() {
   const data: Array<any> = [];
   yield put(getListCategories(data))
