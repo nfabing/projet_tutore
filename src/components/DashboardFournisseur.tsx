@@ -22,7 +22,7 @@ interface Iprops {
   user: any;
 }
 
-store.dispatch({ type: "GET_EQUIPMENTS" });
+
 
 const DashboardFournisseur = ({
   equipments,
@@ -30,13 +30,15 @@ const DashboardFournisseur = ({
   listEquipments,
   user
 }: Iprops) => {
+  
   if (user.userType === "supplier") {
+    
     if (equipments.length != 0) {
       const displayAllEquipments = () => {
-        store.dispatch({ type: "GET_ALL_EQUIPMENTS" });
+        store.dispatch({ type: "GET_ALL_EQUIPMENTS", value: user.useruid });
       };
       const displayLoanEquipments = () => {
-        store.dispatch({ type: "GET_LOAN_EQUIPMENTS" });
+        store.dispatch({ type: "GET_LOAN_EQUIPMENTS", value: user.useruid });
       };
       return (
         <div>
@@ -62,6 +64,7 @@ const DashboardFournisseur = ({
         </div>
       );
     } else {
+      store.dispatch({ type: "GET_EQUIPMENTS", value: user.useruid});
       return <div>Une erreur est survenu !</div>;
     }
   } else {
@@ -70,7 +73,6 @@ const DashboardFournisseur = ({
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     equipments: state.dashboardFournisseur.equipments,
     listLoan: state.dashboardFournisseur.listLoan,
