@@ -37,7 +37,7 @@ function* passwordChange(action: any) {
     }
 }
 
-function* authReauthenticate() {
+export function* authReauthenticate() {
     const user = yield select(state => state.login.user)
     console.log('REAUTH')
 

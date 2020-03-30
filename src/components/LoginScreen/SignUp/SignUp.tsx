@@ -3,7 +3,7 @@ import {Button, Col, Form, Input, InputNumber, Radio, Tooltip} from "antd";
 import {MailOutlined, LockOutlined, InfoCircleOutlined} from "@ant-design/icons"
 
 // components
-import SupplierForm from "./SupplierForm";
+import SupplierForm from "../SupplierForm/SupplierForm";
 
 interface SignUpProps {
     error: string;

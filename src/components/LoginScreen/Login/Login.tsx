@@ -4,12 +4,12 @@ import {Button, Col, Row, Modal, Form} from "antd";
 import {GoogleOutlined, GithubOutlined} from "@ant-design/icons"
 
 // css
-import "../../css/login.css"
+import "./login.css"
 
 // components
-import SignUp from "./SignUp";
-import SignIn from "./SignIn";
-import SupplierForm from "./SupplierForm";
+import SignIn from "../SignIn/SignIn";
+import SupplierForm from "../SupplierForm/SupplierForm";
+import SignUp from "../SignUp/SignUp";
 
 interface Iprops {
     loading: boolean;
@@ -65,6 +65,11 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
         setProviderDetails(false)
     }
 
+    const providerAddDetailsCancel = () => {
+        setProviderDetails(false)
+        stayToUser()
+    }
+
 
 // Render
     return (
@@ -72,7 +77,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
             <Row align={'middle'} justify={'center'}>
 
                 {mode === 'login' && !logged ?
-                    <Col span={8}>
+                    <Col lg={{span: 8}} xs={{span: 24}}>
                         <SignIn error={error} loading={loading} onFinish={onFinishLogin}/>
                         <div className={'confirm-text'}>
                             <a onClick={goToSignup}>Pas encore inscrit ? clique ici !</a>
@@ -81,7 +86,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                     : null}
 
                 {mode === 'signup' && !logged ?
-                    <Col span={8}>
+                    <Col lg={{span: 8}} xs={{span: 24}}>
                         <SignUp error={error} loading={loading} onFinish={onFinishSignup}/>
                         <div className={'confirm-text'}>
                             <a onClick={goToLogin}>Tu as déjà un compte ? clique ici !</a>
@@ -94,7 +99,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
             {!logged ?
                 <Row className={'login-provider'}
                      align={'middle'} justify={'center'}>
-                    <Col span={8}>
+                    <Col lg={{span: 8}} xs={{span: 24}}>
                         <h3>Se connecter avec</h3>
                         <div>
                             <Button onClick={loginGoogle} size={'large'}><GoogleOutlined
@@ -112,6 +117,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                 <Modal
                     title={'Devenir fournisseur ?'}
                     visible={visible}
+                    closable={false}
                     onCancel={() => stayToUser()}
                     onOk={modalProviderLogin}
                     okText={'Oui'}
@@ -131,8 +137,11 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                             <SupplierForm type={'content'}/>
 
                             <Form.Item wrapperCol={{span: 24}}>
-                                <Button type="primary" htmlType="submit" loading={loading} block>
+                                <Button type="primary" htmlType="submit" loading={loading} >
                                     Devenir fournisseur
+                                </Button>
+                                <Button onClick={providerAddDetailsCancel} type="danger" >
+                                    Annuler
                                 </Button>
                             </Form.Item>
                         </Form>

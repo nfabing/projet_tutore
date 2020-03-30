@@ -1,42 +1,49 @@
 import React, {useEffect, useState} from 'react'
-import './card.css'
-import axios from "axios"
-import {List, AutoSizer} from 'react-virtualized';
-import
-{useParams} from "react-router-dom"
-import {
-    SearchOutlined,
-} from '@ant-design/icons';
-import store from "../../redux/store";
+import {useParams} from "react-router-dom"
 import {connect} from "react-redux";
 import './DetailsPage.css';
 import {Skeleton} from "antd";
+
+import './card.css' // css
 
 interface Iprops {
     equipment: any;
     getEquipment: any;
     editEquipment: any;
+    getOwner: any;
+    user: any;
 }
 
-let i: number = 0;
-const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
+const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprops) => {
 
-    const {materialId} = useParams();
+    const [userDataVisible, setUserDataVisible] = useState(false)
+    const {materialId} = useParams(); // paramètre get
     const test: any = materialId;
-    if (i === 0) {
-        console.log('ID Equipment', test);
-        store.dispatch({type: 'GET_THAT_EQUIPMENT', id: test.toString()});
-        i += 1;
-    }
-    console.log('Taille equipemebt',equipment.length);
-    if (equipment.length != 0) {
-        console.log('EQUIPMENT dbvhqf gk JDBDSKJGJ',equipment);
-        equipment = equipment.getOneEquipment;
 
-        if (i === 1) {
-           // store.dispatch({type: 'GET_USER_INFO', id: equipment.userHandle.toString()});
-            i +=1;
+    // Récupération des infos de l'équipement 1 fois
+    useEffect(() => {
+        console.log('RECUP EQUIPMENT')
+        getEquipment(test)
+    }, [])
+
+    // une fois l'équipement défini, je recherche les infos sur l'utilisateur
+    useEffect(() => {
+        if (equipment.length != 0) {
+            getOwner(equipment.userHandle)
         }
+    }, [equipment])
+
+    //une fois que c'est bon j'affiche les infos de l'utilisateur
+    useEffect(() => {
+        if (user.length != 0) {
+            console.log('test', user)
+            setUserDataVisible(true)
+        }
+    }, [user])
+
+
+    if (equipment.length != 0) {
+
         return (
             <div className={'contentDetails'}>
 
@@ -72,32 +79,36 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
                 <p>
                     <b>Categorie : </b> {equipment.category}
                 </p>
+
             </span>
-                    <h2><b>Details du Fournisseur</b></h2>
-                    <span className={'detailfournisseur'}>
+                    {userDataVisible ? <div>
+                        <h2><b>Details du Fournisseur</b></h2>
+                        <span className={'detailfournisseur'}>
                 <p>
-                    <b>Adresse : </b> l'adrasse
+                    <b>Adresse : </b> {user.adress}
                 </p>
                 <p>
-                    <b>blabla : </b> Le blabla
+                    <b>Ville : </b> {user.city}
                 </p>
                 <p>
-                    <b>blibli : </b> La Blibli
+                    <b>Code postal : </b> {user.postalCode}
                 </p>
+
             </span>
+                    </div> : null}
                 </div>
             </div>
 
         )
-    }else {
+    } else {
         return (
             <>
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
             </>
         )
     }
@@ -106,10 +117,17 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
 
 const mapStateToProps = (state: any) => {
     return {
-        equipment: state.editMateriel.getOneEquipment
-    };
-};
+        equipment: state.editMateriel.getOneEquipment,
+        user: state.editMateriel.user
+    }
+}
 
-export default connect(
-    mapStateToProps
-)(Details)
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        getEquipment: (test: string) => dispatch({type: 'GET_THAT_EQUIPMENT', id: test}),
+        getOwner: (ownerUid: string) => dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: ownerUid})
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details)

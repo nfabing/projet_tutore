@@ -1,19 +1,22 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import {Modal} from "antd";
-import SignIn from "../Login/SignIn";
+import SignIn from "../../LoginScreen/SignIn/SignIn";
 
 
 interface IrelogModal {
     error: string;
     loading: boolean;
     login: any;
+
 }
 
-const LoginModal = ({error, loading, login}: IrelogModal) => {
+const LoginModal = ({error, loading, login, }: IrelogModal) => {
 
     const reLogin = (values: { email: string, password: string }) => {
         login(values)
+
+
     }
 
     return (

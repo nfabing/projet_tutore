@@ -1,6 +1,7 @@
 import React from "react";
 import {Button, Form, Input, InputNumber, Tooltip} from "antd";
 import {InfoCircleOutlined} from "@ant-design/icons"
+import './supplierForm.css'
 
 interface IsupplierForm {
     type: string;
@@ -42,6 +43,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
                 <Form.Item
                     label={'Code postal'}
                     name={'postalCode'}
+                    className={'form-postalCode'}
                     rules={[
                         {
                             required: true,
@@ -75,6 +77,8 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
             <Form
             onFinish={formHandler}
             hideRequiredMark={true}
+            labelCol={{span: 8}}
+            wrapperCol={{span: 16}}
             >
                 <h3 className={'login-title'}>Informations Fournisseur</h3>
 
@@ -105,6 +109,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
                 <Form.Item
                     label={'Code postal'}
                     name={'postalCode'}
+                    className={'form-postalCode'}
                     rules={[
                         {
                             required: true,

@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import {LockOutlined} from "@ant-design/icons"
 import {Button, Form, Input, Row, Col} from "antd";
-import RelogModal from "./RelogModal";
+import RelogModal from "../RelogModal/RelogModal";
 
 
 interface IPasswordChangeForm {

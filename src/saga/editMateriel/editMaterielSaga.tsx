@@ -1,21 +1,26 @@
 import { takeLatest, call, fork, take, select, put } from "redux-saga/effects";
-import store, { reduxSagaFirebase } from "../../redux/store";
-import firebase, { firestore } from "firebase";
+import { reduxSagaFirebase } from "../../redux/store";
 import "firebase/firestore";
-import { getOneEquipment } from "../../redux/editMateriel/EditMaterielAction";
-// import { getEquipmentID } from "../../components/EditMateriel";
+import {getOneEquipment, gotEquipmentUser} from "../../redux/editMateriel/EditMaterielAction";
 import { getListCategories } from "../../redux/editMateriel/EditMaterielAction";
 
 //RECUPERE L'EQUIPEMENT A MODIFIER AINSI QUE LES CATEGORIES
 function* getOneEquipmentSaga(value: any) {
-  const db = firebase.firestore();
+  /*const db = firebase.firestore();
   const id = yield value.id;
   const docRef = db.collection("equipment").doc(id);
   docRef.get().then(function(doc) {
     let objID = { id: doc.id };
     let finalObj = Object.assign(objID, doc.data());
     return store.dispatch(getOneEquipment(finalObj))
-  });
+  });*/
+
+    //Récupération des infos de l'équipement
+    const snapshot = yield call(reduxSagaFirebase.firestore.getDocument, `equipment/${value.id}`)
+    const equipment = snapshot.data()
+    yield put(getOneEquipment(equipment))
+
+
   // const data = yield fork(
   //   reduxSagaFirebase.firestore.syncDocument,
   //   "equipment/" + id,
@@ -61,9 +66,24 @@ function* unSetCategories() {
   yield put(getListCategories(data))
 }
 
+function* getEquipmentOwner(data: any) {
+      const uid = data.uid //user uid
+    console.log('GET EQUIPMENT OWNER')
+    const snapshot = yield call(reduxSagaFirebase.firestore.getDocument, `users/${uid}`)
+    const user = snapshot.data()
+    console.log(user)
+    yield put(gotEquipmentUser(user));
+
+}
+
+
+
 export function* watchEditEquipment() {
-  yield takeLatest("GET_THAT_EQUIPMENT", getOneEquipmentSaga);
-  yield takeLatest("EDIT_THAT_EQUIPMENT", editEquipmentSaga);
-  yield takeLatest("EDIT_RESERVATION_EQUIPMENT", editReserveSaga);
-  yield takeLatest("UNSET_CATEGORIES", unSetCategories);
+    yield takeLatest("GET_THAT_EQUIPMENT", getOneEquipmentSaga);
+    yield takeLatest("EDIT_THAT_EQUIPMENT", editEquipmentSaga);
+    yield takeLatest("EDIT_RESERVATION_EQUIPMENT", editReserveSaga);
+    yield takeLatest("UNSET_CATEGORIES", unSetCategories);
+
+    yield takeLatest("GET_THAT_EQUIPMENT_OWNER", getEquipmentOwner);
+
 }

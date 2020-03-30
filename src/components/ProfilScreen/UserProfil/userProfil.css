@@ -4,7 +4,7 @@
 }
 
 .row-password {
-    margin-top: 100px;
+
 }
 
 .col-banner-avatar {
@@ -15,4 +15,14 @@
 
 .col-banner-infos {
     padding-left: 20px;
+}
+
+.divider-profil {
+    color: #404040;
+    font-weight: normal;
+}
+
+.info-element {
+    margin-bottom: 10px;
+    font-size: 18px;
 }

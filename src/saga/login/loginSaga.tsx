@@ -125,8 +125,6 @@ function* createUserDocument(user: any, action?: any) {
 
 
 function* emailSignupAsync(action: any) {
-
-
     try {
         yield put(loginInProgress())
         const user = yield call(reduxSagaFirebase.auth.createUserWithEmailAndPassword, action.data.email, action.data.password)

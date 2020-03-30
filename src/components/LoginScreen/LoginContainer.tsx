@@ -1,8 +1,8 @@
 import React from "react";
 
 //components
-import Login from "./Login";
-import UserProfil from "../profil/UserProfil";
+import Login from "./Login/Login";
+import UserProfil from "../ProfilScreen/UserProfil/UserProfil";
 
 
 const LoginContainer = () => {
