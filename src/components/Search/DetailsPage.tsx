@@ -24,6 +24,7 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
     const {materialId} = useParams();
     const test: any = materialId;
     if (i === 0) {
+        console.log('ID Equipment', test);
         store.dispatch({type: 'GET_THAT_EQUIPMENT', value: test.toString()});
         i += 1;
     }

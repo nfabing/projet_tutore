@@ -36,9 +36,8 @@ const {Header, Content, Footer, Sider} = Layout;
 
 
 
-store.dispatch({type: 'GET_EQUIPMENTS'});
+store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
 store.dispatch({type: 'GET_CATEGORIES'});
-
 const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops) => {
 
 
@@ -58,8 +57,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
 
     console.log('Taille', equipments.length);
 
-    if (equipments.length != 0 && categories.length != 0) {
 
+    if (equipments.length != 0 && categories.length != 0) {
+        console.log('LOGGGGGGGG', categories.categories);
         equipments.equipments.map((data: any) => {
             const equipement: any = data;
             const key: any = data.id;
@@ -163,27 +163,12 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                         }
                     >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                        {categories.categories.map((cat: any) => {
+                        {/*categories.categories.map((cat: any) => {
+                            console.log('Categorie',cat);
                             const catId = cat.doc.key.path.segments[6];
                             cat = cat.doc.proto.fields.name.stringValue;
                             return <Option value={catId}>{cat}</Option>;
-                        })}
-                      </Select>
-                    <Select
-                        style={{width: 200, marginTop: '20px'}}
-                        placeholder="Select a category"
-                        optionFilterProp="children"
-                        onChange={(value: any) => setCategory(value)}
-                        filterOption={(input: any, option: any) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        }
-                    >
-                        <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                        {categories.categories.map((cat: any) => {
-                            const catId = cat.doc.key.path.segments[6];
-                            cat = cat.doc.proto.fields.name.stringValue;
-                            return <Option value={catId}>{cat}</Option>;
-                        })}
+                        })*/}
                       </Select>
                 </span>
                 <AutoSizer>
