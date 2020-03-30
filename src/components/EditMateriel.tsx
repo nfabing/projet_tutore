@@ -8,7 +8,8 @@ import {
   Button,
   Col,
   Row,
-  Upload
+  Upload,
+  Modal
 } from "antd";
 import moment from "moment";
 import store from "../redux/store";
@@ -44,16 +45,22 @@ const unSetCategories = () => {
 };
 
 const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
-  const [imgUrl, setImgUrl] = useState("");
-
   if (categories.length != 0) {
     if (categories.getListCategories.length != 0) {
-      console.log(equipment.getOneEquipment);
-      console.log(categories);
-
       equipment = equipment.getOneEquipment;
       let date = equipment.buyingDate;
       date = moment(date);
+      const validForm = (values: any) => {
+        onFinish(values)
+        unSetCategories();
+        success();
+      };
+
+      const success = () => {
+        Modal.success({
+          content: "Votre équipement à bien été modifier !"
+        });
+      }
       const onFinish = (values: any) => {
         if (values.equipment.name == undefined) {
           values.equipment.name = equipment.name;
@@ -88,7 +95,7 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
             <Form
               {...layout}
               name="nest-messages"
-              onFinish={onFinish}
+              onFinish={validForm}
               className="formAddMateriel"
             >
               <Form.Item name={["equipment", "name"]} label="Libellé">
@@ -154,7 +161,7 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
           </Col>
         </Row>
       );
-    }else {
+    } else {
       return <div></div>;
     }
   } else {

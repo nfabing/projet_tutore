@@ -13,6 +13,7 @@ export const ListEquipments = (props: any) => {
 
   if (props.equipments.listEquipments != undefined) {
 
+    console.log(props.equipments.listEquipments)
     // let img = equipment.getOneEquipment.img.integerValue;
     // let storage = firebase.storage();
     // let path = storage.refFromURL(
@@ -34,6 +35,7 @@ export const ListEquipments = (props: any) => {
           renderItem={(item: any) => (
             <List.Item>
               <Col span={4}>
+                <img src={item.img} className="imgEquipment"></img>
                 <div className="divTabEquipments">{item.name}</div>
               </Col>
               <Col span={4}>

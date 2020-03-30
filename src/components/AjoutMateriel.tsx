@@ -54,6 +54,7 @@ const unSetCategories = () => {
 };
 
 const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
+
   if (categories.length != 0) {
     console.log(categories);
     if (categories.categories.length != 0) {
