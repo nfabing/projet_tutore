@@ -27,22 +27,18 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
         store.dispatch({type: 'GET_THAT_EQUIPMENT', value: test.toString()});
         i += 1;
     }
-    console.log('dbhjeazg'+test+equipment.length);
+    console.log('Taille equipemebt',equipment.length);
     if (equipment.length != 0) {
+
         equipment = equipment.getOneEquipment;
 
-        console.log(equipment.name.stringValue);
-        console.log(equipment.category.stringValue);
-        console.log(equipment.brand.stringValue);
-        console.log(equipment.description.stringValue);
-        console.log(equipment.name.stringValue);
 
         return (
             <div className={'contentDetails'}>
 
             <span className={'header'}>
                 <img
-                    src={'https://firebasestorage.googleapis.com/v0/b/projet-tutore-6833d.appspot.com/o/equipments%2F000000-default-placeholder.png?alt=media&token=b500524d-17e8-4ee1-ab7b-5bdcbfebe61b'}
+                    src={equipment.img.stringValue}
                 />
                 <span className={'title'}>
                     <h1>
