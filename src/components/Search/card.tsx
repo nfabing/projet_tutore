@@ -52,9 +52,8 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
     let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
 
     const disabledDate = (current: any) => {
-        let dates: any[] = ['27/03/2020','28/03/2020','29/03/2020','30/03/2020', ];
-        return current && [dates.indexOf(current) == -1];
-        //return current && current < moment().endOf(w'day');
+        let dates: any[] = ['2020-04-05','2020-04-06','2020-04-07','2020-04-08' ];
+        return current < moment().subtract(7, "days") || current > moment().add(7, 'd')
     };
 
     const onFinish = (values: any) => {
@@ -121,7 +120,7 @@ return (
                                         ]}
                                     >
                                     <RangePicker
-
+                                        disabledDate={disabledDate}
                                         defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
                                         format={dateFormat}
                                     />

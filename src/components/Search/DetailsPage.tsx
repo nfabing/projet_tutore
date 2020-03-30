@@ -56,7 +56,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprop
                         {equipment.name}
                     </h1>
                     <h3>
-                        {equipment.userHandle}
+                        {user.storeName}
                     </h3>
                 </span>
 
