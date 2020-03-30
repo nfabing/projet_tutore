@@ -120,10 +120,7 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
                     defaultValue={equipment.category}
                   >
                     {categories.getListCategories.map((cat: any) => {
-                      const catId = cat.doc.key.path.segments[6];
-                      cat = cat.doc.proto.fields.name.stringValue;
-                      console.log(cat);
-                      return <Option value={catId}>{cat}</Option>;
+                      return <Option value={cat.id}>{cat.name}</Option>;
                     })}
                   </Select>
                 </Form.Item>

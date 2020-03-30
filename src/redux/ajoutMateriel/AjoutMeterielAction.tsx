@@ -8,7 +8,7 @@ export const addEquipment = (data: any) => {
 };
 
 export const categories = (data: any) => {
-    console.log('DATAAaAAAAAA', data);
+  console.log(data);
   if (data.Xv != undefined) {
     return {
       type: LIST_CATEGORIES,
