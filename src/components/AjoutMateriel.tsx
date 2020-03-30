@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import store from "../redux/store";
+
 import {
   Form,
   Input,
@@ -47,105 +49,121 @@ interface Iprops {
   getCategories: any;
 }
 
-const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
-  
-  if (categories.length != 0) {
-    return (
-      <Row>
-        <Col span={12} offset={6}>
-          <Form
-            {...layout}
-            name="nest-messages"
-            onFinish={getEquipment}
-            validateMessages={validateMessages}
-            className="formAddMateriel"
-          >
-            <Form.Item
-              name={["equipment", "name"]}
-              label="Libellé"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "description"]}
-              label="Description"
-              rules={[{ required: true }]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "buyingDate"]}
-              label="Année d'achat"
-              rules={[{ required: true }]}
-            >
-              <YearPicker />
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "category"]}
-              label="Catégorie"
-              rules={[{ required: true }]}
-            >
-              <Select placeholder="Catégorie">
-                {categories.categories.map((cat: any) => {
-                  const catId = cat.doc.key.path.segments[6];
-                  cat = cat.doc.proto.fields.name.stringValue;
-                  return <Option value={catId}>{cat}</Option>;
-                })}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "marque"]}
-              label="Marque"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "modele"]}
-              label="Modèle"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={["equipment", "status"]}
-              label="Statut"
-              rules={[{ required: true }]}
-            >
-              <Select placeholder="Statut">
-                <Option value="0">Disponible</Option>
-                <Option value="1">Réservé</Option>
-                <Option value="2">Emprunté</Option>
-                <Option value="3">Perdu/Détérioré</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="upload"
-              label="Image"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-              rules={[{ required: true }]}
-            >
-              <Upload name="logo" action="equipments/" listType="picture">
-                <Button>
-                  <UploadOutlined /> Cliquer pour ajouter
-                </Button>
-              </Upload>
-            </Form.Item>
+const unSetCategories = () => {
+  store.dispatch({ type: "UNSET_CATEGORIES" });
+};
 
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-              <Button className="cancelBtnAddEquipment" >
-                Cancel
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
-    );
+const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
+
+  if (categories.length != 0) {
+    console.log(categories);
+    if (categories.categories.length != 0) {
+      return (
+        <Row>
+          <Col span={12} offset={6}>
+            <Form
+              {...layout}
+              name="nest-messages"
+              onFinish={getEquipment}
+              validateMessages={validateMessages}
+              className="formAddMateriel"
+            >
+              <Form.Item
+                name={["equipment", "name"]}
+                label="Libellé"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "description"]}
+                label="Description"
+                rules={[{ required: true }]}
+              >
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "buyingDate"]}
+                label="Année d'achat"
+                rules={[{ required: true }]}
+              >
+                <YearPicker />
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "category"]}
+                label="Catégorie"
+                rules={[{ required: true }]}
+              >
+                <Select placeholder="Catégorie">
+                  {categories.categories.map((cat: any) => {
+                    const catId = cat.doc.key.path.segments[6];
+                    cat = cat.doc.proto.fields.name.stringValue;
+                    return <Option value={catId}>{cat}</Option>;
+                  })}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "marque"]}
+                label="Marque"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "modele"]}
+                label="Modèle"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["equipment", "status"]}
+                label="Statut"
+                rules={[{ required: true }]}
+              >
+                <Select placeholder="Statut">
+                  <Option value="0">Disponible</Option>
+                  <Option value="1">Réservé</Option>
+                  <Option value="2">Emprunté</Option>
+                  <Option value="3">Perdu/Détérioré</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="upload"
+                label="Image"
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
+                rules={[{ required: true }]}
+              >
+                <Upload name="logo" action="equipments/" listType="picture">
+                  <Button>
+                    <UploadOutlined /> Cliquer pour ajouter
+                  </Button>
+                </Upload>
+              </Form.Item>
+
+              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+                <Button
+                  className="cancelBtnAddEquipment"
+                  onClick={unSetCategories}
+                >
+                  Cancel
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      );
+    } else {
+      return (
+        <Button onClick={getCategories} size={"large"}>
+          Add Equipment
+        </Button>
+      );
+    }
   } else {
     return (
       <Button onClick={getCategories} size={"large"}>

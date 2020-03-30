@@ -2,7 +2,8 @@ import {
   call,
   takeEvery,
   takeLatest,
-  take
+  take,
+  put
 } from "redux-saga/effects";
 import { reduxSagaFirebase } from "../../redux/store";
 import "firebase/firestore";
@@ -33,7 +34,13 @@ function* getCategories() {
   })
 }
 
+function* unSetCategorie() {
+  const data: Array<any> = [];
+  yield put(categories(data))
+}
+
 export function* watchAddEquipment() {
   yield takeEvery("ADD_EQUIPMENT", addEquipmentSaga);
   yield takeLatest("GET_CATEGORIES", getCategories);
+  yield takeLatest("UNSET_CATEGORIES", unSetCategorie);
 }

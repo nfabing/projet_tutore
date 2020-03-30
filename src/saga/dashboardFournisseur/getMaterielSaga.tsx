@@ -11,10 +11,11 @@ import { eventChannel, buffers } from "redux-saga";
 import { emit } from "cluster";
 import { equal } from "assert";
 
-function* getEquipments() {
+function* getEquipments(userID: any) {
+  console.log(userID);
   const db = firebase.firestore();
   try {
-    yield db.collection("equipment").onSnapshot(function(querySnapshot) {
+    yield db.collection("equipment").where("userHandle", "==", userID.value).onSnapshot(function(querySnapshot) {
       var equip: Array<any> = [];
       querySnapshot.forEach(function(doc) {
         let objID = { id: doc.id };
@@ -26,7 +27,7 @@ function* getEquipments() {
 
     yield db
       .collection("equipment")
-      .where("status", "==", "1")
+      .where("status", "==", "1").where("userHandle", "==", userID.value)
       .onSnapshot(function(querySnapshot) {
         var loan: Array<any> = [];
         querySnapshot.forEach(function(doc) {
@@ -41,10 +42,10 @@ function* getEquipments() {
   }
 }
 
-function* getAllEquipments() {
+function* getAllEquipments(userID: any) {
   const db = firebase.firestore();
   try {
-    yield db.collection("equipment").onSnapshot(function(querySnapshot) {
+    yield db.collection("equipment").where("userHandle", "==", userID.value).onSnapshot(function(querySnapshot) {
       var equip: Array<any> = [];
       querySnapshot.forEach(function(doc) {
         let objID = { id: doc.id };
@@ -57,12 +58,12 @@ function* getAllEquipments() {
     console.log(error);
   }
 }
-function* getLoanEquipments() {
+function* getLoanEquipments(userID: any) {
   const db = firebase.firestore();
   try {
     yield db
       .collection("equipment")
-      .where("status", "==", "1")
+      .where("status", "==", "1").where("userHandle", "==", userID.value)
       .onSnapshot(function(querySnapshot) {
         var loan: Array<any> = [];
         querySnapshot.forEach(function(doc) {
