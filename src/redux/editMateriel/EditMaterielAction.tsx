@@ -12,9 +12,15 @@ export const getOneEquipment = (data: any) => {
 };
 
 export const getListCategories = (data: any) => {
-  console.log(data);
-  return {
-    type: GET_LIST_CATEGORIES,
-    getListCategories: data.Pm.docChanges
-  };
+  if (data.Xv != undefined) {
+    return {
+      type: GET_LIST_CATEGORIES,
+      getListCategories: data.Xv.docChanges
+    };
+  }else{
+    return {
+      type: GET_LIST_CATEGORIES,
+      getListCategories: data
+    };
+  }
 };

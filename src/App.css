@@ -45,6 +45,13 @@
   margin-left: 15px;
 }
 
+.site-layout .site-layout-background {
+  background: #fff;
+}
+[data-theme="dark"] .site-layout .site-layout-background {
+  background: #141414;
+}
+
 .imgEquipment{
   width: 30%
 }

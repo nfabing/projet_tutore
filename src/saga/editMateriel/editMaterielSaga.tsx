@@ -1,4 +1,4 @@
-import { takeLatest, call, fork, take, select } from "redux-saga/effects";
+import { takeLatest, call, fork, take, select, put } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
 import firebase, { firestore } from "firebase";
 import "firebase/firestore";
@@ -47,7 +47,13 @@ function* editEquipmentSaga(values: any) {
   });
 }
 
+function* unSetCategories() {
+  const data: Array<any> = [];
+  yield put(getListCategories(data))
+}
+
 export function* watchEditEquipment() {
   yield takeLatest("GET_THAT_EQUIPMENT", getOneEquipmentSaga);
   yield takeLatest("EDIT_THAT_EQUIPMENT", editEquipmentSaga);
+  yield takeLatest("UNSET_CATEGORIES", unSetCategories);
 }

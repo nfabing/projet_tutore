@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Button, Col, Row, Modal, Form, Input} from "antd";
+import {Button, Col, Row, Modal, Form} from "antd";
 import {GoogleOutlined, GithubOutlined} from "@ant-design/icons"
 
 // css
@@ -72,11 +72,21 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
             <Row align={'middle'} justify={'center'}>
 
                 {mode === 'login' && !logged ?
-                    <SignIn error={error} goToSignup={goToSignup} onFinishLogin={onFinishLogin} loading={loading}/>
+                    <Col span={8}>
+                        <SignIn error={error} loading={loading} onFinish={onFinishLogin}/>
+                        <div className={'confirm-text'}>
+                            <a onClick={goToSignup}>Pas encore inscrit ? clique ici !</a>
+                        </div>
+                    </Col>
                     : null}
 
                 {mode === 'signup' && !logged ?
-                    <SignUp loading={loading} error={error} goToLogin={goToLogin} onFinishSignup={onFinishSignup}/>
+                    <Col span={8}>
+                        <SignUp error={error} loading={loading} onFinish={onFinishSignup}/>
+                        <div className={'confirm-text'}>
+                            <a onClick={goToLogin}>Tu as déjà un compte ? clique ici !</a>
+                        </div>
+                    </Col>
                     : null}
 
             </Row>
@@ -118,7 +128,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                 <Row align={'middle'} justify={'center'}>
                     <Col span={8}>
                         <Form onFinish={providerAddDetails} labelCol={{span: 8}} wrapperCol={{span: 16}}>
-                            <SupplierForm/>
+                            <SupplierForm type={'content'}/>
 
                             <Form.Item wrapperCol={{span: 24}}>
                                 <Button type="primary" htmlType="submit" loading={loading} block>
@@ -132,7 +142,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
 
             {logged && !providerSignUp ?
                 <div>
-                <Button onClick={logout}>LOGOUT</Button>
+                    <Button onClick={logout}>LOGOUT</Button>
                     {children}
                 </div> : null}
 
@@ -146,6 +156,7 @@ const mapStateToProps = (state: any) => {
         logged: state.login.logged,
         providerSignUp: state.login.providerSignUp,
         error: state.login.error,
+
     }
 }
 
