@@ -1,8 +1,9 @@
-import { ADD_EQUIPMENT,LIST_CATEGORIES } from "./AjoutMaterielType";
+import {ADD_EQUIPMENT, LIST_CATEGORIES, ONE_CATEGORIES} from "./AjoutMaterielType";
 
 const initialState = {
   addEquipment: [],
-  categories: []
+  categories: [],
+  oneCategories: []
 };
 
 const addEquipmentReducer = (state = initialState, action: any) => {
@@ -16,6 +17,11 @@ const addEquipmentReducer = (state = initialState, action: any) => {
       return {
         ...state,
         categories: action
+      };
+    case ONE_CATEGORIES:
+      return {
+        ...state,
+        oneCategories: action
       };
     default:
       return state;

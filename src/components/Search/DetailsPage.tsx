@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import './DetailsPage.css';
 import {Skeleton} from "antd";
 
-import './card.css' // css
+import './card.css'
+import {categories} from "../../redux/ajoutMateriel/AjoutMeterielAction"; // css
 
 interface Iprops {
     equipment: any;
@@ -12,11 +13,14 @@ interface Iprops {
     editEquipment: any;
     getOwner: any;
     user: any;
+    getOneCategories: any;
+    categories: any;
 }
 
-const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprops) => {
+const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categories, getOneCategories}: Iprops) => {
 
     const [userDataVisible, setUserDataVisible] = useState(false)
+    const [categorieName, setCategorieName] = useState('')
     const {materialId} = useParams(); // paramètre get
     const test: any = materialId;
 
@@ -30,6 +34,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprop
     useEffect(() => {
         if (equipment.length != 0) {
             getOwner(equipment.userHandle)
+            getOneCategories(equipment.category)
         }
     }, [equipment])
 
@@ -40,6 +45,12 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprop
             setUserDataVisible(true)
         }
     }, [user])
+
+    useEffect(() => {
+        if (categories.length != 0) {
+            setCategorieName(categories.oneCategories.name)
+        }
+    }, [categories])
 
 
     if (equipment.length != 0) {
@@ -77,7 +88,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprop
                     <b>Année d'achat : </b> {equipment.buyingDate}
                 </p>
                 <p>
-                    <b>Categorie : </b> {equipment.category}
+                    <b>Categorie : </b> {categorieName}
                 </p>
 
             </span>
@@ -118,6 +129,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprop
 const mapStateToProps = (state: any) => {
     return {
         equipment: state.editMateriel.getOneEquipment,
+        categories: state.ajoutMateriel.oneCategories,
         user: state.editMateriel.user
     }
 }
@@ -125,7 +137,10 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         getEquipment: (test: string) => dispatch({type: 'GET_THAT_EQUIPMENT', id: test}),
-        getOwner: (ownerUid: string) => dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: ownerUid})
+        getOwner: (ownerUid: string) => dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: ownerUid}),
+        getOneCategories: (idCateg: string) => {
+            dispatch({ type: "GET_ONE_CATEGORIES", id: idCateg });
+        }
     }
 }
 

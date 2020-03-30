@@ -115,7 +115,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
 
         const Row = ({index, style}: RowType) => {
             const item = filterData[index];
-
+            const category:string = categories.categories.map((cat: any) => {
+                if(filterData[index].category === cat.id) return cat.name;
+            });
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
@@ -123,7 +125,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                                   name={filterData[index].titre}
                                   id={filterData[index].id}
                                   tags={filterData[index].tag}
-                                  category={filterData[index].category}
+                                  category={category}
                                   status={filterData[index].status}
                                   reservation={filterData[index].reservation}/> : 'Loading...'}
                 </div>
@@ -165,12 +167,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                         }
                     >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                        {/*categories.categories.map((cat: any) => {
-                            console.log('Categorie',cat);
-                            const catId = cat.doc.key.path.segments[6];
-                            cat = cat.doc.proto.fields.name.stringValue;
-                            return <Option value={catId}>{cat}</Option>;
-                        })*/}
+                        {categories.categories.map((cat: any) => {
+                            return <Option value={cat.id}>{cat.name}</Option>;
+                        })}
                       </Select>
                 </span>
                 <AutoSizer>

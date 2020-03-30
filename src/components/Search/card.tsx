@@ -23,6 +23,7 @@ type CardProps = {
     category: string,
     reservation: {dateDebut: string, dateFin:string, idUser: string}[],
 }
+
 const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [statu, setStatu] = useState('Reserve');
@@ -41,7 +42,8 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
             setStatuColor('warning');
         }
     });
-    const {RangePicker} = DatePicker;
+
+  const {RangePicker} = DatePicker;
 
 
     const dateFormat = 'DD/MM/YYYY';

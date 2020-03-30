@@ -1,10 +1,17 @@
-import { ADD_EQUIPMENT, LIST_CATEGORIES } from "./AjoutMaterielType";
+import {ADD_EQUIPMENT, LIST_CATEGORIES, ONE_CATEGORIES} from "./AjoutMaterielType";
 
 export const addEquipment = (data: any) => {
   return {
     type: ADD_EQUIPMENT,
     equipments: data
   };
+};
+
+export const oneCategories = (data: any) => {
+    return {
+        type: ONE_CATEGORIES,
+        oneCategories: data
+    };
 };
 
 export const categories = (data: any) => {
