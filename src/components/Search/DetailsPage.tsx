@@ -25,28 +25,31 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
     const test: any = materialId;
     if (i === 0) {
         console.log('ID Equipment', test);
-        store.dispatch({type: 'GET_THAT_EQUIPMENT', value: test.toString()});
+        store.dispatch({type: 'GET_THAT_EQUIPMENT', id: test.toString()});
         i += 1;
     }
     console.log('Taille equipemebt',equipment.length);
     if (equipment.length != 0) {
-
+        console.log('EQUIPMENT dbvhqf gk JDBDSKJGJ',equipment);
         equipment = equipment.getOneEquipment;
 
-
+        if (i === 1) {
+           // store.dispatch({type: 'GET_USER_INFO', id: equipment.userHandle.toString()});
+            i +=1;
+        }
         return (
             <div className={'contentDetails'}>
 
             <span className={'header'}>
                 <img
-                    src={equipment.img.stringValue}
+                    src={equipment.img}
                 />
                 <span className={'title'}>
                     <h1>
-                        {equipment.name.stringValue}
+                        {equipment.name}
                     </h1>
                     <h3>
-                        {equipment.userHandle.stringValue}
+                        {equipment.userHandle}
                     </h3>
                 </span>
 
@@ -55,22 +58,22 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
                     <h2><b>Details sur l'équipement</b></h2>
                     <span className={'detailequipment'}>
                 <p>
-                    <b>Description : </b> {equipment.description.stringValue}
+                    <b>Description : </b> {equipment.description}
                 </p>
                 <p>
-                    <b>Marque : </b> {equipment.brand.stringValue}
+                    <b>Marque : </b> {equipment.brand}
                 </p>
                 <p>
-                    <b>Modele : </b> {equipment.modele.stringValue}
+                    <b>Modele : </b> {equipment.modele}
                 </p>
                 <p>
-                    <b>Année d'achat : </b> {equipment.buyingDate.stringValue}
+                    <b>Année d'achat : </b> {equipment.buyingDate}
                 </p>
                 <p>
-                    <b>Categorie : </b> {equipment.category.stringValue}
+                    <b>Categorie : </b> {equipment.category}
                 </p>
             </span>
-                    <h2><b>Details sur le vendeur</b></h2>
+                    <h2><b>Details du Fournisseur</b></h2>
                     <span className={'detailfournisseur'}>
                 <p>
                     <b>Adresse : </b> l'adrasse

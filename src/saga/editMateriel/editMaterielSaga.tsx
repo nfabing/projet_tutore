@@ -48,24 +48,12 @@ function* editEquipmentSaga(values: any) {
 }
 
 function* editReserveSaga(values: any) {
-  /*console.log(values);
-  const formValues = values.values.equipment;
-  let date = null;
-  if(formValues.buyingDate._d === undefined){
-    date = formValues.buyingDate;
-  }else{
-    date = formValues.buyingDate.format("YYYY");
-  }
-  yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+formValues.id, {
-    name: formValues.name,
-    status: formValues.status,
-    userHandle: "Nicolas",
-    description: formValues.description,
-    buyingDate: date,
-    category: formValues.category,
-    brand: formValues.marque,
-    modele: formValues.modele
-  });*/
+  const idEquipement = values.id;
+  const reservation = values.reservation;
+  yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+idEquipement, {
+    reservation: reservation,
+    status: '1'
+  });
 }
 
 function* unSetCategories() {
@@ -76,5 +64,6 @@ function* unSetCategories() {
 export function* watchEditEquipment() {
   yield takeLatest("GET_THAT_EQUIPMENT", getOneEquipmentSaga);
   yield takeLatest("EDIT_THAT_EQUIPMENT", editEquipmentSaga);
+  yield takeLatest("EDIT_RESERVATION_EQUIPMENT", editReserveSaga);
   yield takeLatest("UNSET_CATEGORIES", unSetCategories);
 }

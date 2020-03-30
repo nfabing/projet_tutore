@@ -20,9 +20,10 @@ type CardProps = {
     id: number,
     status: string,
     tags: string,
-    category: string
+    category: string,
+    reservation: {dateDebut: string, dateFin:string, idUser: string}[],
 }
-const Card = ({img, name, status, id,tags, category}: CardProps) => {
+const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [statu, setStatu] = useState('Reserve');
     const [imgSrc, setImg] = useState('');
@@ -51,8 +52,9 @@ const Card = ({img, name, status, id,tags, category}: CardProps) => {
     let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
 
     const disabledDate = (current: any) => {
-        let date: any[] = ['27/03/2020'];
-        return current && current < moment().endOf('day');
+        let dates: any[] = ['27/03/2020','28/03/2020','29/03/2020','30/03/2020', ];
+        return current && [dates.indexOf(current) == -1];
+        //return current && current < moment().endOf(w'day');
     };
 
     const onFinish = (values: any) => {
@@ -61,9 +63,10 @@ const Card = ({img, name, status, id,tags, category}: CardProps) => {
         const dateFin = new Date(values.range[1]._d);
         const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
         const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
-        const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
-            [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
-        //store.dispatch({type: "EDIT_THAT_RESERVATION", values: reservation});
+        reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
+        //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
+           // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
+        store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
 
         /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
         const TestCalcul = testCalcul / (1000 * 3000 * 24);
@@ -118,7 +121,7 @@ return (
                                         ]}
                                     >
                                     <RangePicker
-                                        disabledDate={disabledDate}
+
                                         defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
                                         format={dateFormat}
                                     />

@@ -46,7 +46,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const {Search} = Input;
-    let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string }[] = [];
+    let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string, reservation: {dateDebut: string, dateFin: string,idUser: string }[] }[] = [];
     let arrayBrand: string[]= [];
     const arrayCategory: string[]= [];
 
@@ -82,7 +82,8 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                 status: equipement.status,
                 tag: tags,
                 brand: equipement.brand,
-                category: equipement.category
+                category: equipement.category,
+                reservation: equipement.reservation
             });
 
         });
@@ -123,7 +124,8 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                                   id={filterData[index].id}
                                   tags={filterData[index].tag}
                                   category={filterData[index].category}
-                                  status={filterData[index].status}/> : 'Loading...'}
+                                  status={filterData[index].status}
+                                  reservation={filterData[index].reservation}/> : 'Loading...'}
                 </div>
             )
         };
