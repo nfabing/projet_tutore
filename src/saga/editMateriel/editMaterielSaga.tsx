@@ -16,14 +16,15 @@ function* getOneEquipmentSaga(value: any) {
     let finalObj = Object.assign(objID, doc.data());
     return store.dispatch(getOneEquipment(finalObj))
   });
-  // const data = yield fork(
-  //   reduxSagaFirebase.firestore.syncDocument,
-  //   "equipment/" + id,
-  //   { successActionCreator: getOneEquipment }
-  // );
-  yield fork(reduxSagaFirebase.firestore.syncCollection, "categories", {
-    successActionCreator: getListCategories
-  });
+  yield db.collection("categories").onSnapshot(function(querySnapshot) {
+    var cat: Array<any> = [];
+    querySnapshot.forEach(function(doc) {
+      let objID = { id: doc.id };
+      let finalObj = Object.assign(objID, doc.data());
+      cat.push(finalObj);
+    })
+    return store.dispatch(getListCategories(cat));
+  })
 }
 
 function* editEquipmentSaga(values: any) {

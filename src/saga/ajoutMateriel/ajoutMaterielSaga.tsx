@@ -5,8 +5,9 @@ import {
   take,
   put
 } from "redux-saga/effects";
-import { reduxSagaFirebase } from "../../redux/store";
+import store, { reduxSagaFirebase } from "../../redux/store";
 import "firebase/firestore";
+import firebase, { firestore } from "firebase";
 import { categories } from "../../redux/ajoutMateriel/AjoutMeterielAction";
 
 function* addEquipmentSaga() {
@@ -29,9 +30,21 @@ function* addEquipmentSaga() {
 }
 
 function* getCategories() {
-  const ListCategories = yield call(reduxSagaFirebase.firestore.syncCollection, "categories",{
-    successActionCreator: categories
-  })
+  const db = firebase.firestore();
+
+  try {
+    yield db.collection("categories").onSnapshot(function(querySnapshot) {
+      var cat: Array<any> = [];
+      querySnapshot.forEach(function(doc) {
+        let objID = { id: doc.id };
+        let finalObj = Object.assign(objID, doc.data());
+        cat.push(finalObj);
+      })
+      return store.dispatch(categories(cat));
+    })
+  }catch{
+
+  }
 }
 
 function* unSetCategorie() {

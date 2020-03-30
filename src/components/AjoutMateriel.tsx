@@ -96,9 +96,7 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
               >
                 <Select placeholder="Catégorie">
                   {categories.categories.map((cat: any) => {
-                    const catId = cat.doc.key.path.segments[6];
-                    cat = cat.doc.proto.fields.name.stringValue;
-                    return <Option value={catId}>{cat}</Option>;
+                    return <Option value={cat.id}>{cat.name}</Option>;
                   })}
                 </Select>
               </Form.Item>
