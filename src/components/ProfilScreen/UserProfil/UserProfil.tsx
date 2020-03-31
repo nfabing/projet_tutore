@@ -8,6 +8,7 @@ import FormEditProfil from "../FormEditProfil/FormEditProfil";
 import SupplierForm from "../../LoginScreen/SupplierForm/SupplierForm";
 import ChangePassword from "../../Password/ChangePassword/ChangePassword";
 import "./userProfil.css"
+import LogoutButton from "../../Logout/LogoutButton";
 
 interface Iprops {
     userData: any;
@@ -35,18 +36,11 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
         setEdit('')
     }
 
-
-    const beforeUpload = (file: any) => {
-        // TODO: A AMELIORER
-
-        console.log(file)
-        const isValid = file.type === 'image/jpeg' || file.type === 'image/png';
-        return isValid
-    }
-
     const uploadImage = (info: any) => {
-        console.log(info.file.originFileObj)
-        updateProfilPicture(info.file.originFileObj)
+
+        if (info.file.originFileObj.type === 'image/png' || info.file.originFileObj.type === 'image/jpeg') {
+            updateProfilPicture(info.file.originFileObj)
+        }
     }
 
     const showEditForm = (edit: string) => {
@@ -103,7 +97,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
 
                         <div className={'info-element'}><b>Email</b> : {edit === 'email' ?
                             <FormEditProfil fieldName={'email'} fieldValue={userData[edit]}
-                                            onSubmit={formSubmitHandler}  isRequired={true}/> :
+                                            onSubmit={formSubmitHandler} isRequired={true}/> :
                             <span>{userData.email} <EditOutlined onClick={() => showEditForm('email')}/>
                             </span>} </div>
 
@@ -168,9 +162,12 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                         </div>
 
                         <div style={{marginTop: '20px'}}>
-                            <Upload  beforeUpload={beforeUpload} showUploadList={false} onChange={uploadImage}>
+                            <Upload showUploadList={false} onChange={uploadImage} >
                                 <Button loading={loading} disabled={loading}
                                         icon={<UploadOutlined/>}>Changer photo de profil </Button></Upload>
+                        </div>
+                        <div style={{marginTop: '20px'}}>
+                            <LogoutButton/>
                         </div>
 
                     </Col>
@@ -179,10 +176,14 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
         )
     }
 
-// chargement du profil
+// Render : profil is loading
     return (
         <div>
-           <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
         </div>
     )
 }

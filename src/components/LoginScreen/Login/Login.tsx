@@ -10,7 +10,6 @@ import "./login.css"
 import SignIn from "../SignIn/SignIn";
 import SupplierForm from "../SupplierForm/SupplierForm";
 import SignUp from "../SignUp/SignUp";
-import LogoutButton from "../../Logout/LogoutButton";
 
 interface Iprops {
     loading: boolean;
@@ -26,7 +25,8 @@ interface Iprops {
     children: any;
 }
 
-const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayToUser, loginEmail, signupEmail, loginGoogle, loginGithub, children}: Iprops) => {
+const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayToUser, loginEmail, signupEmail,
+                   loginGoogle, loginGithub, children}: Iprops) => {
 
     const [mode, setMode] = useState('login')
 
@@ -57,7 +57,6 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
     const modalProviderLogin = () => {
         setVisible(false)
         setProviderDetails(true)
-
     }
 
     const providerAddDetails = (values: any) => {
@@ -151,7 +150,6 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
 
             {logged && !providerSignUp ?
                 <div>
-                    <LogoutButton/>
                     {children}
                 </div> : null}
 
