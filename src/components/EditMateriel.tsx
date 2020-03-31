@@ -38,23 +38,24 @@ interface Iprops {
   categories: any;
 }
 
-//  export const getEquipmentID = (state: any) => "w9d008IJw1JxlsBeOLYP";
-
 const unSetCategories = () => {
   store.dispatch({ type: "UNSET_CATEGORIES" });
 };
 
-const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
+const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
   if (categories.length != 0) {
     if (categories.getListCategories.length != 0) {
-      equipment = equipment.getOneEquipment;
+
       let date = equipment.buyingDate;
       date = moment(date);
+
       const validForm = (values: any) => {
         onFinish(values);
         unSetCategories();
         success();
       };
+
+      console.log(equipment);
 
       const success = () => {
         Modal.success({

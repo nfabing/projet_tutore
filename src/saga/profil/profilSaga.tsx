@@ -3,6 +3,7 @@ import {eventChannel} from 'redux-saga'
 import {reduxSagaFirebase} from "../../redux/store";
 import {firebaseApp} from '../../redux/store'
 import {syncProfil} from "../../redux/profil/profilActions";
+import {authReauthenticate} from "../changePassword/passwordSaga";
 
 
 export function* profilSaga() {
@@ -36,14 +37,39 @@ function* watchUserProfil() {
 
 
 function* editUserProfil(values: any) {
-    //TODO : comparer les valeurs du form avec les valeurs stocker, si l'email ou le displayName change,
-    // alors il faut également le changer directement sur le profil (a faire dans les sagas)
-    const uid = yield select(state => state.login.user.uid)
 
+    const uid = yield select(state => state.login.user.uid)
     console.log('SAGA', values)
+
+    if ('displayName' in values.data) {
+        console.log('DISPLAY NAME')
+        try {
+            yield call(reduxSagaFirebase.auth.updateProfile, {
+                displayName: values.data.displayName,
+            })
+        } catch (error) {
+            console.log('ERROR UPDATE PROFIL DISPAY NAME')
+            console.log(error.code)
+        }
+    }
+
+    if ('email' in values.data) {
+        console.log('DISPLAY EMAIL')
+        try {
+            yield call(reduxSagaFirebase.auth.updateEmail, values.data.email )
+
+        } catch (error) {
+
+            console.log('ERROR UPDATE PROFIL EMAIL')
+            console.log(error.code)
+            yield call(authReauthenticate)
+        }
+    }
 
     // @ts-ignore
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, values.data, {merge: true})
+
+
 }
 
 

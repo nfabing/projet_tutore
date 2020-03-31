@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactDOM, useEffect} from "react";
 import { connect } from "react-redux";
 
 import store from "../redux/store";
@@ -13,11 +13,15 @@ import EditMateriel from "../components/EditMateriel";
 
 import { ListEquipments } from "./displayEquipmentsDashboardFournisseur/ListEquipments";
 
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Card } from "antd";
+import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
+import {render} from "react-dom";
 
 interface Iprops {
   equipments: any;
+  getEquipments: any;
   listLoan: any;
+  listBooked: any;
   listEquipments: any;
   user: any;
 }
@@ -27,6 +31,7 @@ interface Iprops {
 const DashboardFournisseur = ({
   equipments,
   listLoan,
+  listBooked,
   listEquipments,
   user
 }: Iprops) => {
@@ -40,6 +45,9 @@ const DashboardFournisseur = ({
       const displayLoanEquipments = () => {
         store.dispatch({ type: "GET_LOAN_EQUIPMENTS", value: user.useruid });
       };
+      const displayBookedEquipment = () => {
+        store.dispatch({ type: "GET_BOOKED_EQUIPMENTS", value: user.useruid });
+      };
       return (
         <div>
           <AjoutMateriel />
@@ -52,10 +60,10 @@ const DashboardFournisseur = ({
                 <CardLoan loan={listLoan} />
               </Col>
               <Col span={5}>
-                <CardOverdue overdue={11} />
+                <CardOverdue overdue={111} />
               </Col>
-              <Col span={5}>
-                <CardBooked booked={123} />
+              <Col span={5} onClick={displayBookedEquipment}>
+                <CardBooked booked={listBooked} />
               </Col>
             </Row>
           </div>
@@ -76,6 +84,7 @@ const mapStateToProps = (state: any) => {
   return {
     equipments: state.dashboardFournisseur.equipments,
     listLoan: state.dashboardFournisseur.listLoan,
+    listBooked: state.dashboardFournisseur.listBooked,
     listEquipments: state.dashboardFournisseur.listEquipments,
     user: state.user.profil
   };

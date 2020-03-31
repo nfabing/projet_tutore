@@ -1,4 +1,4 @@
-import { takeLatest, call, fork, take, select, put } from "redux-saga/effects";
+import { takeLatest, fork, put } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
 import firebase, { firestore } from "firebase";
 import "firebase/firestore";
@@ -39,7 +39,6 @@ function* editEquipmentSaga(values: any) {
   yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+formValues.id, {
     name: formValues.name,
     status: formValues.status,
-    userHandle: "Nicolas",
     description: formValues.description,
     buyingDate: date,
     category: formValues.category,

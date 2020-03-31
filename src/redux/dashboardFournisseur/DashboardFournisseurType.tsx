@@ -1,3 +1,4 @@
 export const LIST_EQUIPMENTS = 'LIST_EQUIPMENT';
 export const LIST_LOAN = 'LIST_LOAN';
+export const LIST_BOOKED = 'LIST_BOOKED';
 export const DISPLAY_LIST_EQUIPMENTS = 'LIST_ALL_EQUIPMENTS';

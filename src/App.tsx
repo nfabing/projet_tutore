@@ -6,7 +6,7 @@ import {Input} from 'antd';
 import Details from "./components/Search/DetailsPage";
 
 // components
-import LoginContainer from "./components/Login/LoginContainer";
+import LoginContainer from "./components/LoginScreen/LoginContainer";
 import DashboardFournisseur from './components/DashboardFournisseur';
 import AjoutMateriel from './components/AjoutMateriel';
 import EditMateriel from './components/EditMateriel';
@@ -29,7 +29,7 @@ function App() {
                             defaultSelectedKeys={['1']}
                         >
 
-                          <Menu.Item key={'1'}><Link to={'/'}>Search</Link></Menu.Item>
+                            <Menu.Item key={'1'}><Link to={'/'}>Search</Link></Menu.Item>
                             <Menu.Item key={'2'}><Link to={'/Login'}>Login</Link></Menu.Item>
                             <Menu.Item key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard
                                 Fournisseur</Link></Menu.Item>

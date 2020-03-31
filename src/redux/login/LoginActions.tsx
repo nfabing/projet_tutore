@@ -54,7 +54,7 @@ export const reLoginSuccess = () => {
     }
 }
 
-// Login avec provider google/github pour la première fois
+// LoginScreen avec provider google/github pour la première fois
 export const loginProviderFirstTime = () => {
     return {
         type: LOGIN_PROVIDER_FIRST_TIME,

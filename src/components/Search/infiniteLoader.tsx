@@ -7,7 +7,7 @@ import {
     SearchOutlined,
 } from '@ant-design/icons';
 import Card from "./card";
-import {Button, Input} from "antd";
+import {Button, Input, Skeleton} from "antd";
 import {connect} from "react-redux";
 
 import './infiniteLoader.css'
@@ -26,7 +26,9 @@ type rowRendererType = {
 
 interface Iprops {
     equipments: any;
-    listEquipments: any;
+    getEquipments: any;
+    categories: any;
+    getCategories: any;
 }
 const { Option } = Select;
 const {SubMenu} = Menu;
@@ -34,18 +36,9 @@ const {Header, Content, Footer, Sider} = Layout;
 
 
 
-store.dispatch({type: 'GET_EQUIPMENTS'}   );
-const Loader = ({equipments, listEquipments}: Iprops) => {
-
-
-    const [defined, setDefined] = useState(false)
-
-    useEffect(() => {
-        if ('type' in equipments) {
-            console.log('EQUIPMENTS', equipments)
-            setDefined(true)
-        }
-    }, [equipments])
+store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
+// store.dispatch({type: 'GET_CATEGORIES'});
+const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops) => {
 
 
     const [search, setSearch] = useState('');
@@ -53,8 +46,8 @@ const Loader = ({equipments, listEquipments}: Iprops) => {
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const {Search} = Input;
-    let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string }[] = [];
-    const arrayBrand: string[]= [];
+    let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string, reservation: {dateDebut: string, dateFin: string,idUser: string }[] }[] = [];
+    let arrayBrand: string[]= [];
     const arrayCategory: string[]= [];
 
     type RowType = {
@@ -62,35 +55,40 @@ const Loader = ({equipments, listEquipments}: Iprops) => {
         style: any, // Style object to be applied to row (to position it)
     }
 
+    console.log('Taille', equipments.length);
 
 
-
-    if (defined) {
-        console.log('TAILLE', equipments.length)
+    if (equipments.length != 0 && categories.length != 0) {
+        console.log('LOGGGGGGGG', categories.categories);
         equipments.equipments.map((data: any) => {
             const equipement: any = data;
             const key: any = data.id;
 
-            let img: string;
-            /*if(!equipement.img.integerValue || equipement.img.integerValue === "null" || equipement.img.integerValue === null || equipement.img.integerValue === '')
+            let testBrand: boolean = false;
+            for (let j = 0; j < arrayBrand.length; j++)
             {
-                img = 'null';
-            } else {
-                img = ''+equipement.img.integerValue;
-            }*/
-            arrayBrand.push(equipement.brand);
+                if (arrayBrand[j] === equipement.brand)
+                {
+                    testBrand = true;
+                }
+            }
+            if(!testBrand) arrayBrand.push(equipement.brand);
             arrayCategory.push(equipement.category);
             let tags: string = equipement.modele+','+equipement.brand+','+equipement.category;
             dataCard.push({
                 id: key,
-                img: 'null',
+                img: equipement.img,
                 titre: equipement.name,
                 status: equipement.status,
                 tag: tags,
                 brand: equipement.brand,
-                category: equipement.category
+                category: equipement.category,
+                reservation: equipement.reservation
             });
+
         });
+
+
 
         let filterData = dataCard.filter(
             (data: any) => {
@@ -121,12 +119,13 @@ const Loader = ({equipments, listEquipments}: Iprops) => {
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card img={'null'}
+                    {item ? <Card img={filterData[index].img}
                                   name={filterData[index].titre}
                                   id={filterData[index].id}
                                   tags={filterData[index].tag}
                                   category={filterData[index].category}
-                                  status={filterData[index].status}/> : 'Loading...'}
+                                  status={filterData[index].status}
+                                  reservation={filterData[index].reservation}/> : 'Loading...'}
                 </div>
             )
         };
@@ -166,17 +165,18 @@ const Loader = ({equipments, listEquipments}: Iprops) => {
                         }
                     >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                        {arrayCategory.map( (data:string)=> {
-                            return(
-                                <Option value={data}>{data}</Option>
-                            )
-                        })}
+                        {/*categories.categories.map((cat: any) => {
+                            console.log('Categorie',cat);
+                            const catId = cat.doc.key.path.segments[6];
+                            cat = cat.doc.proto.fields.name.stringValue;
+                            return <Option value={catId}>{cat}</Option>;
+                        })*/}
                       </Select>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (
                         <List itemSize={170}
-                              height={600}
+                              height={height}
                               itemCount={filterData.length}
                               width={width}
                         >
@@ -187,23 +187,34 @@ const Loader = ({equipments, listEquipments}: Iprops) => {
             </div>
         )
     } else {
-        return (
-            <Button /*onClick={getEquipments}*/>Get Équipments</Button>
-        )
 
+        return (
+            <>
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+                <Skeleton active />
+            </>
+        )
     }
 }
 
 const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
-        listEquipments: state.dashboardFournisseur.listEquipments
+        categories: state.ajoutMateriel.categories,
+        uid : state.login.user.uid
     };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        getEquipments: () => dispatch({type: "GET_EQUIPMENTS"})
+        getEquipments: () => dispatch({type: "GET_EQUIPMENTS"}),
+        getCategories: () => {
+            dispatch({ type: "GET_CATEGORIES" });
+        }
     };
 };
 

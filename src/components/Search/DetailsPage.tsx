@@ -1,54 +1,62 @@
 import React, {useEffect, useState} from 'react'
-import './card.css'
-import axios from "axios"
-import {List, AutoSizer} from 'react-virtualized';
-import
-{useParams} from "react-router-dom"
-import {
-    SearchOutlined,
-} from '@ant-design/icons';
-import store from "../../redux/store";
+import {useParams} from "react-router-dom"
 import {connect} from "react-redux";
 import './DetailsPage.css';
+import {Skeleton} from "antd";
+
+import './card.css' // css
 
 interface Iprops {
     equipment: any;
     getEquipment: any;
     editEquipment: any;
+    getOwner: any;
+    user: any;
 }
 
-let i: number = 0;
-const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
+const Details = ({equipment, user, getOwner, getEquipment, editEquipment}: Iprops) => {
 
-    const {materialId} = useParams();
+    const [userDataVisible, setUserDataVisible] = useState(false)
+    const {materialId} = useParams(); // paramètre get
     const test: any = materialId;
-    if (i === 0) {
-        store.dispatch({type: 'GET_THAT_EQUIPMENT', value: test.toString()});
-        i += 1;
-    }
+
+    // Récupération des infos de l'équipement 1 fois
+    useEffect(() => {
+        console.log('RECUP EQUIPMENT')
+        getEquipment(test)
+    }, [])
+
+    // une fois l'équipement défini, je recherche les infos sur l'utilisateur
+    useEffect(() => {
+        if (equipment.length != 0) {
+            getOwner(equipment.userHandle)
+        }
+    }, [equipment])
+
+    //une fois que c'est bon j'affiche les infos de l'utilisateur
+    useEffect(() => {
+        if (user.length != 0) {
+            console.log('test', user)
+            setUserDataVisible(true)
+        }
+    }, [user])
+
 
     if (equipment.length != 0) {
-        equipment = equipment.getOneEquipment;
-
-        console.log(equipment.name.stringValue);
-        console.log(equipment.category.stringValue);
-        console.log(equipment.brand.stringValue);
-        console.log(equipment.description.stringValue);
-        console.log(equipment.name.stringValue);
 
         return (
             <div className={'contentDetails'}>
 
             <span className={'header'}>
                 <img
-                    src={'https://firebasestorage.googleapis.com/v0/b/projet-tutore-6833d.appspot.com/o/equipments%2F000000-default-placeholder.png?alt=media&token=b500524d-17e8-4ee1-ab7b-5bdcbfebe61b'}
+                    src={equipment.img}
                 />
                 <span className={'title'}>
                     <h1>
-                        {equipment.name.stringValue}
+                        {equipment.name}
                     </h1>
                     <h3>
-                        {equipment.userHandle.stringValue}
+                        {user.storeName}
                     </h3>
                 </span>
 
@@ -57,49 +65,69 @@ const Details = ({equipment, getEquipment, editEquipment}: Iprops) => {
                     <h2><b>Details sur l'équipement</b></h2>
                     <span className={'detailequipment'}>
                 <p>
-                    <b>Description : </b> {equipment.description.stringValue}
+                    <b>Description : </b> {equipment.description}
                 </p>
                 <p>
-                    <b>Marque : </b> {equipment.brand.stringValue}
+                    <b>Marque : </b> {equipment.brand}
                 </p>
                 <p>
-                    <b>Modele : </b> {equipment.modele.stringValue}
+                    <b>Modele : </b> {equipment.modele}
                 </p>
                 <p>
-                    <b>Année d'achat : </b> {equipment.buyingDate.stringValue}
+                    <b>Année d'achat : </b> {equipment.buyingDate}
                 </p>
                 <p>
-                    <b>Categorie : </b> {equipment.category.stringValue}
+                    <b>Categorie : </b> {equipment.category}
                 </p>
+
             </span>
-                    <h2><b>Details sur le vendeur</b></h2>
-                    <span className={'detailfournisseur'}>
+                    {userDataVisible ? <div>
+                        <h2><b>Details du Fournisseur</b></h2>
+                        <span className={'detailfournisseur'}>
                 <p>
-                    <b>Adresse : </b> l'adrasse
+                    <b>Adresse : </b> {user.adress}
                 </p>
                 <p>
-                    <b>blabla : </b> Le blabla
+                    <b>Ville : </b> {user.city}
                 </p>
                 <p>
-                    <b>blibli : </b> La Blibli
+                    <b>Code postal : </b> {user.postalCode}
                 </p>
+
             </span>
+                    </div> : null}
                 </div>
             </div>
 
         )
-    }else {
-        return (<> test </>)
+    } else {
+        return (
+            <>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+            </>
+        )
     }
 }
 
 
 const mapStateToProps = (state: any) => {
     return {
-        equipment: state.editMateriel.getOneEquipment
-    };
-};
+        equipment: state.editMateriel.getOneEquipment,
+        user: state.editMateriel.user
+    }
+}
 
-export default connect(
-    mapStateToProps
-)(Details)
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        // getEquipment: (test: string) => dispatch({type: 'GET_THAT_EQUIPMENT', id: test}),
+        getOwner: (ownerUid: string) => dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: ownerUid})
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details)

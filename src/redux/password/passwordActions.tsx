@@ -36,5 +36,4 @@ export const passwordChangeNeedAuthSuccess = () => {
     return {
         type: PASSWORD_CHANGE_NEED_RELOGIN_SUCCESS
     }
-
 }

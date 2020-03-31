@@ -4,13 +4,14 @@ import {
     SearchOutlined,
     CarryOutOutlined,
 } from '@ant-design/icons';
-import {Button, Popover, Form} from 'antd';
+import {Button, Popover, Form, Badge} from 'antd';
 import {DatePicker} from 'antd';
 import 'antd/dist/antd.css';
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
 import moment from 'moment';
 import './popup.css';
+import store from "../../redux/store";
 
 
 type CardProps = {
@@ -19,25 +20,25 @@ type CardProps = {
     id: number,
     status: string,
     tags: string,
-    category: string
+    category: string,
+    reservation: {dateDebut: string, dateFin:string, idUser: string}[],
 }
-const Card = ({img, name, status, id,tags, category}: CardProps) => {
+const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [statu, setStatu] = useState('Reserve');
-    const [imgSrc, setImg] = useState('https://firebasestorage.googleapis.com/v0/b/projet-tutore-6833d.appspot.com/o/equipments%2F000000-default-placeholder.png?alt=media&token=b500524d-17e8-4ee1-ab7b-5bdcbfebe61b');
-    const [statuColor, setStatuColor] = useState('orange');
+    const [imgSrc, setImg] = useState('');
+    const [statuColor, setStatuColor] = useState('warning');
 
     useEffect(() => {
         if (img !== 'null') {
-            setImg('gs://projet-tutore-6833d.appspot.com/equipments/'+img);
+            setImg(img);
         }
-
         if (status === '0') {
             setStatu('Disponible');
-            setStatuColor('green');
+            setStatuColor('success');
         } else if (status === '1') {
             setStatu('Reserve');
-            setStatuColor('orange');
+            setStatuColor('warning');
         }
     });
     const {RangePicker} = DatePicker;
@@ -51,13 +52,34 @@ const Card = ({img, name, status, id,tags, category}: CardProps) => {
     let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
 
     const disabledDate = (current: any) => {
-        let date: any[] = ['27/03/2020'];
-        return current && current < moment().endOf('day');
+        let dates: any[] = ['2020-04-05','2020-04-06','2020-04-07','2020-04-08' ];
+        return current < moment().subtract(7, "days") || current > moment().add(7, 'd')
     };
 
     const onFinish = (values: any) => {
-        console.log(values);
+        const dateDebut = new Date(values.range[0]._d);
+        console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
+        const dateFin = new Date(values.range[1]._d);
+        const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
+        const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
+        reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
+        //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
+           // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
+        store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
+
+        /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
+        const TestCalcul = testCalcul / (1000 * 3000 * 24);
+        console.log(Number((dateFin.getTime()/86400000)-(dateDebut.getTime()/86400000)).toFixed(0));
+        dateDebut.setTime(dateDebut.getTime()+ testCalcul);
+        console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());*/
+
     };
+
+        const Dispo = () => {
+            return(
+                <>test</>
+            )
+        }
 
 return (
     <div className={'card'} id={'test'}>
@@ -115,9 +137,7 @@ return (
 
                         </Popup>
                 </span>
-                <p>
-                    Disponibilité : <h4 className={statuColor}>{statu}</h4>
-                </p>
+            <Badge status={statuColor == 'warning' ? 'warning' : 'success' } text={statu} />
             </span>
 
     </div>

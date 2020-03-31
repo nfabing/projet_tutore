@@ -1,0 +1,28 @@
+.row-profil-banner {
+   background-color: lightblue;
+    padding-bottom: 10px;
+}
+
+.row-password {
+
+}
+
+.col-banner-avatar {
+    border-right: solid;
+    border-right-width: 2px;
+    border-right-color: black;
+}
+
+.col-banner-infos {
+    padding-left: 20px;
+}
+
+.divider-profil {
+    color: #404040;
+    font-weight: normal;
+}
+
+.info-element {
+    margin-bottom: 10px;
+    font-size: 18px;
+}

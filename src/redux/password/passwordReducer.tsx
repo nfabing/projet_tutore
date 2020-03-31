@@ -1,7 +1,8 @@
 import {
     PASSWORD_CHANGE_ERROR,
     PASSWORD_CHANGE_IN_PROGRESS,
-    PASSWORD_CHANGE_NEED_RELOGIN, PASSWORD_CHANGE_NEED_RELOGIN_SUCCESS,
+    PASSWORD_CHANGE_NEED_RELOGIN,
+    PASSWORD_CHANGE_NEED_RELOGIN_SUCCESS,
     PASSWORD_CHANGE_SUCCESS
 } from "./passwordTypes";
 
@@ -43,6 +44,7 @@ const passwordReducer = (state = initialState, action: any) => {
         case PASSWORD_CHANGE_NEED_RELOGIN_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 needRelogin: false
             }
 

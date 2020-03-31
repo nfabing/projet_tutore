@@ -25,10 +25,13 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
+    align-items: start;
 }
 .contentDetails .details .detailequipment{
     align-items: start;
+    text-align: start;
 }
 .contentDetails .details .detailfournisseur{
     align-items: start;
+    text-align: start;
 }

@@ -1,5 +1,5 @@
 // Actions creators
-import {LIST_EQUIPMENTS, LIST_LOAN, DISPLAY_LIST_EQUIPMENTS} from "./DashboardFournisseurType";
+import {LIST_EQUIPMENTS, LIST_LOAN, DISPLAY_LIST_EQUIPMENTS, LIST_BOOKED} from "./DashboardFournisseurType";
 
 export const listEquipments = (data: any) => {
     console.log('ACTIONS', data)
@@ -16,7 +16,15 @@ export const listLoan = (data: any) => {
     }
 }
 
+export const listBooked = (data: any) => {
+    return {
+        type: LIST_BOOKED,
+        listBooked: data
+    }
+}
+
 export const displayListEquipments = (data: any) => {
+    console.log(data);
     return {
         type: DISPLAY_LIST_EQUIPMENTS,
         listEquipments: data
