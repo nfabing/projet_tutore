@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {Modal} from "antd";
 import SignIn from "../../LoginScreen/SignIn/SignIn";
@@ -15,8 +15,6 @@ const LoginModal = ({error, loading, login, }: IrelogModal) => {
 
     const reLogin = (values: { email: string, password: string }) => {
         login(values)
-
-
     }
 
     return (
@@ -32,7 +30,6 @@ const LoginModal = ({error, loading, login, }: IrelogModal) => {
             <SignIn error={error} onFinish={reLogin} loading={loading}/>
         </Modal>
     )
-
 }
 
 

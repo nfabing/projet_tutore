@@ -10,6 +10,7 @@ import "./login.css"
 import SignIn from "../SignIn/SignIn";
 import SupplierForm from "../SupplierForm/SupplierForm";
 import SignUp from "../SignUp/SignUp";
+import LogoutButton from "../../Logout/LogoutButton";
 
 interface Iprops {
     loading: boolean;
@@ -22,11 +23,10 @@ interface Iprops {
     loginGithub: any;
     changeToSupplier: any;
     stayToUser: any
-    logout: any;
     children: any;
 }
 
-const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayToUser, loginEmail, signupEmail, loginGoogle, loginGithub, logout, children}: Iprops) => {
+const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayToUser, loginEmail, signupEmail, loginGoogle, loginGithub, children}: Iprops) => {
 
     const [mode, setMode] = useState('login')
 
@@ -151,7 +151,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
 
             {logged && !providerSignUp ?
                 <div>
-                    <Button onClick={logout}>LOGOUT</Button>
+                    <LogoutButton/>
                     {children}
                 </div> : null}
 
@@ -177,7 +177,6 @@ const mapDispatchToProps = (dispatch: any) => {
         loginGithub: () => dispatch({type: 'LOGIN_GITHUB'}),
         changeToSupplier: (values: any) => dispatch({type: 'CHANGE_USER_TO_SUPPLIER', data: values}),
         stayToUser: () => dispatch({type: 'LOGIN_PROVIDER_STAY_USER'}),
-        logout: () => dispatch({type: 'LOGOUT_REQUEST'}),
     }
 }
 

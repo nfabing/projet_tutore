@@ -1,5 +1,4 @@
 import {takeLatest, put, call, take, fork, select, all} from 'redux-saga/effects'
-import {eventChannel} from 'redux-saga'
 import {
     loginError,
     loginInProgress,
@@ -7,7 +6,7 @@ import {
     loginSuccess,
     logoutSuccess, reLoginSuccess,
 } from "../../redux/login/LoginActions";
-import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
+import {reduxSagaFirebase} from "../../redux/store";
 import firebase from "firebase";
 
 
@@ -157,11 +156,10 @@ function* emailLoginAsync(action: any) {
         yield call(reduxSagaFirebase.auth.signInWithEmailAndPassword, action.data.email, action.data.password)
         // successful login will trigger the watchUser, which will update the state
 
+        // if user already exist, it is a reloggin
         if (user) {
             yield put(reLoginSuccess())
         }
-
-
 
     } catch (error) {
         console.log('code : ', error.code)

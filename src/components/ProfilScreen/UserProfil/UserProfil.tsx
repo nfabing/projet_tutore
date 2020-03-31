@@ -35,6 +35,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
         setEdit('')
     }
 
+
     const beforeUpload = (file: any) => {
         // TODO: A AMELIORER
 
@@ -94,19 +95,19 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
 
                 <Row justify={'center'}>
                     <Col>
-                        <div className={'info-element'}>Nom d'utilisateur : {edit === 'displayName' ?
+                        <div className={'info-element'}><b>Nom d'utilisateur</b> : {edit === 'displayName' ?
                             <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                             onSubmit={formSubmitHandler} isRequired={true}/> :
                             <span>{userData.displayName} <EditOutlined onClick={() => showEditForm('displayName')}/>
                         </span>} </div>
 
-                        <div className={'info-element'}>Email : {edit === 'email' ?
+                        <div className={'info-element'}><b>Email</b> : {edit === 'email' ?
                             <FormEditProfil fieldName={'email'} fieldValue={userData[edit]}
-                                            onSubmit={formSubmitHandler} isRequired={true}/> :
+                                            onSubmit={formSubmitHandler}  isRequired={true}/> :
                             <span>{userData.email} <EditOutlined onClick={() => showEditForm('email')}/>
                             </span>} </div>
 
-                        <div className={'info-element'}>Téléphone : {edit === 'phoneNumber' ?
+                        <div className={'info-element'}><b>Téléphone</b> : {edit === 'phoneNumber' ?
                             <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                             onSubmit={formSubmitHandler}/> :
                             <span>{userData.phoneNumber} <EditOutlined onClick={() => showEditForm('phoneNumber')}/>
@@ -121,25 +122,25 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                 <Row justify={'center'}>
                     {userData.userType === 'supplier' ?
                         <Col>
-                            <div className={'info-element'}>Adresse : {edit === 'adress' ?
+                            <div className={'info-element'}><b>Adresse</b> : {edit === 'adress' ?
                                 <FormEditProfil fieldName={'adress'} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.adress} <EditOutlined onClick={() => showEditForm('adress')}/>
                             </span>} </div>
 
-                            <div className={'info-element'}>Ville : {edit === 'city' ?
+                            <div className={'info-element'}><b>Ville</b> : {edit === 'city' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.city} <EditOutlined onClick={() => showEditForm('city')}/>
                         </span>} </div>
 
-                            <div className={'info-element'}>Code postal : {edit === 'postalCode' ?
+                            <div className={'info-element'}><b>Code postal</b> : {edit === 'postalCode' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.postalCode} <EditOutlined onClick={() => showEditForm('postalCode')}/>
                         </span>} </div>
 
-                            <div className={'info-element'}>Nom boutique : {edit === 'storeName' ?
+                            <div className={'info-element'}><b>Nom boutique</b> : {edit === 'storeName' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.storeName} <EditOutlined onClick={() => showEditForm('storeName')}/>

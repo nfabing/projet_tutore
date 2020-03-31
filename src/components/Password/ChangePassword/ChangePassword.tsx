@@ -9,11 +9,11 @@ interface IPasswordChangeForm {
     loading: boolean;
     message: string;
     passwordChange: any;
-    needRelogin: boolean;
+    needReloginEmail: boolean;
     onCancel: any;
 }
 
-const ChangePassword = ({loading, message, passwordChange, needRelogin, onCancel}: IPasswordChangeForm) => {
+const ChangePassword = ({loading, message, passwordChange, needReloginEmail, onCancel}: IPasswordChangeForm) => {
 
     const handleForm = (values: any) => {
         console.log(values)
@@ -22,7 +22,7 @@ const ChangePassword = ({loading, message, passwordChange, needRelogin, onCancel
 
     return (
         <Row justify={'center'}>
-            {needRelogin ? <div><RelogModal/></div> : null}
+            {needReloginEmail ? <div><RelogModal/></div> : null}
             <Col>
                 <h3>Changement de mot de passe</h3>
                 <Form
@@ -71,7 +71,7 @@ const ChangePassword = ({loading, message, passwordChange, needRelogin, onCancel
 
                     <Form.Item>
                         <Button htmlType={'submit'} loading={loading}>Modifier le mot de passe</Button>
-                        <Button onClick={onCancel} danger>Annuler</Button>
+                        <Button onClick={onCancel} danger>Fermer</Button>
                     </Form.Item>
 
                 </Form>
@@ -84,7 +84,7 @@ const mapStateToProps = (state: any) => {
     return {
         loading: state.password.loading,
         message: state.password.message,
-        needRelogin: state.password.needRelogin,
+        needReloginEmail: state.checkLogin.needReloginEmail
     }
 }
 

@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga'
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {createLogger} from "redux-logger";
 import loginReducer from "./login/loginReducer";
+import CheckLoginReducer from "./checkLogin/CheckLoginReducer"
 import DashboardFournisseurReducer from "./dashboardFournisseur/DashboardFournisseurReducer";
 import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
 import { watchAddEquipment } from "../saga/ajoutMateriel/ajoutMaterielSaga";
@@ -22,6 +23,9 @@ import "@firebase/firestore";
 import firebaseConfig from "../config/config";
 import ReduxSagaFirebase from "redux-saga-firebase";
 import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
+import {watchRelogin} from "../saga/checkLogin/checkLoginSaga";
+import emailReducer from "./email/emailReducer";
+import {emailSaga} from "../saga/changeEmail/emailSaga";
 
 // init Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -43,6 +47,8 @@ const rootReducer = combineReducers({
     editMateriel: EditMaterielReducer,
     user: profilReducer,
     password: passwordReducer,
+    email: emailReducer,
+    checkLogin: CheckLoginReducer,
 })
 
 
@@ -55,7 +61,9 @@ const store = createStore(
 // run sagaMiddleware
 sagaMiddleware.run(watchLogin)
 sagaMiddleware.run(profilSaga)
+sagaMiddleware.run(watchRelogin)
 sagaMiddleware.run(passwordSaga)
+sagaMiddleware.run(emailSaga)
 sagaMiddleware.run(watchEquipments);
 sagaMiddleware.run(watchAddEquipment);
 sagaMiddleware.run(watchEditEquipment);

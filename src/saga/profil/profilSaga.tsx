@@ -1,9 +1,9 @@
-import {all, call, fork, put, select, takeLatest, take, cancel, delay} from "redux-saga/effects";
+import {all, call, put, select, takeLatest, take} from "redux-saga/effects";
 import {eventChannel} from 'redux-saga'
 import {reduxSagaFirebase} from "../../redux/store";
 import {firebaseApp} from '../../redux/store'
 import {syncProfil} from "../../redux/profil/profilActions";
-import {authReauthenticate} from "../changePassword/passwordSaga";
+import {reloginRequest} from "../../redux/checkLogin/CheckLoginActions";
 
 
 export function* profilSaga() {
@@ -41,9 +41,9 @@ function* editUserProfil(values: any) {
     const uid = yield select(state => state.login.user.uid)
     console.log('SAGA', values)
 
-    if ('displayName' in values.data) {
+    if ('displayName' in values.data) { // on met à jour le displayName dans User de firebase
         console.log('DISPLAY NAME')
-        try {
+       try {
             yield call(reduxSagaFirebase.auth.updateProfile, {
                 displayName: values.data.displayName,
             })
@@ -53,22 +53,22 @@ function* editUserProfil(values: any) {
         }
     }
 
-    if ('email' in values.data) {
+    if ('email' in values.data) { // on met à jour l'email dans User de firebase
         console.log('DISPLAY EMAIL')
         try {
             yield call(reduxSagaFirebase.auth.updateEmail, values.data.email )
 
         } catch (error) {
-
-            console.log('ERROR UPDATE PROFIL EMAIL')
+            if (error.code === 'auth/requires-recent-login') {
+                yield put(reloginRequest())
+            }
             console.log(error.code)
-            yield call(authReauthenticate)
+
         }
     }
 
     // @ts-ignore
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, values.data, {merge: true})
-
 
 }
 
@@ -83,8 +83,11 @@ function* uploadProfilPicture(file: any) {
     // récupération de l'url de la photo
     const url = yield call(reduxSagaFirebase.storage.getDownloadURL, `users/${uid}`)
 
-    // @ts-ignore
+
+    // MAJ de l'url dans le document
     yield call(reduxSagaFirebase.firestore.updateDocument, `users/${uid}`, 'photoURL', url)
+
+    // MAJ de l'url dans le profil User
     yield call(reduxSagaFirebase.auth.updateProfile, {photoURL: url})
 
 }
