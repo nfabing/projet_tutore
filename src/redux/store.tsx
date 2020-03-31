@@ -8,11 +8,14 @@ import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
 import { watchAddEquipment } from "../saga/ajoutMateriel/ajoutMaterielSaga";
 import { watchEditEquipment } from "../saga/editMateriel/editMaterielSaga";
 import { watchEquipments } from "../saga/dashboardFournisseur/getMaterielSaga";
+import { watchConfirm } from "../saga/confirmReservation/confirmReservationSaga";
 import profilReducer from "./profil/profilReducer";
 import passwordReducer from "./password/passwordReducer";
 import {profilSaga} from "../saga/profil/profilSaga"
 import {passwordSaga} from "../saga/changePassword/passwordSaga"
 import {watchLogin} from "../saga/login/loginSaga";
+import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
+import confirmReservationReducer from "./confirmReservation/ConfirmReservationReducer";
 
 //TODO: TRIER CE BORDEL
 
@@ -21,7 +24,6 @@ import firebase from "firebase";
 import "@firebase/firestore";
 import firebaseConfig from "../config/config";
 import ReduxSagaFirebase from "redux-saga-firebase";
-import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
 
 // init Firebase
 export const firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -43,6 +45,7 @@ const rootReducer = combineReducers({
     editMateriel: EditMaterielReducer,
     user: profilReducer,
     password: passwordReducer,
+    confirmReservation: confirmReservationReducer
 })
 
 
@@ -59,5 +62,6 @@ sagaMiddleware.run(passwordSaga)
 sagaMiddleware.run(watchEquipments);
 sagaMiddleware.run(watchAddEquipment);
 sagaMiddleware.run(watchEditEquipment);
+sagaMiddleware.run(watchConfirm);
 
 export default store;

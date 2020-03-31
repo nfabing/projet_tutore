@@ -146,12 +146,6 @@ function* getBookedEquipments(userID: any) {
         querySnapshot.forEach(function(doc) {
           let objID = { id: doc.id };
           let finalObj = Object.assign(objID, doc.data());
-          db.collection("user").where("useruid", "==", doc.data().reservation[1].idUser)
-          .onSnapshot(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-              console.log(doc);
-            })
-          })
           equip.push(finalObj);
         });
         return store.dispatch(displayListEquipments(equip));
@@ -161,18 +155,6 @@ function* getBookedEquipments(userID: any) {
   }
 }
 
-function* getUserForReserve(userID: any) {
-  const db = firebase.firestore();
-  yield db.collection("users")
-    .where("useruid", "==", userID)
-    .onSnapshot(function(querySnapshot) {
-      var user: Array<any> = [];
-      querySnapshot.forEach(function(doc) {
-        user.push(doc);
-      });
-      console.log(user);
-    });
-}
 
 export function* watchEquipments() {
   yield takeLatest("GET_EQUIPMENTS", getEquipments);
