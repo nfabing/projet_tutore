@@ -21,7 +21,7 @@ type CardProps = {
     status: string,
     tags: string,
     category: string,
-    reservation: {dateDebut: string, dateFin:string, idUser: string}[],
+    reservation: {dateDebut: string, dateFin:string, idUser: string,}[],
 }
 
 const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
@@ -81,7 +81,7 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
         reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
         //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
            // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
-        store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
+        store.dispatch({type: "ADD_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
         setVisible(false);
 
 
@@ -116,7 +116,7 @@ return (
             </span>
         <span className={'bottom'}>
                 <span className={'btn'}>
-                    <a href={`/Details/${id}`}> <SearchOutlined style={{fontSize: '30px'}}/></a>
+                    <Link to={`/Details/${id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
 
                     <a href={'#'} onClick={showModal}>
                         <CarryOutOutlined style={{fontSize: '30px'}}/>

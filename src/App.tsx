@@ -14,6 +14,7 @@ import EditMateriel from './components/EditMateriel';
 import {Route, BrowserRouter as Router, Switch, Link} from "react-router-dom";
 import Search from "./components/Search/SearchPage";
 import {Layout, Menu} from 'antd';
+import Reservation from "./components/Reservation/ReservationUser";
 
 
 const {Header, Content, Footer} = Layout;
@@ -23,11 +24,10 @@ function App() {
         <div className="App">
             <Router>
                 <Layout>
-                    <Header style={{position: 'fixed', zIndex: 1, width: '100%'}}>
+                    <Header style={{position: 'fixed', zIndex: 1, width: '100%',alignItems: 'left',textAlign: 'left'}} >
                         <Menu
                             theme={'dark'}
                             mode={'horizontal'}
-                            defaultSelectedKeys={['1']}
                         >
 
                             <Menu.Item key={'1'}><Link to={'/'}>Search</Link></Menu.Item>
@@ -37,13 +37,14 @@ function App() {
                             <Menu.Item key={'4'}><Link to={'/EditMateriel'}>EditMateriel</Link></Menu.Item>
                             <Menu.Item key={'5'}><Link to={'/AjoutMateriel'}>AjoutMateriel</Link></Menu.Item>
                             <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
+                            <Menu.Item key={'7'}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
                         </Menu>
                     </Header>
                     {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
 
                     <Content className={'site-layout'}
-                             style={{padding: '0 20px', marginTop: 64}}>
+                             style={{padding: '0 50px', marginTop: 64}}>
 
                         <div className={'site-layout-background'}
                              style={{padding: 24, minHeight: '90vh'}}>
@@ -55,6 +56,7 @@ function App() {
                                 <Route path="/EditMateriel" component={EditMateriel}/>
                                 <Route path="/AjoutMateriel" component={AjoutMateriel}/>
                                 <Route path="/ListReserve" component={listReserve}/>
+                                <Route path="/Reservation" component={Reservation}/>
                             </Switch>
                         </div>
 
