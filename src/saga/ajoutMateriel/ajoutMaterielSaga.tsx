@@ -10,8 +10,7 @@ import "firebase/firestore";
 import firebase, { firestore } from "firebase";
 import { categories,oneCategories, categoriesForFournisseur } from "../../redux/ajoutMateriel/AjoutMeterielAction";
 
-function* addEquipmentSaga() {
-  const data = yield take("ADD_EQUIPMENT");
+function* addEquipmentSaga(data: any) {
   const date = data.values.equipment.buyingDate.format("YYYY");
   const nameFile = Date.now();
   let equipementPhoto = '';
@@ -23,7 +22,7 @@ function* addEquipmentSaga() {
   const doc = yield call(reduxSagaFirebase.firestore.addDocument, "equipment", {
     name: data.values.equipment.name,
     status: data.values.equipment.status,
-    userHandle: "Nicolas",
+    userHandle: data.user,
     description: data.values.equipment.description,
     buyingDate: date,
     category: data.values.equipment.category,
