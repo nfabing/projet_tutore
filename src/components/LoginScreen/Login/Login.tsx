@@ -39,6 +39,7 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
     }, [providerSignUp])
 
     const onFinishSignup = (values: any) => {
+        console.log(values)
         signupEmail(values)
     }
 
