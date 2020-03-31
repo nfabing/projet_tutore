@@ -2,11 +2,16 @@ import React, {useEffect, useState} from 'react'
 import {useParams} from "react-router-dom"
 import {connect} from "react-redux";
 import './DetailsPage.css';
-import {Skeleton} from "antd";
-
+import {Button, Form, Modal, Skeleton, DatePicker} from "antd";
+import {
+    CarryOutOutlined,
+} from '@ant-design/icons';
 import './card.css'
-import {categories} from "../../redux/ajoutMateriel/AjoutMeterielAction"; // css
+import {categories} from "../../redux/ajoutMateriel/AjoutMeterielAction";
+import moment from "moment";
+import store from "../../redux/store"; // css
 
+const {RangePicker} = DatePicker;
 interface Iprops {
     equipment: any;
     getEquipment: any;
@@ -18,7 +23,7 @@ interface Iprops {
 }
 
 const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categories, getOneCategories}: Iprops) => {
-
+    const [visible, setVisible] = useState(false);
     const [userDataVisible, setUserDataVisible] = useState(false)
     const [categorieName, setCategorieName] = useState('')
     const {materialId} = useParams(); // paramètre get
@@ -44,6 +49,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
             console.log('test', user)
             setUserDataVisible(true)
         }
+        else console.log('USEEEER', user)
     }, [user])
 
     useEffect(() => {
@@ -52,11 +58,108 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
         }
     }, [categories])
 
+    const showModal = () => {
+        setVisible(true)
+    };
+
+    const handleOk = (e: any) => {
+        console.log(e);
+        setVisible(false)
+    };
+
+    const handleCancel = (e: any) => {
+        console.log(e);
+        setVisible(false)
+    };
+
+    const dateFormat = 'DD/MM/YYYY';
+    let date = new Date();
+    let date1sem = new Date();
+    date1sem.setDate(date.getDate() + 7);
+    let dateNow = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
+
+    const disabledDate = (current: any) => {
+        let dates: any[] = ['2020-04-05','2020-04-06','2020-04-07','2020-04-08' ];
+        return current < moment().subtract(7, "days") || current > moment().add(7, 'd')
+    };
+
 
     if (equipment.length != 0) {
+        const onFinish = (values: any) => {
+            const dateDebut = new Date(values.range[0]._d);
+            console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
+            const dateFin = new Date(values.range[1]._d);
+            const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
+            const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
+            equipment.reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
+            //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
+            // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
+            store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: equipment.id,reservation: equipment.reservation});
+            setVisible(false);
 
+
+
+            /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
+            const TestCalcul = testCalcul / (1000 * 3000 * 24);
+            console.log(Number((dateFin.getTime()/86400000)-(dateDebut.getTime()/86400000)).toFixed(0));
+            dateDebut.setTime(dateDebut.getTime()+ testCalcul);
+            console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());*/
+
+        };
         return (
-            <div className={'contentDetails'}>
+            <span className={'contentDetails'}>
+            <span className={'reservation'}>
+                <Button style={{height: '50px'}} color={'primary'} onClick={showModal}>
+                    <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
+                </Button>
+
+                <Modal
+                    title="Basic Modal"
+                    visible={visible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    footer={[
+                        <Button key="back" onClick={handleCancel}>
+                            Retour
+                        </Button>,
+                    ]}
+                >
+                            <span className={'contentPopup'}>
+                            <h1>Réservation</h1>
+                              <Form
+                                  name="form"
+                                  onFinish={onFinish}
+                              >
+                                <span className={'rangePicker'}>
+                                    <h3>Date de réservation :</h3><br/>
+                                    <Form.Item
+                                        name="range"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Indiquez vos dates de réservation !',
+                                            },
+                                        ]}
+                                    >
+                                    <RangePicker
+                                        disabledDate={disabledDate}
+                                        defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
+                                        format={dateFormat}
+                                    />
+                                    </Form.Item>
+                                </span>
+                                  <Form.Item>
+                                        <Button type="primary" htmlType="submit">
+                                                Confirmer la réservation
+                                         </Button>
+                                  </Form.Item>
+                              </Form>
+
+                            </span>
+
+                </Modal>
+            </span>
 
             <span className={'header'}>
                 <img
@@ -108,7 +211,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
             </span>
                     </div> : null}
                 </div>
-            </div>
+            </span>
 
         )
     } else {

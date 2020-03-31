@@ -5,7 +5,7 @@ import {
     CarryOutOutlined,
 } from '@ant-design/icons';
 import {Button, Popover, Form, Badge} from 'antd';
-import {DatePicker} from 'antd';
+import {DatePicker, Modal} from 'antd';
 import 'antd/dist/antd.css';
 import Popup from "reactjs-popup";
 import {Link} from "react-router-dom";
@@ -26,6 +26,7 @@ type CardProps = {
 
 const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [statu, setStatu] = useState('Reserve');
     const [imgSrc, setImg] = useState('');
     const [statuColor, setStatuColor] = useState('warning');
@@ -45,6 +46,19 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
 
   const {RangePicker} = DatePicker;
 
+    const showModal = () => {
+        setVisible(true)
+    };
+
+    const handleOk = (e: any) => {
+        console.log(e);
+        setVisible(false)
+    };
+
+    const handleCancel = (e: any) => {
+        console.log(e);
+        setVisible(false)
+    };
 
     const dateFormat = 'DD/MM/YYYY';
     let date = new Date();
@@ -68,6 +82,9 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
         //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
            // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
         store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
+        setVisible(false);
+
+
 
         /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
         const TestCalcul = testCalcul / (1000 * 3000 * 24);
@@ -101,9 +118,21 @@ return (
                 <span className={'btn'}>
                     <a href={`/Details/${id}`}> <SearchOutlined style={{fontSize: '30px'}}/></a>
 
-                        <Popup trigger={<CarryOutOutlined style={{fontSize: '30px'}}/>}
-                               modal
-                        >
+                    <a href={'#'} onClick={showModal}>
+                        <CarryOutOutlined style={{fontSize: '30px'}}/>
+                    </a>
+
+                            <Modal
+                                title="Basic Modal"
+                                visible={visible}
+                                onOk={handleOk}
+                                onCancel={handleCancel}
+                                footer={[
+                                    <Button key="back" onClick={handleCancel}>
+                                        Retour
+                                    </Button>,
+                                ]}
+                            >
                             <span className={'contentPopup'}>
                             <h1>Réservation</h1>
                               <Form
@@ -137,7 +166,7 @@ return (
 
                             </span>
 
-                        </Popup>
+                            </Modal>
                 </span>
             <Badge status={statuColor == 'warning' ? 'warning' : 'success' } text={statu} />
             </span>

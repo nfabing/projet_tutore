@@ -35,3 +35,7 @@
     align-items: start;
     text-align: start;
 }
+.contentDetails .reservation{
+    align-items: end;
+    text-align: end;
+}
