@@ -21,6 +21,9 @@ export const loginError = (error: string) => {
     if (error === 'auth/wrong-password') {
         errorMessage = 'Mot de passe incorrect !'
     }
+    if (error === 'auth/account-exists-with-different-credential') {
+        errorMessage = 'L\'email liée a ce compte est déja utilisé !'
+    }
 
     return {
         type: LOGIN_ERROR,

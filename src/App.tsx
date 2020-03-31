@@ -30,8 +30,8 @@ function App() {
                             mode={'horizontal'}
                         >
 
-                            <Menu.Item key={'1'}><Link to={'/'}>Search</Link></Menu.Item>
-                            <Menu.Item key={'2'}><Link to={'/Login'}>Login</Link></Menu.Item>
+                            <Menu.Item key={'1'}><Link to={'/'}>Recherche</Link></Menu.Item>
+                            <Menu.Item key={'2'}><Link to={'/Login'}>Connexion</Link></Menu.Item>
                             <Menu.Item key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard
                                 Fournisseur</Link></Menu.Item>
                             <Menu.Item key={'4'}><Link to={'/EditMateriel'}>EditMateriel</Link></Menu.Item>

@@ -9,11 +9,13 @@ import AjoutMaterielReducer from ".//ajoutMateriel/AjoutMaterielReducer";
 import { watchAddEquipment } from "../saga/ajoutMateriel/ajoutMaterielSaga";
 import { watchEditEquipment } from "../saga/editMateriel/editMaterielSaga";
 import { watchEquipments } from "../saga/dashboardFournisseur/getMaterielSaga";
+import { watchConfirm } from "../saga/confirmReservation/confirmReservationSaga";
 import profilReducer from "./profil/profilReducer";
 import passwordReducer from "./password/passwordReducer";
 import {profilSaga} from "../saga/profil/profilSaga"
 import {passwordSaga} from "../saga/changePassword/passwordSaga"
 import {watchLogin} from "../saga/login/loginSaga";
+import confirmReservationReducer from "./confirmReservation/ConfirmReservationReducer";
 import { watchReserve } from "../saga/listReserveSaga/listReserveSaga";
 import listReserveReducer from "./listReserve/listReserveReducer";
 
@@ -52,6 +54,7 @@ const rootReducer = combineReducers({
     email: emailReducer,
     checkLogin: CheckLoginReducer,
     listReserve: listReserveReducer,
+    confirmReservation: confirmReservationReducer
 })
 
 
@@ -71,5 +74,6 @@ sagaMiddleware.run(watchEquipments);
 sagaMiddleware.run(watchAddEquipment);
 sagaMiddleware.run(watchEditEquipment);
 sagaMiddleware.run(watchReserve);
+sagaMiddleware.run(watchConfirm);
 
 export default store;

@@ -8,7 +8,7 @@ import {
 import store, { reduxSagaFirebase } from "../../redux/store";
 import "firebase/firestore";
 import firebase, { firestore } from "firebase";
-import { categories,oneCategories } from "../../redux/ajoutMateriel/AjoutMeterielAction";
+import { categories,oneCategories, categoriesForFournisseur } from "../../redux/ajoutMateriel/AjoutMeterielAction";
 
 function* addEquipmentSaga() {
   const data = yield take("ADD_EQUIPMENT");
@@ -52,6 +52,24 @@ function* getCategories() {
   }
 }
 
+function* getCategoriesFromFournisseur() {
+  const db = firebase.firestore();
+
+  try {
+    yield db.collection("categories").onSnapshot(function(querySnapshot) {
+      var cat: Array<any> = [];
+      querySnapshot.forEach(function(doc) {
+        let objID = { id: doc.id };
+        let finalObj = Object.assign(objID, doc.data());
+        cat.push(finalObj);
+      })
+      return store.dispatch(categoriesForFournisseur(cat));
+    })
+  }catch{
+
+  }
+}
+
 function* getOneCategories(values: any) {
   const db = firebase.firestore();
   const categorieId = values.id;
@@ -69,12 +87,13 @@ function* getOneCategories(values: any) {
 
 function* unSetCategorie() {
   const data: Array<any> = [];
-  yield put(categories(data))
+  yield put(categoriesForFournisseur(data))
 }
 
 export function* watchAddEquipment() {
   yield takeEvery("ADD_EQUIPMENT", addEquipmentSaga);
   yield takeLatest("GET_CATEGORIES", getCategories);
+  yield takeLatest("GET_CATEGORIES_FORM_FOURNISSEUR", getCategoriesFromFournisseur);
   yield takeLatest("GET_ONE_CATEGORIES", getOneCategories);
   yield takeLatest("UNSET_CATEGORIES", unSetCategorie);
 }

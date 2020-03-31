@@ -21,6 +21,7 @@ interface Iprops {
   equipments: any;
   getEquipments: any;
   listLoan: any;
+  listBooked: any;
   listEquipments: any;
   user: any;
 }
@@ -30,6 +31,7 @@ interface Iprops {
 const DashboardFournisseur = ({
   equipments,
   listLoan,
+  listBooked,
   listEquipments,
   user
 }: Iprops) => {
@@ -37,11 +39,15 @@ const DashboardFournisseur = ({
   if (user.userType === "supplier") {
     
     if (equipments.length != 0) {
+      console.log(equipments);
       const displayAllEquipments = () => {
         store.dispatch({ type: "GET_ALL_EQUIPMENTS", value: user.useruid });
       };
       const displayLoanEquipments = () => {
         store.dispatch({ type: "GET_LOAN_EQUIPMENTS", value: user.useruid });
+      };
+      const displayBookedEquipment = () => {
+        store.dispatch({ type: "GET_BOOKED_EQUIPMENTS", value: user.useruid });
       };
       return (
         <div>
@@ -49,16 +55,16 @@ const DashboardFournisseur = ({
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
               <Col span={5} offset={2} onClick={displayAllEquipments}>
-                <CardTotal total={equipments.equipments} />
+                <CardTotal total={equipments.equipmentsForFournisseur} />
               </Col>
               <Col span={5} onClick={displayLoanEquipments}>
                 <CardLoan loan={listLoan} />
               </Col>
               <Col span={5}>
-                <CardOverdue overdue={11} />
+                <CardOverdue overdue={111} />
               </Col>
-              <Col span={5}>
-                <CardBooked booked={123} />
+              <Col span={5} onClick={displayBookedEquipment}>
+                <CardBooked booked={listBooked} />
               </Col>
             </Row>
           </div>
@@ -76,9 +82,11 @@ const DashboardFournisseur = ({
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
-    equipments: state.dashboardFournisseur.equipments,
+    equipments: state.dashboardFournisseur.equipmentsForFournisseur,
     listLoan: state.dashboardFournisseur.listLoan,
+    listBooked: state.dashboardFournisseur.listBooked,
     listEquipments: state.dashboardFournisseur.listEquipments,
     user: state.user.profil
   };

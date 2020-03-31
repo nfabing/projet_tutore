@@ -39,6 +39,7 @@ const loginReducer = (state = initialState, action: any) => {
         case LOGOUT_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 logged: false,
                 user: [],
             }
