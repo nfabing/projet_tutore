@@ -8,8 +8,9 @@ const initialState = {
 };
 
 const EditMaterielReducer = (state = initialState, action: any) => {
+  
   switch (action.type) {
-    case GET_ONE_EQUIPMENT:
+    case GET_ONE_EQUIPMENT:console.log(action);
       return {
         ...state,
         getOneEquipment: action.equipment,

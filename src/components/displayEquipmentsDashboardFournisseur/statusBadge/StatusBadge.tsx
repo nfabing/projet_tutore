@@ -10,7 +10,9 @@ export const StatusBadge = (props: any) => {
     return <div><Badge status="processing" text="En pret" /></div>;
   }else if (status === "2"){
     return <div><Badge status="warning" text="Réservé" /></div>;
-  }else{
+  }else if (status === "3"){
     return <div><Badge status="error" text="Perdu/Détérioré" /></div>;
+  }else{
+    return <div><Badge status="default" text="En attente de validation" /></div>;
   }
 };

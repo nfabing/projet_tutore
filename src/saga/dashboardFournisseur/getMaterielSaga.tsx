@@ -37,6 +37,22 @@ function* getEquipments(userID: any) {
         });
         return store.dispatch(listLoan(loan));
       });
+
+    //RECUPERE LES EQUIPMENT EN ATTENTE DE VALIDATION DE PRET
+    yield db
+      .collection("equipment")
+      .where("userHandle", "==", userID.value)
+      .where("status", "==", "4")
+      .onSnapshot(function(querySnapshot) {
+        var booked: Array<any> = [];
+        querySnapshot.forEach(function(doc) {
+          let objID = { id: doc.id };
+          let finalObj = Object.assign(objID, doc.data());
+          booked.push(finalObj);
+        });
+        console.log(booked);
+        return store.dispatch(listBooked(booked));
+      });
   } catch (error) {
     console.log(error);
   }
@@ -111,9 +127,32 @@ function* getLoanEquipments(userID: any) {
   }
 }
 
+function* getBookedEquipments(userID: any) {
+  const db = firebase.firestore();
+  try {
+    yield db
+      .collection("equipment")
+      .where("status", "==", "4")
+      .where("userHandle", "==", userID.value)
+      .onSnapshot(function(querySnapshot) {
+        var equip: Array<any> = [];
+        querySnapshot.forEach(function(doc) {
+          let objID = { id: doc.id };
+          let finalObj = Object.assign(objID, doc.data());
+          equip.push(finalObj);
+        });
+        return store.dispatch(displayListEquipments(equip));
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 export function* watchEquipments() {
   yield takeEvery("GET_EQUIPMENTS", getEquipments);
   yield takeLatest("GET_ALL_EQUIPMENTS", getAllEquipments);
   yield takeLatest("GET_ALL_EQUIPMENTS_SEARCH", getAllEquipmentsForSearch);
   yield takeLatest("GET_LOAN_EQUIPMENTS", getLoanEquipments);
+  yield takeLatest("GET_BOOKED_EQUIPMENTS", getBookedEquipments);
 }

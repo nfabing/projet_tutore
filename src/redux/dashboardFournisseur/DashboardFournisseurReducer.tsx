@@ -1,13 +1,14 @@
 import {
   LIST_EQUIPMENTS,
   LIST_LOAN,
-  DISPLAY_LIST_EQUIPMENTS
+  DISPLAY_LIST_EQUIPMENTS,
+  LIST_BOOKED
 } from "./DashboardFournisseurType";
 
 const initialState = {
   equipments: [],
   listLoan: [],
-  listEquipments: [],
+  listEquipments: []
 };
 
 const listEquipmentReducer = (state = initialState, action: any) => {
@@ -21,6 +22,11 @@ const listEquipmentReducer = (state = initialState, action: any) => {
       return {
         ...state,
         listLoan: action
+      };
+    case LIST_BOOKED:
+      return {
+        ...state,
+        listBooked: action
       };
     case DISPLAY_LIST_EQUIPMENTS:
       return {
