@@ -13,11 +13,11 @@ const listReservec = (listReserve:any) => {
         <div>
           <div className="site-card-wrapper">
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {listReserve.listReserve.listReserve.equipments.map((data:any) => {
+              {listReserve === undefined ? listReserve.listReserve.listReserve.equipments.map((data:any) => {
               return ( <Col className="gutter-row" span={50}>
               <CardReserve  key={data.id} equipo={data}/>
               </Col>);
-              })}
+              }) : 'LISTE D`EQUIPMENT VIDE'}
             </Row>
           </div>
         </div>
