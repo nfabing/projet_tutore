@@ -6,6 +6,7 @@ import {Input} from 'antd';
 import Details from "./components/Search/DetailsPage";
 
 // components
+import listReserve from "./components/listReserve/listReserve";
 import LoginContainer from "./components/LoginScreen/LoginContainer";
 import DashboardFournisseur from './components/DashboardFournisseur';
 import AjoutMateriel from './components/AjoutMateriel';
@@ -35,6 +36,7 @@ function App() {
                                 Fournisseur</Link></Menu.Item>
                             <Menu.Item key={'4'}><Link to={'/EditMateriel'}>EditMateriel</Link></Menu.Item>
                             <Menu.Item key={'5'}><Link to={'/AjoutMateriel'}>AjoutMateriel</Link></Menu.Item>
+                            <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
                         </Menu>
                     </Header>
                     {/* A <Switch> looks through its children <Route>s and
@@ -52,6 +54,7 @@ function App() {
                                 <Route path="/DashboardFournisseur" component={DashboardFournisseur}/>
                                 <Route path="/EditMateriel" component={EditMateriel}/>
                                 <Route path="/AjoutMateriel" component={AjoutMateriel}/>
+                                <Route path="/ListReserve" component={listReserve}/>
                             </Switch>
                         </div>
 
