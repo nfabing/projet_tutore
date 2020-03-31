@@ -41,7 +41,7 @@ function App() {
             renders the first one that matches the current URL. */}
 
                     <Content className={'site-layout'}
-                             style={{padding: '0 50px', marginTop: 64}}>
+                             style={{padding: '0 20px', marginTop: 64}}>
 
                         <div className={'site-layout-background'}
                              style={{padding: 24, minHeight: '90vh'}}>

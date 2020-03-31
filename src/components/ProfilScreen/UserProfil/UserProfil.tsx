@@ -161,16 +161,17 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
 
                 <Row className={'row-password'} justify={'center'}>
                     <Col>
+
                         <div>
                             {editPassword ? <ChangePassword onCancel={handleChangePasswordCancel}/>
                                 : <Button onClick={() => setEditPassword(true)}>Modifier mot de passe</Button>}
                         </div>
-                        <div>
-                            <Upload beforeUpload={beforeUpload} showUploadList={false} onChange={uploadImage}>
+
+                        <div style={{marginTop: '20px'}}>
+                            <Upload  beforeUpload={beforeUpload} showUploadList={false} onChange={uploadImage}>
                                 <Button loading={loading} disabled={loading}
                                         icon={<UploadOutlined/>}>Changer photo de profil </Button></Upload>
                         </div>
-
 
                     </Col>
                 </Row>
