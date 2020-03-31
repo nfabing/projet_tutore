@@ -18,7 +18,8 @@ import {watchLogin} from "../saga/login/loginSaga";
 import confirmReservationReducer from "./confirmReservation/ConfirmReservationReducer";
 import { watchReserve } from "../saga/listReserveSaga/listReserveSaga";
 import listReserveReducer from "./listReserve/listReserveReducer";
-
+import {ReservationReducer} from './Reservation/ReservationReducer';
+import {watchReservation} from '../saga/Reservation/ReservationSaga';
 //TODO: TRIER CE BORDEL
 
 // Firebase imports
@@ -54,7 +55,8 @@ const rootReducer = combineReducers({
     email: emailReducer,
     checkLogin: CheckLoginReducer,
     listReserve: listReserveReducer,
-    confirmReservation: confirmReservationReducer
+    confirmReservation: confirmReservationReducer,
+    reservation: ReservationReducer,
 })
 
 
@@ -75,5 +77,6 @@ sagaMiddleware.run(watchAddEquipment);
 sagaMiddleware.run(watchEditEquipment);
 sagaMiddleware.run(watchReserve);
 sagaMiddleware.run(watchConfirm);
+sagaMiddleware.run(watchReservation);
 
 export default store;

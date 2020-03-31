@@ -171,6 +171,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                             return <Option value={cat.id}>{cat.name}</Option>;
                         })}
                       </Select>
+                    <Button onClick={() => store.dispatch({type: 'ADD_RESERVATION'})}> TEST</Button>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (
