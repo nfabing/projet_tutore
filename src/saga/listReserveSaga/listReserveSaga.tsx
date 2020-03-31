@@ -12,10 +12,10 @@ import { listReserve } from '../../redux/listReserve/listReserveAction';
 function* getListReserve() {
     const db = firebase.firestore();
     try {
-    yield db
-      .collection("equipment")
-      .where("status", "==", "1")
-      .onSnapshot(function(querySnapshot) {
+      yield db
+        .collection("equipment")
+        .where("status", "==", "1")
+        .onSnapshot(function(querySnapshot) {
         var Reserve: Array<any> = [];
         querySnapshot.forEach(function(doc) {
           let objID = { id: doc.id };
@@ -23,13 +23,21 @@ function* getListReserve() {
           Reserve.push(finalObj);
         });
         return store.dispatch(listReserve(Reserve));
-      });
-  } catch (error) {
+        });
+    } catch (error) {
     console.log(error);
-  }
-      };
-
-      export function* watchReserve() {
-        yield takeEvery("GET_RESERVE", getListReserve);
-      
       }
+};
+
+function* annuleReserve(id:any){
+console.log(id.id);
+yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+id.id, {
+  status: 0,
+});
+
+};
+
+  export function* watchReserve() {
+    yield takeEvery("GET_RESERVE", getListReserve);
+    yield takeEvery("DEL_RESERVE", annuleReserve);
+  }
