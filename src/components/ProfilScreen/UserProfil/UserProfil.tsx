@@ -162,7 +162,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                         </div>
 
                         <div style={{marginTop: '20px'}}>
-                            <Upload showUploadList={false} onChange={uploadImage} >
+                            <Upload showUploadList={false} onChange={uploadImage} accept={'image/png, image/jpeg'} >
                                 <Button loading={loading} disabled={loading}
                                         icon={<UploadOutlined/>}>Changer photo de profil </Button></Upload>
                         </div>
