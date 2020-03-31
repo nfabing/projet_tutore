@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {useParams} from "react-router-dom"
 import {connect} from "react-redux";
 import './DetailsPage.css';
-import {Button, Form, Modal, Skeleton, DatePicker} from "antd";
+import {Button, Form, Modal, Skeleton, DatePicker, Divider} from "antd";
 import {
     CarryOutOutlined,
 } from '@ant-design/icons';
@@ -176,7 +176,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
 
             </span>
                 <div className={'details'}>
-                    <h2><b>Details sur l'équipement</b></h2>
+                    <Divider orientation={'left'} ><h2><b>Details sur l'équipement</b></h2></Divider>
                     <span className={'detailequipment'}>
                 <p>
                     <b>Description : </b> {equipment.description}
@@ -196,7 +196,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
 
             </span>
                     {userDataVisible ? <div>
-                        <h2><b>Details du Fournisseur</b></h2>
+                        <Divider orientation={'left'}><h2><b>Details du Fournisseur</b></h2></Divider>
                         <span className={'detailfournisseur'}>
                 <p>
                     <b>Adresse : </b> {user.adress}
