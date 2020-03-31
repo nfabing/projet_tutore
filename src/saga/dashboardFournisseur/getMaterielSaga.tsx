@@ -3,9 +3,10 @@ import store, { reduxSagaFirebase } from "../../redux/store";
 import firebase, { firestore } from "firebase";
 import "firebase/firestore";
 import {
-  listEquipments,
-  listLoan,
-  displayListEquipments
+    listEquipments,
+    listLoan,
+    displayListEquipments,
+    listBooked
 } from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 import { eventChannel, buffers } from "redux-saga";
 import { emit } from "cluster";

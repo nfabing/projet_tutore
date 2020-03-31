@@ -1,4 +1,4 @@
-import { takeLatest, fork, put } from "redux-saga/effects";
+import { takeLatest, fork, put, call } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
 import firebase, { firestore } from "firebase";
 import "firebase/firestore";
