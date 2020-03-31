@@ -3,9 +3,11 @@ import store, { reduxSagaFirebase } from "../../redux/store";
 import firebase, { firestore } from "firebase";
 import "firebase/firestore";
 import {
-  listEquipments,
-  listLoan,
-  displayListEquipments
+    listEquipments,
+    listLoan,
+    displayListEquipments,
+    listBooked,
+    listEquipmentsForFournisseur
 } from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 import { eventChannel, buffers } from "redux-saga";
 import { emit } from "cluster";
@@ -22,7 +24,7 @@ function* getEquipments(userID: any) {
         let finalObj = Object.assign(objID, doc.data());
         equip.push(finalObj);
       });
-      return store.dispatch(listEquipments(equip));
+      return store.dispatch(listEquipmentsForFournisseur(equip));
     });
 
     yield db

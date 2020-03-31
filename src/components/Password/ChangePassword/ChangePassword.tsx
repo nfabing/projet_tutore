@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {LockOutlined} from "@ant-design/icons"
 import {Button, Form, Input, Row, Col} from "antd";
 import RelogModal from "../RelogModal/RelogModal";
+import './changePassword.css'
 
 
 interface IPasswordChangeForm {
@@ -21,7 +22,7 @@ const ChangePassword = ({loading, message, passwordChange, needReloginEmail, onC
     }
 
     return (
-        <Row justify={'center'}>
+        <Row justify={'center'} className={'row-passwordChange'}>
             {needReloginEmail ? <div><RelogModal/></div> : null}
             <Col>
                 <h3>Changement de mot de passe</h3>

@@ -1,9 +1,10 @@
-import {ADD_EQUIPMENT, LIST_CATEGORIES, ONE_CATEGORIES} from "./AjoutMaterielType";
+import {ADD_EQUIPMENT, LIST_CATEGORIES, ONE_CATEGORIES, LIST_CATEGORIES_FOR_FOURNISSEUR} from "./AjoutMaterielType";
 
 const initialState = {
   addEquipment: [],
   categories: [],
-  oneCategories: []
+  oneCategories: [],
+  listCategoriesForFournisseur: []
 };
 
 const addEquipmentReducer = (state = initialState, action: any) => {
@@ -17,6 +18,11 @@ const addEquipmentReducer = (state = initialState, action: any) => {
       return {
         ...state,
         categories: action
+      };
+    case LIST_CATEGORIES_FOR_FOURNISSEUR:
+      return {
+        ...state,
+        listCategoriesForFournisseur: action
       };
     case ONE_CATEGORIES:
       return {

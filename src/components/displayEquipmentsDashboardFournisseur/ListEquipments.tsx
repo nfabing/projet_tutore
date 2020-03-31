@@ -24,15 +24,15 @@ import {
 import store from "../../redux/store";
 
 import EditMateriel from "../../components/EditMateriel";
-import { StatusBadge } from "../displayEquipmentsDashboardFournisseur/statusBadge/StatusBadge";
-import { CardConfirmReservation } from "../displayEquipmentsDashboardFournisseur/cardConfirmReservation/CardValidReservation";
+import { StatusBadge } from "./statusBadge/StatusBadge";
+import { CardConfirmReservation } from "./cardConfirmReservation/CardValidReservation";
 
 const { Column } = Table;
 const { confirm } = Modal;
 
 export const ListEquipments = (props: any) => {
+  console.log(props);
   if (props.equipments.listEquipments != undefined) {
-    console.log(props.equipments);
 
     // const showConfirm = () => {
     //   confirm({
@@ -67,8 +67,7 @@ export const ListEquipments = (props: any) => {
     // })
 
     const editEquipment = (id: any) => {
-      //A APPELER QUAND LE FORM EST SUBMIT
-      store.dispatch({ type: "GET_THAT_EQUIPMENT", id: id });
+      store.dispatch({ type: "GET_THAT_EQUIPMENT_FOR_EDIT", id: id });
     };
 
     if (props.equipments.listEquipments[0].status != 4) {
@@ -151,6 +150,6 @@ export const ListEquipments = (props: any) => {
       );
     }
   } else {
-    return <div></div>;
+    return <div> </div>;
   }
 };

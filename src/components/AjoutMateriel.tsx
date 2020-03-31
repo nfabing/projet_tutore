@@ -51,12 +51,9 @@ interface Iprops {
   user: any;
 }
 
-
 const unSetCategories = () => {
   store.dispatch({ type: "UNSET_CATEGORIES" });
 };
-
-
 
 const AjoutMateriel = ({ getEquipment, categories, getCategories, user }: Iprops) => {
 const callDispatch = (values: any) => {
@@ -71,7 +68,7 @@ const success = () => {
 };
   if (categories.length != 0) {
     console.log(categories);
-    if (categories.categories.length != 0) {
+    if (categories.categoriesForFournisseur.length != 0) {
       return (
         <Row>
           <Col span={12} offset={6}>
@@ -109,7 +106,7 @@ const success = () => {
                 rules={[{ required: true }]}
               >
                 <Select placeholder="Catégorie">
-                  {categories.categories.map((cat: any) => {
+                  {categories.categoriesForFournisseur.map((cat: any) => {
                     return <Option value={cat.id}>{cat.name}</Option>;
                   })}
                 </Select>
@@ -186,9 +183,10 @@ const success = () => {
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
     addEquipment: state.ajoutMateriel.addEquipment,
-    categories: state.ajoutMateriel.categories,
+    categories: state.ajoutMateriel.listCategoriesForFournisseur,
     user: state.user.profil
   };
 };

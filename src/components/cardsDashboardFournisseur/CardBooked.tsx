@@ -20,6 +20,6 @@ export const CardBooked = (props: any) => {
       </Card>
     );
   } else {
-    return <div></div>;
+    return <div>NOPE</div>;
   }
 };

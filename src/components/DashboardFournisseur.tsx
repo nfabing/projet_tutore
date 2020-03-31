@@ -39,6 +39,7 @@ const DashboardFournisseur = ({
   if (user.userType === "supplier") {
     
     if (equipments.length != 0) {
+      console.log(equipments);
       const displayAllEquipments = () => {
         store.dispatch({ type: "GET_ALL_EQUIPMENTS", value: user.useruid });
       };
@@ -54,7 +55,7 @@ const DashboardFournisseur = ({
           <div className="site-card-wrapper">
             <Row gutter={[16, 16]}>
               <Col span={5} offset={2} onClick={displayAllEquipments}>
-                <CardTotal total={equipments.equipments} />
+                <CardTotal total={equipments.equipmentsForFournisseur} />
               </Col>
               <Col span={5} onClick={displayLoanEquipments}>
                 <CardLoan loan={listLoan} />
@@ -81,8 +82,9 @@ const DashboardFournisseur = ({
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
-    equipments: state.dashboardFournisseur.equipments,
+    equipments: state.dashboardFournisseur.equipmentsForFournisseur,
     listLoan: state.dashboardFournisseur.listLoan,
     listBooked: state.dashboardFournisseur.listBooked,
     listEquipments: state.dashboardFournisseur.listEquipments,

@@ -15,7 +15,6 @@ import passwordReducer from "./password/passwordReducer";
 import {profilSaga} from "../saga/profil/profilSaga"
 import {passwordSaga} from "../saga/changePassword/passwordSaga"
 import {watchLogin} from "../saga/login/loginSaga";
-import EditMaterielReducer from "./editMateriel/EditMaterielReducer";
 import confirmReservationReducer from "./confirmReservation/ConfirmReservationReducer";
 import { watchReserve } from "../saga/listReserveSaga/listReserveSaga";
 import listReserveReducer from "./listReserve/listReserveReducer";
