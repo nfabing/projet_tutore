@@ -118,7 +118,7 @@ function* createUserDocument(user: any, action?: any) {
                     email: user.email,
                     emailVerified: user.emailVerified,
                     phoneNumber: action.data.phoneNumber,
-                    photoURL: user.photoURL === null ? defaultPhoto : user.photoURL,
+                    photoURL: defaultPhoto,
                     adress: '',
                     city: '',
                     postalCode: '',
@@ -137,7 +137,7 @@ function* createUserDocument(user: any, action?: any) {
                     email: user.email,
                     emailVerified: user.emailVerified,
                     phoneNumber: '',
-                    photoURL: user.photoURL === null ? defaultPhoto : user.photoURL,
+                    photoURL: defaultPhoto,
                     adress: action.data.adress,
                     city: action.data.city,
                     postalCode: action.data.postalCode,
@@ -169,9 +169,10 @@ function* createUserDocument(user: any, action?: any) {
 function* emailSignupAsync(action: any) {
     try {
         yield put(loginInProgress())
+        defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png')
         const user = yield call(reduxSagaFirebase.auth.createUserWithEmailAndPassword, action.data.email, action.data.password)
         // successful login will trigger the watchUser, which will update the state
-        defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png')
+
 
         console.log('NEW USER EMAIL', user);
         console.log('NEW USER FORM', action)
