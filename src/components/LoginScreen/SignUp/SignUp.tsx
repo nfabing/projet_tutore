@@ -18,6 +18,7 @@ const SignUp = ({error, loading, onFinish,}: SignUpProps) => {
     const onRadioChange = (e: any) => {
         const type = e.target.value
         setUserType(type)
+        console.log(userType)
     }
 
     return (

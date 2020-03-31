@@ -87,7 +87,7 @@ function* watchUser() {
 
 
         } else {
-            console.log('NOT CONNECTED', error )
+            console.log('NOT CONNECTED', error)
             yield put(logoutSuccess())
 
         }
@@ -96,39 +96,83 @@ function* watchUser() {
 
 function* checkUserExist(userId: string) {
 
-        const snapshot = yield call(reduxSagaFirebase.firestore.getDocument, `users/${userId}`)
-        const user = snapshot.data();
-        return !!user
+    const snapshot = yield call(reduxSagaFirebase.firestore.getDocument, `users/${userId}`)
+    const user = snapshot.data();
+    return !!user
 }
 
 function* createUserDocument(user: any, action?: any) {
 
+    console.log('CREATE DOCUMENT', action)
+
+    if (action) {
+        if (action.data.userType === undefined || action.data.userType === 'user') {
+            console.log('IS_USER')
+            // @ts-ignore
+            yield call(reduxSagaFirebase.firestore.setDocument, `users/${user.uid}`,
+                {
+                    creationDate: new Date().toUTCString(),
+                    displayName: action.data.username,
+                    useruid: user.uid,
+                    userType: 'user',
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    phoneNumber: action.data.phoneNumber,
+                    photoURL: defaultPhoto,
+                    adress: '',
+                    city: '',
+                    postalCode: '',
+                    storeName: '',
+
+                })
+        } else if (action.data.userType === 'supplier') {
+            console.log('IS_SUPPLIER')
+            // @ts-ignore
+            yield call(reduxSagaFirebase.firestore.setDocument, `users/${user.uid}`,
+                {
+                    creationDate: new Date().toUTCString(),
+                    displayName: action.data.username,
+                    useruid: user.uid,
+                    userType: 'supplier',
+                    email: user.email,
+                    emailVerified: user.emailVerified,
+                    phoneNumber: '',
+                    photoURL: defaultPhoto,
+                    adress: action.data.adress,
+                    city: action.data.city,
+                    postalCode: action.data.postalCode,
+                    storeName: action.data.storeName,
+                })
+        }
+    } else {
+        console.log('IS_PROVIDER')
         // @ts-ignore
         yield call(reduxSagaFirebase.firestore.setDocument, `users/${user.uid}`,
             {
                 creationDate: new Date().toUTCString(),
-                displayName: action ? action.data.username : user.displayName,
+                displayName: user.displayName,
                 useruid: user.uid,
-                userType: action && 'userType' in action ? action.data.userType : 'user',
+                userType: 'user',
                 email: user.email,
                 emailVerified: user.emailVerified,
-                phoneNumber: action ? action.data.phoneNumber : '',
+                phoneNumber: '',
                 photoURL: user.photoURL === null ? defaultPhoto : user.photoURL,
-                adress: action && 'adress' in action ? action.data.adress : '',
-                city: action && 'city' in action ? action.data.city : '',
-                postalCode: action && 'postalCode' in action ? action.data.postalCode : '',
-                storeName: action && 'storeName' in action ? action.data.storeName : '',
-
+                adress: '',
+                city: '',
+                postalCode: '',
+                storeName: '',
             })
+    }
 }
 
 
 function* emailSignupAsync(action: any) {
     try {
         yield put(loginInProgress())
+        defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png')
         const user = yield call(reduxSagaFirebase.auth.createUserWithEmailAndPassword, action.data.email, action.data.password)
         // successful login will trigger the watchUser, which will update the state
-        defaultPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'users/default.png')
+
 
         console.log('NEW USER EMAIL', user);
         console.log('NEW USER FORM', action)
