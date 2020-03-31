@@ -8,11 +8,11 @@ function* confirmReservation(values: any) {
     let restitution = date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
 
     console.log(restitution);
-  const db = firebase.firestore();
-  yield db.collection("equipment").doc(values.values.id)
-  .update({
-      "reservation[1].restitution": restitution
-  })
+//   const db = firebase.firestore();
+//   yield db.collection("equipment").doc(values.values.id)
+//   .update({
+//       "reservation[1].restitution": restitution
+//   })
 }
 
 export function* watchConfirm() {
