@@ -6,14 +6,17 @@ import { Card,Button,Avatar} from "antd";
 
 
 
-
+store.dispatch({ type: "GET_RESERVE" });
 
 export const CardReserve = (props: any) => {  
+  
     console.log("card");
     console.log(props);
+
     const delReservation = () => {
       store.dispatch({type:'DEL_RESERVE', id: props.equipo.id});
-      }
+    }
+
   return (
     <Card title={props.equipo.name} bordered={true}>
       <p><Avatar size={100} src={props.equipo.img} /></p>
