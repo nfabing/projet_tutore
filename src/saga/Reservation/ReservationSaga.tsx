@@ -13,7 +13,8 @@ export function* watchReservation() {
 
     yield all([
         takeLatest('ADD_RESERVATION', AddReservation),
-        takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations)
+        takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations),
+        takeLatest('RETURN_RESERVATION_REQUEST', returnReservation)
     ])
 
 }
@@ -57,12 +58,14 @@ function* AddReservation(value: any) {
 
 }
 
-
 function* watchUserReservations() {
     const db = firebaseApp.firestore()
     // user uid
     const uid = yield select(state => state.login.user.uid)
-    const ref = db.collection('reservation').where('idUser', '==', uid)
+    const ref = db.collection('reservation')
+        .where('idUser', '==', uid)
+        .where('status', 'in', ['0', '0.5', '1', '2', '3'])
+
 
     const channel = eventChannel(emit => ref.onSnapshot(emit))
     let reservations: any[] = []
@@ -76,6 +79,7 @@ function* watchUserReservations() {
             })
 
             yield put(syncReservations(reservations))
+            reservations = []
 
         }
     } catch (error) {
@@ -86,6 +90,29 @@ function* watchUserReservations() {
 
    yield take('LOGOUT_SUCCESS')
     console.log('STOPPED LISTENING TO RESERVATIONS')
+
+}
+
+function* returnReservation(data: any) {
+    const db = firebaseApp.firestore()
+
+    try {
+            let ref
+        // @ts-ignore
+        const doc = yield call(reduxSagaFirebase.firestore.getDocument,
+            db.collection('reservation').where('idUser', '==', data.idUser).where('idEquipment', '==', data.idEquipment).limit(1))
+
+         doc.forEach((reservation: any) => {
+
+            ref = reservation.ref
+        })
+        console.log(ref)
+        // @ts-ignore
+        yield call(reduxSagaFirebase.firestore.updateDocument, ref, 'status', '4' )
+    } catch (error) {
+        console.log(error.code)
+        console.log(error.message)
+    }
 
 
 }
