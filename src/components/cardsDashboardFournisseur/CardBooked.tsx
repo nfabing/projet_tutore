@@ -16,7 +16,7 @@ export const CardBooked = (props: any) => {
                 nbrBooked = 0;
             }
             return (
-                <Card title="Réservé" bordered={true}>
+                <Card title="Réservé" bordered={true} hoverable={true} headStyle={{backgroundColor: '#fafafa'}}>
                     {nbrBooked} <CalendarOutlined />
                 </Card>
             );

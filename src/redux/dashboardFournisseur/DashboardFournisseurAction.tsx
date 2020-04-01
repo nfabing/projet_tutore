@@ -1,5 +1,5 @@
 // Actions creators
-import {LIST_EQUIPMENTS, LIST_LOAN, DISPLAY_LIST_EQUIPMENTS, LIST_WAITING, LIST_EQUIPMENTS_FOR_FOURNISSEUR, LIST_BOOKED} from "./DashboardFournisseurType";
+import {LIST_EQUIPMENTS, LIST_LOAN, DISPLAY_LIST_EQUIPMENTS, LIST_WAITING, LIST_EQUIPMENTS_FOR_FOURNISSEUR, LIST_BOOKED, LIST_LOAN_FOURNISSEUR} from "./DashboardFournisseurType";
 
 export const listEquipments = (data: any) => {
     return {
@@ -20,7 +20,14 @@ export const listLoan = (data: any) => {
         type: LIST_LOAN,
         listLoan: data
     }
-}
+};
+
+export const listLoanFournisseur = (data: any) => {
+    return {
+        type: LIST_LOAN_FOURNISSEUR,
+        listLoan: data
+    }
+};
 
 export const listWaiting = (data: any) => {
     return {

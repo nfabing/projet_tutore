@@ -74,7 +74,7 @@ export const ListEquipments = (props: any) => {
                     </div>
                 );
             } else {
-                if (props.equipments.listEquipments[0].idEquipment != undefined && props.equipments.listEquipments[0].status === "1") {
+                if (props.equipments.listEquipments[0].idEquipment != undefined && (props.equipments.listEquipments[0].status === "1" || props.equipments.listEquipments[0].status === "3")) {
                     return (
                         <div className="listEquipment">
                             <Table

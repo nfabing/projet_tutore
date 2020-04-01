@@ -7,7 +7,7 @@ import {
     listLoan,
     displayListEquipments,
     listWaiting,
-    listEquipmentsForFournisseur, listBooked
+    listEquipmentsForFournisseur, listBooked, listLoanFournisseur
 } from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 import {eventChannel, buffers} from "redux-saga";
 import {emit} from "cluster";
@@ -28,8 +28,9 @@ function* getEquipments(userID: any) {
         });
 
         yield db
-            .collection("equipment")
-            .where("status", "==", "1").where("userHandle", "==", userID.value)
+            .collection("reservation")
+            .where("status", "==", "3")
+            .where("idSupplier", "==", userID.value)
             .onSnapshot(function (querySnapshot) {
                 var loan: Array<any> = [];
                 querySnapshot.forEach(function (doc) {
@@ -37,7 +38,7 @@ function* getEquipments(userID: any) {
                     let finalObj = Object.assign(objID, doc.data());
                     loan.push(finalObj);
                 });
-                return store.dispatch(listLoan(loan));
+                return store.dispatch(listLoanFournisseur(loan));
             });
 
         //RECUPERE LES EQUIPMENT EN ATTENTE DE VALIDATION DE RESERVATION
@@ -128,8 +129,8 @@ function* getLoanEquipments(userID: any) {
     const db = firebase.firestore();
     try {
         yield db
-            .collection("equipment")
-            .where("status", "==", "1").where("userHandle", "==", userID.value)
+            .collection("reservation")
+            .where("status", "==", "3").where("idSupplier", "==", userID.value)
             .onSnapshot(function (querySnapshot) {
                 var loan: Array<any> = [];
                 querySnapshot.forEach(function (doc) {

@@ -12,7 +12,7 @@ export const CardOverdue = (props: any) => {
 //     nbrTotal = props.total.equipments.length;
 //   }
   return (
-    <Card title="En retard" bordered={true}>
+    <Card title="En retard" bordered={true} hoverable={true} headStyle={{backgroundColor: '#fafafa'}}>
       {/* {nbrTotal} <WarningOutlined twoToneColor="#526356" /> */}
     </Card>
   );
