@@ -1,14 +1,22 @@
-import {
-    call,
-    takeEvery,
-    takeLatest,
-    take,
-    put
-} from 'redux-saga/effects';
-import store, {reduxSagaFirebase} from "../../redux/store";
+import { call, all, takeEvery, takeLatest, take, put, select} from 'redux-saga/effects';
+import {eventChannel} from 'redux-saga';
+import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import 'firebase/firestore';
-import firebase, {firestore} from "firebase";
-import {getReservation} from '../../redux/Reservation/ReservationAction';
+
+import {
+    syncReservations
+} from "../../redux/Reservation/ReservationAction";
+
+
+
+export function* watchReservation() {
+
+    yield all([
+        takeLatest('ADD_RESERVATION', AddReservation),
+        takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations)
+    ])
+
+}
 
 
 function* AddReservation(value: any) {
@@ -41,6 +49,35 @@ function* AddReservation(value: any) {
 
 }
 
-export function* watchReservation() {
-yield takeLatest('ADD_RESERVATION', AddReservation)
+
+function* watchUserReservations() {
+    const db = firebaseApp.firestore()
+    // user uid
+    const uid = yield select(state => state.login.user.uid)
+    const ref = db.collection('reservation').where('idUser', '==', uid)
+
+    const channel = eventChannel(emit => ref.onSnapshot(emit))
+    let reservations: any[] = []
+    try {
+        while (true) {
+            const data = yield take(channel)
+
+             data.forEach((reservation: any) => {
+
+                 reservations.push(reservation.data())
+            })
+
+            yield put(syncReservations(reservations))
+
+        }
+    } catch (error) {
+        console.log(error.code)
+        console.log(error.message)
+    }
+
+
+   yield take('LOGOUT_SUCCESS')
+    console.log('STOPPED LISTENING TO RESERVATIONS')
+
+
 }
