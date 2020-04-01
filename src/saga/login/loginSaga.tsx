@@ -136,7 +136,7 @@ function* createUserDocument(user: any, action?: any) {
                     userType: 'supplier',
                     email: user.email,
                     emailVerified: user.emailVerified,
-                    phoneNumber: '',
+                    phoneNumber: action.data.phoneNumber,
                     photoURL: defaultPhoto,
                     adress: action.data.adress,
                     city: action.data.city,
