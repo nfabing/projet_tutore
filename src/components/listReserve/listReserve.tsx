@@ -13,7 +13,7 @@ const listReservec = (listReserve:any) => {
       console.log(listReserve);
       return (
         <div>
-          <p>Loading...</p>
+          error 
         </div>
       );
     }else{
@@ -22,7 +22,7 @@ const listReservec = (listReserve:any) => {
           <div className="site-card-wrapper">
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
               {listReserve.listReserve.listReserve.equipments.map((data:any) => {
-              return ( <Col className="gutter-row" key={data.id}span={50}>
+              return ( <Col className="gutter-row" key={data.id} span={6}>
               <CardReserve  equipo={data}/>
               </Col>);
               })}

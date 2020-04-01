@@ -9,9 +9,6 @@ import { Card,Button,Avatar} from "antd";
 store.dispatch({ type: "GET_RESERVE" });
 
 export const CardReserve = (props: any) => {  
-  
-    console.log("card");
-    console.log(props);
 
     const delReservation = () => {
       store.dispatch({type:'DEL_RESERVE', id: props.equipo.id});
@@ -22,6 +19,7 @@ export const CardReserve = (props: any) => {
       <p><Avatar size={100} src={props.equipo.img} /></p>
       Description: <p>{props.equipo.description}</p>
       Modele: <p>{props.equipo.modele}</p>
+      User: <p>  </p>
       <Button  type="primary" danger onClick={
         delReservation
       }>
