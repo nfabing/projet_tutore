@@ -12,19 +12,18 @@ import {Link} from "react-router-dom";
 import moment from 'moment';
 import './popup.css';
 import store from "../../redux/store";
+import {connect} from "react-redux";
 
 
 type CardProps = {
-    img: string,
-    name: string,
-    id: number,
-    status: string,
-    tags: string,
-    category: string,
-    reservation: {dateDebut: string, dateFin:string, idUser: string,}[],
+    equipment: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string },
+}
+interface Iprops {
+    user: any;
+    getOwner: any;
 }
 
-const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => {
+const Card = ({equipment}: CardProps) => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [statu, setStatu] = useState('Reserve');
@@ -32,13 +31,20 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
     const [statuColor, setStatuColor] = useState('warning');
 
     useEffect(() => {
-        if (img !== 'null') {
-            setImg(img);
+        if (equipment) {
+            store.dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: equipment.uid});
         }
-        if (status === '0') {
+    }, [equipment])
+
+
+    useEffect(() => {
+        if (equipment.img !== 'null') {
+            setImg(equipment.img);
+        }
+        if (equipment.status === '0') {
             setStatu('Disponible');
             setStatuColor('success');
-        } else if (status === '1') {
+        } else if (equipment.status === '1') {
             setStatu('Reserve');
             setStatuColor('warning');
         }
@@ -78,13 +84,38 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
         const dateFin = new Date(values.range[1]._d);
         const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
         const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
-        reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
+        const dataReservation: {
+            dateDebut: string,
+            dateFin: string,
+            dateRestitution: string,
+            idEquipment: string,
+            idSupplier: string,
+            idUser: string,
+            mailUser: string,
+            nameEquipment: string,
+            nameUser: string,
+            status: string,
+            img: string
+        }[]= [];
+        dataReservation.push({
+            dateDebut: dateDebutStr,
+            dateFin: dateFinStr,
+            dateRestitution: '',
+            idEquipment: equipment.id,
+            idSupplier: equipment.userHandle,
+            idUser: equipment.uid,
+            mailUser: equipment.uEmail,
+            nameEquipment: equipment.titre,
+            nameUser: equipment.uName,
+            status: '0',
+            img: equipment.img
+        })
+        store.dispatch({type: 'ADD_RESERVATION', reservation : dataReservation})
         //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
            // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
-        store.dispatch({type: "ADD_RESERVATION_EQUIPMENT", id: id,reservation: reservation});
+        //store.dispatch({type: "ADD_RESERVATION", reservation: dataReservation});
+
         setVisible(false);
-
-
 
         /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
         const TestCalcul = testCalcul / (1000 * 3000 * 24);
@@ -94,36 +125,32 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
 
     };
 
-        const Dispo = () => {
-            return(
-                <>test</>
-            )
-        }
+
 
 return (
     <div className={'card'} id={'test'}>
             <span className={'nameImg'}>
                 <img src={imgSrc}/>
                 <span className={'name'}>
-                    <h4>{name}</h4>
+                    <h4>{equipment.titre}</h4>
                     <p>
-                        Category : {category}
+                        Category : {equipment.category}
                     </p>
                     <p>
-                        tags : {tags}
+                        tags : {equipment.tag}
                     </p>
                 </span>
             </span>
         <span className={'bottom'}>
                 <span className={'btn'}>
-                    <Link to={`/Details/${id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
+                    <Link to={`/Details/${equipment.id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
 
                     <a href={'#'} onClick={showModal}>
                         <CarryOutOutlined style={{fontSize: '30px'}}/>
                     </a>
 
                             <Modal
-                                title="Basic Modal"
+                                title={equipment.uid}
                                 visible={visible}
                                 onOk={handleOk}
                                 onCancel={handleCancel}
@@ -188,4 +215,7 @@ return (
     <CarryOutOutlined style={{fontSize: '30px'}}/>
 </Popover>*/
 
+
+
 export default Card
+
