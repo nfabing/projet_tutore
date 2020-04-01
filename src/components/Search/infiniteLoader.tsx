@@ -12,7 +12,7 @@ import {connect} from "react-redux";
 
 import './infiniteLoader.css'
 import store from "../../redux/store";
-
+// hello
 type LoaderProps = {
     data: any,
 }
