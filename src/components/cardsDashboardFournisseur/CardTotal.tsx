@@ -14,7 +14,6 @@ const changeColorOut = (e: any) => {
 };
 
 export const CardTotal = (props: any) => {
-  console.log(props)
   if (props.total.length === 0) {
     nbrTotal = 0;
   } else {

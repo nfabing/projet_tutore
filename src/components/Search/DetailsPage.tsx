@@ -20,9 +20,12 @@ interface Iprops {
     user: any;
     getOneCategories: any;
     categories: any;
+    uid: any;
+    uName: any;
+    uEmail: any;
 }
 
-const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categories, getOneCategories}: Iprops) => {
+const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categories, getOneCategories,uid, uName, uEmail}: Iprops) => {
     const [visible, setVisible] = useState(false);
     const [userDataVisible, setUserDataVisible] = useState(false)
     const [categorieName, setCategorieName] = useState('')
@@ -92,13 +95,38 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
             const dateFin = new Date(values.range[1]._d);
             const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
             const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
-            equipment.reservation.push({dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'});
+            const dataReservation: {
+                dateDebut: string,
+                dateFin: string,
+                dateRestitution: string,
+                idEquipment: string,
+                idSupplier: string,
+                idUser: string,
+                mailUser: string,
+                nameEquipment: string,
+                nameUser: string,
+                status: string,
+                img: string
+            }[]= [];
+            dataReservation.push({
+                dateDebut: dateDebutStr,
+                dateFin: dateFinStr,
+                dateRestitution: '',
+                idEquipment: test,
+                idSupplier: equipment.userHandle,
+                idUser: uid,
+                mailUser: uEmail,
+                nameEquipment: equipment.name,
+                nameUser: uName,
+                status: '0',
+                img: equipment.img
+            })
+            store.dispatch({type: 'ADD_RESERVATION', reservation : dataReservation})
             //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
             // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
-            store.dispatch({type: "EDIT_RESERVATION_EQUIPMENT", id: equipment.id,reservation: equipment.reservation});
+            //store.dispatch({type: "ADD_RESERVATION", reservation: dataReservation});
+
             setVisible(false);
-
-
 
             /*const testCalcul = dateFin.getTime()-dateDebut.getTime();
             const TestCalcul = testCalcul / (1000 * 3000 * 24);
@@ -233,7 +261,10 @@ const mapStateToProps = (state: any) => {
     return {
         equipment: state.editMateriel.getOneEquipment,
         categories: state.ajoutMateriel.oneCategories,
-        user: state.editMateriel.user
+        user: state.editMateriel.user,
+        uid : state.login.user.uid,
+        uName : state.login.user.displayName,
+        uEmail : state.login.user.email,
     }
 }
 

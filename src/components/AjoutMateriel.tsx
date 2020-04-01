@@ -36,7 +36,6 @@ const onFinish = (values: any) => {
 };
 
 const normFile = (e: any) => {
-  console.log("Upload event:", e);
   if (Array.isArray(e)) {
     return e;
   }
@@ -67,7 +66,6 @@ const success = () => {
   });
 };
   if (categories.length != 0) {
-    console.log(categories);
     if (categories.categoriesForFournisseur.length != 0) {
       return (
         <Row>
@@ -183,7 +181,6 @@ const success = () => {
 };
 
 const mapStateToProps = (state: any) => {
-  console.log(state);
   return {
     addEquipment: state.ajoutMateriel.addEquipment,
     categories: state.ajoutMateriel.listCategoriesForFournisseur,

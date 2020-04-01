@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import {
   Form,
@@ -42,12 +42,26 @@ const unSetCategories = () => {
   store.dispatch({ type: "UNSET_CATEGORIES" });
 };
 
+
 const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
+
+  const [visible, setVisible] = useState(false)
+  const [equip, setEquipment] = useState<any>({})
+
+  useEffect(() => {
+      if (equipment.length !=0) {
+
+        setEquipment(equipment.getOneEquipmentForEdit)
+        setVisible(true)
+      }
+  }, [equipment])
+
+
+
   if (categories.length != 0) {
     if (categories.getListCategoriesForEdit.length != 0) {
-      if (equipment.length != 0) {
+      if (visible) {
         console.log(equipment);
-        let equip = equipment.getOneEquipmentForEdit;
 
         let date = equip.buyingDate;
         date = moment(date);
@@ -63,6 +77,7 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
             content: "Votre équipement à bien été modifier !"
           });
         };
+
         const onFinish = (values: any) => {
           if (values.equipment.name == undefined) {
             values.equipment.name = equip.name;
@@ -89,6 +104,7 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
             values.equipment.id = equip.id;
           }
           store.dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values });
+          setVisible(false)
         };
 
         return (
@@ -119,9 +135,9 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
                   <Form.Item name={["equipment", "category"]} label="Catégorie">
                     <Select
                       placeholder="Catégorie"
-                      defaultValue={equip.category}
                     >
                       {categories.getListCategoriesForEdit.map((cat: any) => {
+                        console.log(cat);
                         return <Option value={cat.id}>{cat.name}</Option>;
                       })}
                     </Select>

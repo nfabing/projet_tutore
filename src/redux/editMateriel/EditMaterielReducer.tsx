@@ -25,7 +25,7 @@ const EditMaterielReducer = (state = initialState, action: any) => {
     case GET_ONE_EQUIPMENT_FOR_EDIT:
       return {
         ...state,
-        getOneEquipmentForEdit: action,
+        getOneEquipmentForEdit: action
       };
     case GET_LIST_CATEGORIES:
       return {

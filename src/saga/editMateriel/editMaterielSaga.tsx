@@ -66,7 +66,6 @@ function* getOneEquipmentForEditSaga(value: any) {
 }
 
 function* editEquipmentSaga(values: any) {
-  console.log(values);
   const formValues = values.values.equipment;
   let date = null;
   if (formValues.buyingDate._d === undefined) {
@@ -91,13 +90,11 @@ function* editEquipmentSaga(values: any) {
 
 function* getEquipmentOwner(data: any) {
   const uid = data.uid; //user uid
-  console.log("GET EQUIPMENT OWNER");
   const snapshot = yield call(
     reduxSagaFirebase.firestore.getDocument,
     `users/${uid}`
   );
   const user = snapshot.data();
-  console.log(user);
   yield put(gotEquipmentUser(user));
 }
 function* editReserveSaga(values: any) {
