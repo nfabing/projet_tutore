@@ -14,7 +14,6 @@ const changeColorOut = (e: any) => {
 };
 
 export const CardTotal = (props: any) => {
-  console.log(props)
   if (props.total.length === 0) {
     nbrTotal = 0;
   } else {
@@ -23,7 +22,7 @@ export const CardTotal = (props: any) => {
   return (
     // <div onMouseEnter={changeColorIn} onMouseLeave={changeColorOut}>
     <div>
-      <Card title="Total Matériel" bordered={true}>
+      <Card title="Total Matériel" bordered={true} hoverable={true} headStyle={{backgroundColor: '#fafafa'}}>
         {nbrTotal} <DatabaseOutlined />
       </Card>
     </div>

@@ -1,25 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Card } from "antd";
-import { CalendarOutlined } from "@ant-design/icons";
+import {Card} from "antd";
+import {CalendarOutlined} from "@ant-design/icons";
 
 let nbrBooked = null;
 
 export const CardBooked = (props: any) => {
-  console.log(props);
 
-  if (props.booked != undefined) {
-    if (props.booked.listBooked === 0) {
-      nbrBooked = 0;
+
+    if (props.booked != undefined) {
+        if (props.booked.listBooked != undefined) {
+            if (props.booked.listBooked.length > 0) {
+                nbrBooked = props.booked.listBooked.length;
+            } else {
+                nbrBooked = 0;
+            }
+            return (
+                <Card title="Réservé" bordered={true} hoverable={true} headStyle={{backgroundColor: '#fafafa'}}>
+                    {nbrBooked} <CalendarOutlined />
+                </Card>
+            );
+        } else {
+            return <div>NOPE</div>;
+        }
+
+
     } else {
-      nbrBooked = props.booked.listBooked.length;
+        return <div>NOPE</div>;
     }
-    return (
-      <Card title="Réservé" bordered={true}>
-        {nbrBooked} <CalendarOutlined />
-      </Card>
-    );
-  } else {
-    return <div>NOPE</div>;
-  }
 };

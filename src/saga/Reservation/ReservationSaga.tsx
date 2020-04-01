@@ -1,4 +1,4 @@
-import { call, all, takeEvery, takeLatest, take, put, select} from 'redux-saga/effects';
+import { call, all, takeEvery, takeLatest, take, put, select, fork} from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga';
 import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import 'firebase/firestore';
@@ -20,18 +20,19 @@ export function* watchReservation() {
 
 
 function* AddReservation(value: any) {
-    const data = yield take('ADD_RESERVATION');
-    const dateDebut = '1/4/2020';
-    const dateFin = "5/4/2020";
-    const dateRestitution = "";
-    const idEquipment = "N1RAz3HAz5jB23JF7H2s";
-    const idSupplier = "sf3PISVkvANxfLRLNijq0PMgGOq2";
-    const idUser = "LDCx5ElO77dJZbKj1P2GYuCisvn1";
-    const mailUser = "mailUser";
-    const nameEquipment = "nomEquipment";
-    const nameUser = "nameUser";
-    const status = "0";
-    const storeSupplier = "nomStore";
+    console.log('DATAA', value.reservation[0]);
+    const dateDebut = value.reservation[0].dateDebut;
+    const dateFin = value.reservation[0].dateFin;
+    const dateRestitution = value.reservation[0].dateRestitution;
+    const idEquipment = value.reservation[0].idEquipment;
+    const idSupplier = value.reservation[0].idSupplier;
+    const idUser = value.reservation[0].idUser;
+    const mailUser =value.reservation[0].mailUser;
+    const nameEquipment = value.reservation[0].nameEquipment;
+    const nameUser =value.reservation[0].nameUser;
+    const status = value.reservation[0].status;
+    const img = value.reservation[0].img;
+
 
     const doc = yield call(reduxSagaFirebase.firestore.addDocument, 'reservation', {
         dateDebut:dateDebut,
@@ -44,8 +45,15 @@ function* AddReservation(value: any) {
         nameEquipment:nameEquipment,
         nameUser:nameUser,
         status:status,
-        storeSupplier:storeSupplier
+        img: img
     });
+    yield fork(
+        reduxSagaFirebase.firestore.updateDocument,
+        "equipment/" + idEquipment,
+        {
+            status: "4"
+        }
+    );
 
 }
 

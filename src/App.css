@@ -57,6 +57,13 @@
   display: none;
 }
 
-.formEdit{
-  margin-top: 50px;
+.divDashboardFournisseur{
+  text-align: center;
+}
+
+.titreListDashboard{
+  margin: 15px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px lightgray;
 }

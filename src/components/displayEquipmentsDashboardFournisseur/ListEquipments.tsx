@@ -1,155 +1,143 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 import {
-  Card,
-  Badge,
-  Row,
-  Col,
-  Button,
-  Table,
-  Modal,
-  Avatar,
-  DatePicker,
-  Form,
-  Input
+    Card,
+    Badge,
+    Row,
+    Col,
+    Button,
+    Table,
+    Modal,
+    Avatar,
+    DatePicker,
+    Form,
+    Input
 } from "antd";
 
 import {
-  EditOutlined,
-  CheckOutlined,
-  SearchOutlined,
-  ExclamationCircleTwoTone,
-  CloseOutlined
+    EditOutlined,
+    CheckOutlined,
+    SearchOutlined,
+    ExclamationCircleTwoTone,
+    CloseOutlined
 } from "@ant-design/icons";
 import store from "../../redux/store";
 
 import EditMateriel from "../../components/EditMateriel";
-import { StatusBadge } from "./statusBadge/StatusBadge";
-import { CardConfirmReservation } from "./cardConfirmReservation/CardValidReservation";
+import {StatusBadge} from "./statusBadge/StatusBadge";
+import moment from "moment";
+import {CardConfirmReservation} from "./cardConfirmReservation/CardValidReservation";
 
-const { Column } = Table;
-const { confirm } = Modal;
+const {Column} = Table;
 
 export const ListEquipments = (props: any) => {
-  console.log(props);
-  if (props.equipments.listEquipments != undefined) {
+    if (props.equipments.listEquipments != undefined) {
+        console.log(props);
 
-    // const showConfirm = () => {
-    //   confirm({
-    //     title: "Accepter la reservation ?",
-    //     icon: <ExclamationCircleTwoTone />,
-    //     content: <DatePicker />,
-    //     onCancel() {}
-    //   });
-    // };
-    // const showCancel = () => {
-    //   confirm({
-    //     title: "Reffuser la reservation ?",
-    //     icon: <ExclamationCircleTwoTone />,
-    //     content:
-    //       "When clicked the OK button, this dialog will be closed after 1 second",
-    //     onOk() {
-    //       return new Promise((resolve, reject) => {
-    //         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-    //       }).catch(() => console.log("Oops errors!"));
-    //     },
-    //     onCancel() {}
-    //   });
-    // };
+        const editEquipment = (id: any) => {
+            store.dispatch({type: "GET_THAT_EQUIPMENT_FOR_EDIT", id: id});
+        };
 
-    // let img = equipment.getOneEquipment.img.integerValue;
-    // let storage = firebase.storage();
-    // let path = storage.refFromURL(
-    //   "gs://projet-tutore-6833d.appspot.com/equipments/" + img
-    // );
-    // path.getDownloadURL().then(function(url) {
-    //   setImgUrl(url)
-    // })
-
-    const editEquipment = (id: any) => {
-      store.dispatch({ type: "GET_THAT_EQUIPMENT_FOR_EDIT", id: id });
-    };
-
-    if (props.equipments.listEquipments[0].status != 4) {
-      return (
-        <div className="listEquipment">
-          <Table
-            dataSource={props.equipments.listEquipments}
-            pagination={{
-              pageSize: 5
-            }}
-          >
-            <Column title="Nom" dataIndex="name" key="name" />
-            <Column title="Marque" dataIndex="brand" key="brand" />
-            <Column title="Modele" dataIndex="modele" key="modele" />
-            <Column
-              title="Statut"
-              dataIndex="status"
-              key="status"
-              render={status => <StatusBadge status={status} />}
-            />
-            <Column
-              title="Editer"
-              dataIndex="id"
-              key="id"
-              render={id => (
-                <Button
-                  type="primary"
-                  icon={<EditOutlined />}
-                  onClick={() => editEquipment(id)}
-                />
-              )}
-            />
-          </Table>
-        </div>
-      );
-    } else {
-      console.log(props.equipments.listEquipments[1].reservation[1].dateDebut);
-      return (
-        <div className="listEquipment">
-          <div className="site-card-wrapper">
-            <Row gutter={16}>
-              {props.equipments.listEquipments.map((equip: any) => {
+        if (props.equipments.listEquipments.length != 0) {
+            // SI ON EST PAS DANS UNE LISTE DE LA COLLECTION RESERVATION
+            if (props.equipments.listEquipments[0].idEquipment === undefined) {
                 return (
-                  <CardConfirmReservation equipment={equip}/>
+                    <div className="listEquipment">
+                        <Table
+                            dataSource={props.equipments.listEquipments}
+                            pagination={{
+                                pageSize: 5
+                            }}
+                        >
+                            <Column title="Nom" dataIndex="name" key="name"/>
+                            <Column title="Marque" dataIndex="brand" key="brand"/>
+                            <Column title="Modele" dataIndex="modele" key="modele"/>
+                            <Column
+                                title="Statut"
+                                dataIndex="status"
+                                key="status"
+                                render={status => <StatusBadge status={status}/>}
+                            />
+                            <Column
+                                title="Editer"
+                                dataIndex="id"
+                                key="id"
+                                render={id => (
+                                    <Button
+                                        type="primary"
+                                        icon={<EditOutlined/>}
+                                        onClick={() => editEquipment(id)}
+                                    />
+                                )}
+                            />
+                        </Table>
+                    </div>
                 );
-              })}
-            </Row>
-          </div>
-          {/* <Table
-            dataSource={props.equipments.listEquipments}
-            pagination={{
-              pageSize: 5
-            }}
-          >
-            <Column title="Nom" dataIndex="name" key="name" />
-            <Column title="Modele" dataIndex="modele" key="modele"/>
-            
-            <Column
-              title="Valider"
-              dataIndex="id"
-              key="id"
-              render={id => (
-                <div>
-                  <Button
-                  type="primary"
-                  icon={<CheckOutlined />}
-                  onClick={() => editEquipment(id)}
-                />
-                <Button
-                  type="default"
-                  icon={<SearchOutlined />}
-                  onClick={() => showConfirm()}
-                />
+            } else {
+                if (props.equipments.listEquipments[0].idEquipment != undefined && (props.equipments.listEquipments[0].status === "1" || props.equipments.listEquipments[0].status === "3")) {
+                    return (
+                        <div className="listEquipment">
+                            <Table
+                                dataSource={props.equipments.listEquipments}
+                                pagination={{
+                                    pageSize: 5
+                                }}
+                            >
+                                <Column title="Utilisateur" dataIndex="nameUser" key="nameUser"/>
+                                <Column title="E-Mail" dataIndex="mailUser" key="mailUser"/>
+                                <Column title="Equipement" dataIndex="nameEquipment" key="nameEquipment"/>
+                                <Column title="Date Début" dataIndex="dateDebut" key="dateDebut"/>
+                                <Column title="Date Fin" dataIndex="dateFin" key="dateFin"/>
+                                <Column title="Date Restitution" dataIndex="dateRestitution" key="dateRestitution"/>
+                            </Table>
+                        </div>
+                    );
+                } else {
+                    return (
+                        <div className="listEquipment">
+                            <CardConfirmReservation equipment={props.equipments.listEquipments}/>
+                        </div>
+                    );
+                }
+
+            }
+        } else {
+            // AFFICHE LA LISTE VIDE SI AUCUN EQUIPEMENT N EST RETOURNER
+            return (
+                <div className="listEquipment">
+                    <Table
+                        dataSource={[]}
+                        pagination={{
+                            pageSize: 5
+                        }}
+                    >
+                        <Column title="Nom" dataIndex="name" key="name"/>
+                        <Column title="Marque" dataIndex="brand" key="brand"/>
+                        <Column title="Modele" dataIndex="modele" key="modele"/>
+                        <Column
+                            title="Statut"
+                            dataIndex="status"
+                            key="status"
+                            render={status => <StatusBadge status={status}/>}
+                        />
+                        <Column
+                            title="Editer"
+                            dataIndex="id"
+                            key="id"
+                            render={id => (
+                                <Button
+                                    type="primary"
+                                    icon={<EditOutlined/>}
+                                    onClick={() => editEquipment(id)}
+                                />
+                            )}
+                        />
+                    </Table>
                 </div>
-                
-              )}
-            />
-          </Table> */}
-        </div>
-      );
+            );
+        }
+
+    } else {
+        return <div></div>;
     }
-  } else {
-    return <div> </div>;
-  }
 };

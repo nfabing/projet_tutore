@@ -23,7 +23,6 @@ export const getListCategories = (data: any) => {
 };
 
 export const getOneEquipmentForEdit = (data: any) => {
-    console.log(data);
     return {
         type: GET_ONE_EQUIPMENT_FOR_EDIT,
         getOneEquipmentForEdit: data
@@ -31,7 +30,6 @@ export const getOneEquipmentForEdit = (data: any) => {
 };
 
 export const getListCategoriesForEdit = (data: any) => {
-    console.log(data)
     if (data.Xv != undefined) {
         return {
             type: GET_LIST_CATEGORIES_FOR_EDIT,
