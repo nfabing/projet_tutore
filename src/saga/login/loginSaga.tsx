@@ -173,10 +173,9 @@ function* emailSignupAsync(action: any) {
         const user = yield call(reduxSagaFirebase.auth.createUserWithEmailAndPassword, action.data.email, action.data.password)
         // successful login will trigger the watchUser, which will update the state
 
-
+        yield createUserDocument(user.user, action)
         console.log('NEW USER EMAIL', user);
         console.log('NEW USER FORM', action)
-        yield createUserDocument(user.user, action)
         yield call(reduxSagaFirebase.auth.updateProfile, {
             displayName: action.data.username,
             photoURL: defaultPhoto,

@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Button} from "antd";
+import {LogoutOutlined} from "@ant-design/icons"
 
 interface ILogout {
     logged: boolean;
@@ -16,7 +17,7 @@ const LogoutButton = ({logged, logout}: ILogout) => {
     if (logged) {
         return(
             <div>
-                <Button onClick={handleLogout}>Déconnexion</Button>
+                <Button onClick={handleLogout} icon={<LogoutOutlined />}>Déconnexion</Button>
             </div>
         )
     } else {

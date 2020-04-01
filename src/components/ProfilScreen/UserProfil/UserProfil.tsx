@@ -116,6 +116,8 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                 <Row justify={'center'}>
                     {userData.userType === 'supplier' ?
                         <Col>
+                            <p>Vous êtes inscrit en tant que fournisseur</p>
+
                             <div className={'info-element'}><b>Adresse</b> : {edit === 'adress' ?
                                 <FormEditProfil fieldName={'adress'} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
@@ -143,7 +145,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                         : <Col>
                             {!supplierFormVisible ? <>
                                 <h3>Vous n'ètes pas encore un fournisseur</h3>
-                                <Button onClick={() => setSupplierFormVisible(true)}>Devenir fournisseur</Button>
+                                <Button onClick={() => setSupplierFormVisible(true)}><b>Devenir fournisseur</b></Button>
                             </> : <SupplierForm type={'form'} formHandler={supplierFormHandler}
                                                 onCancel={supplierFormCancelHandler}/>}
                         </Col>}
