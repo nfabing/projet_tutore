@@ -50,7 +50,7 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
 
   useEffect(() => {
       if (equipment.length !=0) {
-        
+
         setEquipment(equipment.getOneEquipmentForEdit)
         setVisible(true)
       }
@@ -77,7 +77,7 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
             content: "Votre équipement à bien été modifier !"
           });
         };
-        
+
         const onFinish = (values: any) => {
           if (values.equipment.name == undefined) {
             values.equipment.name = equip.name;
@@ -135,9 +135,9 @@ const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
                   <Form.Item name={["equipment", "category"]} label="Catégorie">
                     <Select
                       placeholder="Catégorie"
-                      defaultValue={equip.category}
                     >
                       {categories.getListCategoriesForEdit.map((cat: any) => {
+                        console.log(cat);
                         return <Option value={cat.id}>{cat.name}</Option>;
                       })}
                     </Select>

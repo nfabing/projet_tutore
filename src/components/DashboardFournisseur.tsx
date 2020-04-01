@@ -5,7 +5,7 @@ import store from "../redux/store";
 
 import { CardLoan } from "./cardsDashboardFournisseur/CardLoan";
 import { CardTotal } from "./cardsDashboardFournisseur/CardTotal";
-import { CardBooked } from "./cardsDashboardFournisseur/CardBooked";
+import { CardWainting } from "./cardsDashboardFournisseur/CardWainting";
 import { CardOverdue } from "./cardsDashboardFournisseur/CardOverdue";
 
 import AjoutMateriel from "../components/AjoutMateriel";
@@ -16,11 +16,13 @@ import { ListEquipments } from "./displayEquipmentsDashboardFournisseur/ListEqui
 import { Row, Col, Button, Card } from "antd";
 import { WarningOutlined, CalendarOutlined } from "@ant-design/icons";
 import {render} from "react-dom";
+  import {CardBooked} from "./cardsDashboardFournisseur/CardBooked";
 
 interface Iprops {
   equipments: any;
   getEquipments: any;
   listLoan: any;
+  listWaiting: any;
   listBooked: any;
   listEquipments: any;
   user: any;
@@ -31,20 +33,23 @@ interface Iprops {
 const DashboardFournisseur = ({
   equipments,
   listLoan,
-  listBooked,
+  listWaiting,
   listEquipments,
+  listBooked,
   user
 }: Iprops) => {
   
   if (user.userType === "supplier") {
     
     if (equipments.length != 0) {
-      console.log(equipments);
       const displayAllEquipments = () => {
         store.dispatch({ type: "GET_ALL_EQUIPMENTS", value: user.useruid });
       };
       const displayLoanEquipments = () => {
         store.dispatch({ type: "GET_LOAN_EQUIPMENTS", value: user.useruid });
+      };
+      const displayWaitingEquipment = () => {
+        store.dispatch({ type: "GET_WAITING_EQUIPMENTS", value: user.useruid });
       };
       const displayBookedEquipment = () => {
         store.dispatch({ type: "GET_BOOKED_EQUIPMENTS", value: user.useruid });
@@ -60,11 +65,11 @@ const DashboardFournisseur = ({
               <Col span={5} onClick={displayLoanEquipments}>
                 <CardLoan loan={listLoan} />
               </Col>
-              <Col span={5}>
-                <CardOverdue overdue={111} />
-              </Col>
               <Col span={5} onClick={displayBookedEquipment}>
-                <CardBooked booked={listBooked} />
+                <CardBooked booked={listBooked}/>
+              </Col>
+              <Col span={5} onClick={displayWaitingEquipment}>
+                <CardWainting waiting={listWaiting} />
               </Col>
             </Row>
           </div>
@@ -86,8 +91,9 @@ const mapStateToProps = (state: any) => {
   return {
     equipments: state.dashboardFournisseur.equipmentsForFournisseur,
     listLoan: state.dashboardFournisseur.listLoan,
-    listBooked: state.dashboardFournisseur.listBooked,
+    listWaiting: state.dashboardFournisseur.listWaiting,
     listEquipments: state.dashboardFournisseur.listEquipments,
+    listBooked: state.dashboardFournisseur.listBooked,
     user: state.user.profil
   };
 };

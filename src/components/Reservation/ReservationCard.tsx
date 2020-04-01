@@ -51,12 +51,10 @@ const Card = ({img, name, status, id,tags, category,reservation}: CardProps) => 
     };
 
     const handleOk = (e: any) => {
-        console.log(e);
         setVisible(false)
     };
 
     const handleCancel = (e: any) => {
-        console.log(e);
         setVisible(false)
     };
 
