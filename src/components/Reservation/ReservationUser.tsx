@@ -29,6 +29,7 @@ interface Iprops {
     getEquipments: any;
     categories: any;
     getCategories: any;
+    uid: any;
 }
 
 const {Option} = Select;
@@ -38,22 +39,12 @@ const {Header, Content, Footer, Sider} = Layout;
 
 store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
 store.dispatch({type: 'GET_CATEGORIES'});
-const Reservation = ({equipments, getEquipments, categories, getCategories}: Iprops) => {
+const Reservation = ({equipments, getEquipments, categories, getCategories, uid}: Iprops) => {
 
 
     const [category, setCategory] = useState('');
     const {Search} = Input;
-    let dataCard: { id: number,
-        img: string,
-        titre: string,
-        status: string,
-        tag: string,
-        brand: string,
-        category: string,
-        reservation: { dateDebut: string,
-            dateFin: string,
-            idUser: string,
-    }[]
+    let dataCard: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string
     }[] = [];
     let arrayBrand: string[] = [];
     const arrayCategory: string[] = [];
@@ -85,11 +76,12 @@ const Reservation = ({equipments, getEquipments, categories, getCategories}: Ipr
                 id: key,
                 img: equipement.img,
                 titre: equipement.name,
+                userHandle:equipement.userHandle,
                 status: equipement.status,
                 tag: tags,
                 brand: equipement.brand,
                 category: equipement.category,
-                reservation: equipement.reservation
+                uid: uid
             });
 
         });
@@ -106,13 +98,7 @@ const Reservation = ({equipments, getEquipments, categories, getCategories}: Ipr
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card img={filterData[index].img}
-                                  name={filterData[index].titre}
-                                  id={filterData[index].id}
-                                  tags={filterData[index].tag}
-                                  category={category}
-                                  status={filterData[index].status}
-                                  reservation={filterData[index].reservation}/> : 'Loading...'}
+                   ok
                 </div>
             )
         };

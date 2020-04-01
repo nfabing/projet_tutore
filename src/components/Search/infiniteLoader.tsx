@@ -13,22 +13,14 @@ import {connect} from "react-redux";
 import './infiniteLoader.css'
 import store from "../../redux/store";
 
-type LoaderProps = {
-    data: any,
-}
-type rowRendererType = {
-    key: number, // Unique key within array of rows
-    index: any, // Index of row within collection
-    isScrolling: any, // The List is currently being scrolled
-    isVisible: any, // This row is visible within the List (eg it is not an overscanned row)
-    style: any, // Style object to be applied to row (to position it)
-}
-
 interface Iprops {
     equipments: any;
     getEquipments: any;
     categories: any;
     getCategories: any;
+    uid: any;
+    uName: any;
+    uEmail: any;
 }
 const { Option } = Select;
 const {SubMenu} = Menu;
@@ -38,7 +30,7 @@ const {Header, Content, Footer, Sider} = Layout;
 
 store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
 store.dispatch({type: 'GET_CATEGORIES'});
-const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops) => {
+const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName,uEmail}: Iprops) => {
 
 
     const [search, setSearch] = useState('');
@@ -46,7 +38,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const {Search} = Input;
-    let dataCard: { id: number, img: string, titre: string, status: string, tag: string, brand: string, category: string, reservation: {dateDebut: string, dateFin: string,idUser: string }[] }[] = [];
+    let dataCard: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string }[] = [];
     let arrayBrand: string[]= [];
     const arrayCategory: string[]= [];
 
@@ -59,7 +51,8 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
 
 
     if (equipments.length != 0 && categories.length != 0) {
-        console.log('LOGGGGGGGG', categories.categories);
+        console.log('EQUIPMENT', equipments);
+
         equipments.equipments.map((data: any) => {
             const equipement: any = data;
             const key: any = data.id;
@@ -79,12 +72,16 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                 id: key,
                 img: equipement.img,
                 titre: equipement.name,
+                userHandle : equipement.userHandle,
                 status: equipement.status,
                 tag: tags,
                 brand: equipement.brand,
                 category: equipement.category,
-                reservation: equipement.reservation
+                uid : uid,
+                uName: uName,
+                uEmail:uEmail
             });
+            console.log('DATA' , dataCard);
 
         });
 
@@ -92,6 +89,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
 
         let filterData = dataCard.filter(
             (data: any) => {
+                console.log('FILTRE', data);
                 return data.titre.toLowerCase().indexOf(
                     search.toLowerCase()
                 ) !== -1;
@@ -116,22 +114,16 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
         const Row = ({index, style}: RowType) => {
             const item = filterData[index];
             const category:string = categories.categories.map((cat: any) => {
-                if(filterData[index].category === cat.id) return cat.name;
+                if(filterData[index].category === cat.id) return filterData[index].category = cat.name;
             });
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card img={filterData[index].img}
-                                  name={filterData[index].titre}
-                                  id={filterData[index].id}
-                                  tags={filterData[index].tag}
-                                  category={category}
-                                  status={filterData[index].status}
-                                  reservation={filterData[index].reservation}/> : 'Loading...'}
+                    {item ? <Card equipment={filterData[index]}/> : 'Loading...'}
+
                 </div>
             )
         };
-
         return (
 
             <div className={'contentLoader'}>
@@ -211,7 +203,9 @@ const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
         categories: state.ajoutMateriel.categories,
-        uid : state.login.user.uid
+        uid : state.login.user.uid,
+        uName : state.login.user.displayName,
+        uEmail : state.login.user.email,
     };
 };
 

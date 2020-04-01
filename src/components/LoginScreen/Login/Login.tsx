@@ -73,8 +73,8 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
 
 // Render
     return (
-        <div>
-            <Row align={'middle'} justify={'center'}>
+        <div className={'container-login'}>
+            <Row className={'row-login'} align={'middle'} justify={'center'}>
 
                 {mode === 'login' && !logged ?
                     <Col lg={{span: 8}} xs={{span: 24}}>
