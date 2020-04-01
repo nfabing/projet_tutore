@@ -149,18 +149,7 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
                             >
                                 <Input/>
                             </Form.Item>
-                            <Form.Item
-                                name={["equipment", "status"]}
-                                label="Statut"
-                                rules={[{required: true}]}
-                            >
-                                <Select placeholder="Statut">
-                                    <Option value="0">Disponible</Option>
-                                    <Option value="1">Réservé</Option>
-                                    <Option value="2">Emprunté</Option>
-                                    <Option value="3">Perdu/Détérioré</Option>
-                                </Select>
-                            </Form.Item>
+
                             <Form.Item
                                 name="upload"
                                 label="Image"

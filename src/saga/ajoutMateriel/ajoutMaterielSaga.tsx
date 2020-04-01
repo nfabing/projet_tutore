@@ -21,7 +21,7 @@ function* addEquipmentSaga(data: any) {
   if(upload) equipementPhoto = yield call(reduxSagaFirebase.storage.getDownloadURL, 'equipments/'+nameFile);
   const doc = yield call(reduxSagaFirebase.firestore.addDocument, "equipment", {
     name: data.values.equipment.name,
-    status: data.values.equipment.status+"",
+    status: 0+"",
     userHandle: data.user,
     description: data.values.equipment.description,
     buyingDate: date,
