@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import {Button, Form, Input} from "antd";
-import {CheckOutlined} from "@ant-design/icons"
+import {CheckOutlined, CloseOutlined} from "@ant-design/icons"
 import RelogModal from "../../Password/RelogModal/RelogModal";
 
 interface FormI {
@@ -9,45 +9,48 @@ interface FormI {
     fieldValue: string;
     onSubmit: any;
     needRelogin: boolean;
+    needReloginEmail: any;
     isRequired?: boolean
-    length?: number;
-    type?: string;
-    updateProfilInfos: any;
+    changeProfilInfos: any;
+    changeEmail: any;
 
 }
 
-const FormEditProfil = ({fieldName, fieldValue, onSubmit, isRequired, needRelogin, length, type, updateProfilInfos}: FormI) => {
+const FormEditProfil = ({fieldName, fieldValue, onSubmit, isRequired, needRelogin, needReloginEmail, changeProfilInfos, changeEmail}: FormI) => {
 
     const [field, setField] = useState({name: fieldName, value: fieldValue})
+    const [isSame, setIsSame] = useState(false)
     const [rules, setRules] = useState([{
         required: isRequired,
         message: `Ce champ ne peut pas être vide !`
     }])
 
-    useEffect(() => {
-        console.log('NEED RELOGIN', needRelogin)
-            //TODO SI BESOIN DE RELOGIN LA PAGE NE DOIT PAS FERMER DIRECTEMENT APRES SUBMIT
-    }, [needRelogin])
-
-    const formSubmitHandler = (values: any) => {
+     const formSubmitHandler = (values: any) => {
         console.log(values)
-        if (fieldName !== values[fieldName]) {
-            updateProfilInfos(values)
+        if (fieldValue !== values[fieldName]) {
+            if (fieldName != 'email') {
+                changeProfilInfos(values)
+                onSubmit()
+            }
 
+            if (fieldName === 'email' && needRelogin === undefined) {
+               changeEmail(values.email)
+            }
+
+        } else {
+            setIsSame(true)
         }
 
     }
 
-
     return (
         <>
-            {needRelogin ? <RelogModal/> : null}
+            {needReloginEmail ? <RelogModal/> : null}
             <Form
                 onFinish={formSubmitHandler}
                 fields={[field]}
                 layout={'inline'}
             >
-
                 <Form.Item
                     name={field.name}
                     rules={rules}
@@ -55,11 +58,12 @@ const FormEditProfil = ({fieldName, fieldValue, onSubmit, isRequired, needRelogi
                     <Input autoFocus={true}/>
                 </Form.Item>
 
-
                 <Form.Item>
                     <Button size={'small'} htmlType={'submit'} shape={'circle'} icon={<CheckOutlined/>}/>
-
+                    <Button size={'small'} onClick={onSubmit}  shape={'circle'} icon={<CloseOutlined />} danger/>
+                    {isSame ? <div>Même valeur</div> : null}
                 </Form.Item>
+
             </Form>
         </>
     )
@@ -67,13 +71,15 @@ const FormEditProfil = ({fieldName, fieldValue, onSubmit, isRequired, needRelogi
 
 const mapStateToProps = (state: any) => {
     return {
-        needRelogin: state.password.needRelogin,
+        needRelogin: state.checkLogin.needRelogin,
+        needReloginEmail: state.checkLogin.needReloginEmail
     }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        updateProfilInfos: (values: any) => dispatch({type: 'CHANGE_PROFIL_INFOS', data: values}),
+        changeProfilInfos: (values: any) => dispatch({type: 'CHANGE_PROFIL_INFOS', data: values}),
+        changeEmail: (email: string) => dispatch({type: 'EMAIL_CHANGE_REQUEST', newEmail: email})
     }
 }
 

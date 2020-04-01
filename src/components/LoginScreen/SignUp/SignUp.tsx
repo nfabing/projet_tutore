@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, Col, Form, Input, InputNumber, Radio, Tooltip} from "antd";
+import {Button, Form, Input, Radio, Tooltip} from "antd";
 import {MailOutlined, LockOutlined, InfoCircleOutlined} from "@ant-design/icons"
 
 // components
@@ -18,6 +18,7 @@ const SignUp = ({error, loading, onFinish,}: SignUpProps) => {
     const onRadioChange = (e: any) => {
         const type = e.target.value
         setUserType(type)
+        console.log(userType)
     }
 
     return (
@@ -31,8 +32,8 @@ const SignUp = ({error, loading, onFinish,}: SignUpProps) => {
         >
             <h2 className={'login-title'}>INSCRIPTION</h2>
             <Form.Item name="userType" wrapperCol={{span: 24}} style={{textAlign: "center"}}>
-                <Radio.Group defaultValue={'user'} value={userType} onChange={onRadioChange}>
-                    <Radio value={'user'}>Utilisateur</Radio>
+                <Radio.Group value={userType} onChange={onRadioChange}>
+                    <Radio value={'user'} checked={true}>Utilisateur</Radio>
                     <Radio value={'supplier'}>Fournisseur</Radio>
                 </Radio.Group>
             </Form.Item>

@@ -8,6 +8,7 @@ import FormEditProfil from "../FormEditProfil/FormEditProfil";
 import SupplierForm from "../../LoginScreen/SupplierForm/SupplierForm";
 import ChangePassword from "../../Password/ChangePassword/ChangePassword";
 import "./userProfil.css"
+import LogoutButton from "../../Logout/LogoutButton";
 
 interface Iprops {
     userData: any;
@@ -35,17 +36,11 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
         setEdit('')
     }
 
-    const beforeUpload = (file: any) => {
-        // TODO: A AMELIORER
-
-        console.log(file)
-        const isValid = file.type === 'image/jpeg' || file.type === 'image/png';
-        return isValid
-    }
-
     const uploadImage = (info: any) => {
-        console.log(info.file.originFileObj)
-        updateProfilPicture(info.file.originFileObj)
+
+        if (info.file.originFileObj.type === 'image/png' || info.file.originFileObj.type === 'image/jpeg') {
+            updateProfilPicture(info.file.originFileObj)
+        }
     }
 
     const showEditForm = (edit: string) => {
@@ -94,19 +89,19 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
 
                 <Row justify={'center'}>
                     <Col>
-                        <div className={'info-element'}>Nom d'utilisateur : {edit === 'displayName' ?
+                        <div className={'info-element'}><b>Nom d'utilisateur</b> : {edit === 'displayName' ?
                             <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                             onSubmit={formSubmitHandler} isRequired={true}/> :
                             <span>{userData.displayName} <EditOutlined onClick={() => showEditForm('displayName')}/>
                         </span>} </div>
 
-                        <div className={'info-element'}>Email : {edit === 'email' ?
+                        <div className={'info-element'}><b>Email</b> : {edit === 'email' ?
                             <FormEditProfil fieldName={'email'} fieldValue={userData[edit]}
                                             onSubmit={formSubmitHandler} isRequired={true}/> :
                             <span>{userData.email} <EditOutlined onClick={() => showEditForm('email')}/>
                             </span>} </div>
 
-                        <div className={'info-element'}>Téléphone : {edit === 'phoneNumber' ?
+                        <div className={'info-element'}><b>Téléphone</b> : {edit === 'phoneNumber' ?
                             <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                             onSubmit={formSubmitHandler}/> :
                             <span>{userData.phoneNumber} <EditOutlined onClick={() => showEditForm('phoneNumber')}/>
@@ -121,25 +116,27 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                 <Row justify={'center'}>
                     {userData.userType === 'supplier' ?
                         <Col>
-                            <div className={'info-element'}>Adresse : {edit === 'adress' ?
+                            <p>Vous êtes inscrit en tant que fournisseur</p>
+
+                            <div className={'info-element'}><b>Adresse</b> : {edit === 'adress' ?
                                 <FormEditProfil fieldName={'adress'} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.adress} <EditOutlined onClick={() => showEditForm('adress')}/>
                             </span>} </div>
 
-                            <div className={'info-element'}>Ville : {edit === 'city' ?
+                            <div className={'info-element'}><b>Ville</b> : {edit === 'city' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.city} <EditOutlined onClick={() => showEditForm('city')}/>
                         </span>} </div>
 
-                            <div className={'info-element'}>Code postal : {edit === 'postalCode' ?
+                            <div className={'info-element'}><b>Code postal</b> : {edit === 'postalCode' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.postalCode} <EditOutlined onClick={() => showEditForm('postalCode')}/>
                         </span>} </div>
 
-                            <div className={'info-element'}>Nom boutique : {edit === 'storeName' ?
+                            <div className={'info-element'}><b>Nom boutique</b> : {edit === 'storeName' ?
                                 <FormEditProfil fieldName={edit} fieldValue={userData[edit]}
                                                 onSubmit={formSubmitHandler}/> :
                                 <span>{userData.storeName} <EditOutlined onClick={() => showEditForm('storeName')}/>
@@ -148,7 +145,7 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                         : <Col>
                             {!supplierFormVisible ? <>
                                 <h3>Vous n'ètes pas encore un fournisseur</h3>
-                                <Button onClick={() => setSupplierFormVisible(true)}>Devenir fournisseur</Button>
+                                <Button onClick={() => setSupplierFormVisible(true)}><b>Devenir fournisseur</b></Button>
                             </> : <SupplierForm type={'form'} formHandler={supplierFormHandler}
                                                 onCancel={supplierFormCancelHandler}/>}
                         </Col>}
@@ -160,16 +157,20 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
 
                 <Row className={'row-password'} justify={'center'}>
                     <Col>
+
                         <div>
                             {editPassword ? <ChangePassword onCancel={handleChangePasswordCancel}/>
                                 : <Button onClick={() => setEditPassword(true)}>Modifier mot de passe</Button>}
                         </div>
-                        <div>
-                            <Upload beforeUpload={beforeUpload} showUploadList={false} onChange={uploadImage}>
+
+                        <div style={{marginTop: '20px'}}>
+                            <Upload showUploadList={false} onChange={uploadImage} accept={'image/png, image/jpeg'} >
                                 <Button loading={loading} disabled={loading}
                                         icon={<UploadOutlined/>}>Changer photo de profil </Button></Upload>
                         </div>
-
+                        <div style={{marginTop: '20px'}}>
+                            <LogoutButton/>
+                        </div>
 
                     </Col>
                 </Row>
@@ -177,10 +178,14 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
         )
     }
 
-// chargement du profil
+// Render : profil is loading
     return (
         <div>
-           <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
+            <Skeleton active/>
         </div>
     )
 }

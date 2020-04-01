@@ -38,128 +38,133 @@ interface Iprops {
   categories: any;
 }
 
-//  export const getEquipmentID = (state: any) => "w9d008IJw1JxlsBeOLYP";
-
 const unSetCategories = () => {
   store.dispatch({ type: "UNSET_CATEGORIES" });
 };
 
-const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
+const EditMateriel = ({ equipment, categories, getEquipment }: Iprops) => {
   if (categories.length != 0) {
-    if (categories.getListCategories.length != 0) {
-      equipment = equipment.getOneEquipment;
-      let date = equipment.buyingDate;
-      date = moment(date);
-      const validForm = (values: any) => {
-        onFinish(values);
-        unSetCategories();
-        success();
-      };
+    if (categories.getListCategoriesForEdit.length != 0) {
+      if (equipment.length != 0) {
+        console.log(equipment);
+        let equip = equipment.getOneEquipmentForEdit;
 
-      const success = () => {
-        Modal.success({
-          content: "Votre équipement à bien été modifier !"
-        });
-      };
-      const onFinish = (values: any) => {
-        if (values.equipment.name == undefined) {
-          values.equipment.name = equipment.name;
-        }
-        if (values.equipment.description == undefined) {
-          values.equipment.description = equipment.description;
-        }
-        if (values.equipment.buyingDate == undefined) {
-          values.equipment.buyingDate = equipment.buyingDate;
-        }
-        if (values.equipment.category == undefined) {
-          values.equipment.category = equipment.category;
-        }
-        if (values.equipment.marque == undefined) {
-          values.equipment.marque = equipment.brand;
-        }
-        if (values.equipment.modele == undefined) {
-          values.equipment.modele = equipment.modele;
-        }
-        if (values.equipment.status == undefined) {
-          values.equipment.status = equipment.status;
-        }
-        if (values.equipment.id == undefined) {
-          values.equipment.id = equipment.id;
-        }
-        store.dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values });
-      };
+        let date = equip.buyingDate;
+        date = moment(date);
 
-      return (
-        <div className="formEdit" id="formEdit">
-          <Row>
-            <Col span={12} offset={6}>
-              <Form
-                {...layout}
-                name="nest-messages"
-                onFinish={validForm}
-                className="formAddMateriel"
-              >
-                <Form.Item name={["equipment", "name"]} label="Libellé">
-                  <Input defaultValue={equipment.name} />
-                </Form.Item>
-                <Form.Item
-                  name={["equipment", "description"]}
-                  label="Description"
+        const validForm = (values: any) => {
+          onFinish(values);
+          unSetCategories();
+          success();
+        };
+
+        const success = () => {
+          Modal.success({
+            content: "Votre équipement à bien été modifier !"
+          });
+        };
+        const onFinish = (values: any) => {
+          if (values.equipment.name == undefined) {
+            values.equipment.name = equip.name;
+          }
+          if (values.equipment.description == undefined) {
+            values.equipment.description = equip.description;
+          }
+          if (values.equipment.buyingDate == undefined) {
+            values.equipment.buyingDate = equip.buyingDate;
+          }
+          if (values.equipment.category == undefined) {
+            values.equipment.category = equip.category;
+          }
+          if (values.equipment.marque == undefined) {
+            values.equipment.marque = equip.brand;
+          }
+          if (values.equipment.modele == undefined) {
+            values.equipment.modele = equip.modele;
+          }
+          if (values.equipment.status == undefined) {
+            values.equipment.status = equip.status;
+          }
+          if (values.equipment.id == undefined) {
+            values.equipment.id = equip.id;
+          }
+          store.dispatch({ type: "EDIT_THAT_EQUIPMENT", values: values });
+        };
+
+        return (
+          <div className="formEdit" id="formEdit">
+            <Row>
+              <Col span={12} offset={6}>
+                <Form
+                  {...layout}
+                  name="nest-messages"
+                  onFinish={validForm}
+                  className="formAddMateriel"
                 >
-                  <Input defaultValue={equipment.description} />
-                </Form.Item>
-                <Form.Item
-                  name={["equipment", "buyingDate"]}
-                  label="Année d'achat"
-                >
-                  <YearPicker defaultValue={date} />
-                </Form.Item>
-                <Form.Item name={["equipment", "category"]} label="Catégorie">
-                  <Select
-                    placeholder="Catégorie"
-                    defaultValue={equipment.category}
-                  >
-                    {categories.getListCategories.map((cat: any) => {
-                      return <Option value={cat.id}>{cat.name}</Option>;
-                    })}
-                  </Select>
-                </Form.Item>
-                <Form.Item name={["equipment", "marque"]} label="Marque">
-                  <Input defaultValue={equipment.brand} />
-                </Form.Item>
-                <Form.Item name={["equipment", "modele"]} label="Modèle">
-                  <Input defaultValue={equipment.modele} />
-                </Form.Item>
-                <Form.Item name={["equipment", "status"]} label="Statut">
-                  <Select placeholder="Statut" defaultValue={equipment.status}>
-                    <Option value="0">Disponible</Option>
-                    <Option value="1">Réservé</Option>
-                    <Option value="2">Emprunté</Option>
-                    <Option value="3">Perdu/Détérioré</Option>
-                  </Select>
-                </Form.Item>
-                <div className="inputIdEdit">
-                  <Form.Item name={["equipment", "id"]} label="Modèle">
-                    <Input defaultValue={equipment.id} disabled={true} />
+                  <Form.Item name={["equipment", "name"]} label="Libellé">
+                    <Input defaultValue={equip.name} />
                   </Form.Item>
-                </div>
-
-                <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                  <Button
-                    className="cancelBtnAddEquipment"
-                    onClick={unSetCategories}
+                  <Form.Item
+                    name={["equipment", "description"]}
+                    label="Description"
                   >
-                    Cancel
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-        </div>
-      );
+                    <Input defaultValue={equip.description} />
+                  </Form.Item>
+                  <Form.Item
+                    name={["equipment", "buyingDate"]}
+                    label="Année d'achat"
+                  >
+                    <YearPicker defaultValue={date} />
+                  </Form.Item>
+                  <Form.Item name={["equipment", "category"]} label="Catégorie">
+                    <Select
+                      placeholder="Catégorie"
+                      defaultValue={equip.category}
+                    >
+                      {categories.getListCategoriesForEdit.map((cat: any) => {
+                        return <Option value={cat.id}>{cat.name}</Option>;
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name={["equipment", "marque"]} label="Marque">
+                    <Input defaultValue={equip.brand} />
+                  </Form.Item>
+                  <Form.Item name={["equipment", "modele"]} label="Modèle">
+                    <Input defaultValue={equip.modele} />
+                  </Form.Item>
+                  <Form.Item name={["equipment", "status"]} label="Statut">
+                    <Select placeholder="Statut" defaultValue={equip.status}>
+                      <Option value="0">Disponible</Option>
+                      <Option value="1">Réservé</Option>
+                      <Option value="2">Emprunté</Option>
+                      <Option value="3">Perdu/Détérioré</Option>
+                    </Select>
+                  </Form.Item>
+                  <div className="inputIdEdit">
+                    <Form.Item name={["equipment", "id"]} label="Modèle">
+                      <Input defaultValue={equip.id} disabled={true} />
+                    </Form.Item>
+                  </div>
+
+                  <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
+                    <Button type="primary" htmlType="submit">
+                      Submit
+                    </Button>
+                    <Button
+                      className="cancelBtnAddEquipment"
+                      onClick={unSetCategories}
+                    >
+                      Cancel
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Col>
+            </Row>
+          </div>
+        );
+      }else{
+        return <div></div>;
+      }
     } else {
       return <div></div>;
     }
@@ -169,9 +174,10 @@ const EditMateriel = ({ equipment, getEquipment, categories }: Iprops) => {
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
-    equipment: state.editMateriel.getOneEquipment,
-    categories: state.editMateriel.listCategories
+    equipment: state.editMateriel.getOneEquipmentForEdit,
+    categories: state.editMateriel.listCategoriesForEdit
   };
 };
 

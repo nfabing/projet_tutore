@@ -5,7 +5,7 @@ import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
     CHANGE_USER_TO_SUPPLIER,
-    LOGIN_PROVIDER_STAY_USER, RELOGIN_SUCCESS
+    LOGIN_PROVIDER_STAY_USER,
 } from "./loginTypes";
 
 const initialState = {
@@ -30,6 +30,16 @@ const loginReducer = (state = initialState, action: any) => {
                 ...state,
                 loading: true,
             }
+        case 'LOGIN_GOOGLE':
+            return {
+                ...state,
+                loading: true
+            }
+        case 'LOGIN_GITHUB':
+            return {
+                ...state,
+                loading: true
+            }
         case LOGIN_ERROR:
             return {
                 ...state,
@@ -39,6 +49,7 @@ const loginReducer = (state = initialState, action: any) => {
         case LOGOUT_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 logged: false,
                 user: [],
             }

@@ -21,11 +21,11 @@ const listReservec = (listReserve:any) => {
         <div>
           <div className="site-card-wrapper">
           <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              {listReserve.listReserve.listReserve.equipments.map((data:any) => {
-              return ( <Col className="gutter-row" key={data.id} span={6}>
-              <CardReserve  equipo={data}/>
+              {listReserve === undefined ? listReserve.listReserve.listReserve.equipments.map((data:any) => {
+              return ( <Col className="gutter-row" span={6}>
+              <CardReserve  key={data.id} equipo={data}/>
               </Col>);
-              })}
+              }) : 'LISTE D`EQUIPMENT VIDE'}
             </Row>
           </div>
         </div>
@@ -40,10 +40,4 @@ const mapStateToProps = (state:any) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    getReserve: () => dispatch({ type: "GET_RESERVE" })
-  };
-};
-
-export default connect(mapStateToProps,mapDispatchToProps)(listReservec);
+export default connect(mapStateToProps,null)(listReservec);

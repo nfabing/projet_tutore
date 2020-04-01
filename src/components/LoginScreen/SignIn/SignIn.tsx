@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Col, Form, Input} from "antd";
-import {MailOutlined, LockOutlined} from "@ant-design/icons"
+import {MailOutlined, LockOutlined, LoginOutlined} from "@ant-design/icons"
 
 interface SignInProps {
     error: any;
@@ -47,7 +47,7 @@ const SignIn = ({error, loading, onFinish}: SignInProps) => {
                 </div>
                 <div className={'confirm'}>
                     <Form.Item wrapperCol={{span: 24}}>
-                        <Button type="primary" htmlType="submit" loading={loading} block>
+                        <Button type="primary" htmlType="submit" loading={loading} icon={<LoginOutlined />} block>
                             Connexion
                         </Button>
                     </Form.Item>

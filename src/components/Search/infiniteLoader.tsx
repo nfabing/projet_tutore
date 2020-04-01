@@ -138,6 +138,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                 <span className={'filter'}>
                     <Search
                         placeholder="input search text"
+                        defaultValue={search}
                         onSearch={value => setSearch(value)}
                         style={{width: 200}}
                     />
@@ -145,6 +146,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                           style={{width: 200, marginTop: '20px'}}
                           placeholder="Select a brand"
                           optionFilterProp="children"
+                          value={brand}
                           onChange={(value: any) => setBrand(value)}
                           filterOption={(input: any, option: any) =>
                               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -161,6 +163,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                         style={{width: 200, marginTop: '20px'}}
                         placeholder="Select a category"
                         optionFilterProp="children"
+                        value={category}
                         onChange={(value: any) => setCategory(value)}
                         filterOption={(input: any, option: any) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -171,6 +174,10 @@ const Loader = ({equipments, getEquipments, categories, getCategories }: Iprops)
                             return <Option value={cat.id}>{cat.name}</Option>;
                         })}
                       </Select>
+                    <a href={'#'} onClick={() => {
+                        setSearch('');setCategory('');setBrand('');
+                    }}>Vider les fitlres</a>
+                    <Button onClick={() => store.dispatch({type: 'ADD_RESERVATION'})}> TEST</Button>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (

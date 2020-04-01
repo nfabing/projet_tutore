@@ -1,16 +1,11 @@
-import {all, takeLatest, take, call, put, select} from "redux-saga/effects";
-import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
+import {all, takeLatest, call, put} from "redux-saga/effects";
+import {reduxSagaFirebase} from "../../redux/store";
 import {
     passwordChangeError,
     passwordChangeInprogress,
-    passwordChangeNeedAuth, passwordChangeNeedAuthSuccess,
     passwordChangeSuccess
 } from "../../redux/password/passwordActions";
-import firebase from "firebase";
-
-// Auth Provider
-const authGoogleProvider = new firebase.auth.GoogleAuthProvider();
-const authGithubProvider = new firebase.auth.GithubAuthProvider()
+import {reloginRequest} from "../../redux/checkLogin/CheckLoginActions";
 
 
 export function* passwordSaga() {
@@ -29,66 +24,13 @@ function* passwordChange(action: any) {
     } catch (error) {
         if (error.code === 'auth/requires-recent-login') {
             console.log(error.code)
-            yield call(authReauthenticate)
-        } else {
-            yield put(passwordChangeError(error))
+            yield put(reloginRequest())
         }
+
+        yield put(passwordChangeError(error.code))
 
     }
 }
 
-export function* authReauthenticate() {
-    const user = yield select(state => state.login.user)
-    console.log('REAUTH')
 
-    let providers = user.providerData
-    let provider;
-
-    while (provider = providers.pop()) {
-
-        if (provider.providerId === 'google.com') {
-            try {
-                // @ts-ignore
-                const result = yield call(reduxSagaFirebase.auth.signInWithPopup, authGoogleProvider)
-                console.log(result)
-                yield put(passwordChangeNeedAuthSuccess())
-                break
-            } catch (error) {
-                console.log(error.code)
-                console.log(error.message)
-                break
-            }
-        }
-
-        if (provider.providerId === 'github.com') {
-            try {
-                // @ts-ignore
-                const result = yield call(reduxSagaFirebase.auth.signInWithPopup, authGithubProvider)
-                console.log(result)
-                yield put(passwordChangeNeedAuthSuccess())
-                break
-            }catch (error) {
-                console.log(error.code)
-                console.log(error.message)
-                break
-            }
-        }
-
-        if (provider.providerId === 'password') {
-            try {
-                yield put(passwordChangeNeedAuth())
-                yield take('RELOGIN_SUCCESS')
-                yield put(passwordChangeNeedAuthSuccess())
-                break
-            }catch (error) {
-                console.log(error.code)
-                console.log(error.message)
-                break
-            }
-        }
-
-
-    }
-
-}
 

@@ -11,7 +11,8 @@ import {
   Button,
   Col,
   Row,
-  Upload
+  Upload,
+  Modal
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
@@ -47,24 +48,34 @@ interface Iprops {
   getEquipment: any;
   categories: any;
   getCategories: any;
+  user: any;
 }
 
 const unSetCategories = () => {
   store.dispatch({ type: "UNSET_CATEGORIES" });
 };
 
-const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
-
+const AjoutMateriel = ({ getEquipment, categories, getCategories, user }: Iprops) => {
+const callDispatch = (values: any) => {
+  getEquipment(values, user.useruid);
+  store.dispatch({ type: "UNSET_CATEGORIES" });
+  success();
+}
+const success = () => {
+  Modal.success({
+    content: "Votre équipement à bien été ajouter !"
+  });
+};
   if (categories.length != 0) {
     console.log(categories);
-    if (categories.categories.length != 0) {
+    if (categories.categoriesForFournisseur.length != 0) {
       return (
         <Row>
           <Col span={12} offset={6}>
             <Form
               {...layout}
               name="nest-messages"
-              onFinish={getEquipment}
+              onFinish={callDispatch}
               validateMessages={validateMessages}
               className="formAddMateriel"
             >
@@ -95,7 +106,7 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
                 rules={[{ required: true }]}
               >
                 <Select placeholder="Catégorie">
-                  {categories.categories.map((cat: any) => {
+                  {categories.categoriesForFournisseur.map((cat: any) => {
                     return <Option value={cat.id}>{cat.name}</Option>;
                   })}
                 </Select>
@@ -172,19 +183,21 @@ const AjoutMateriel = ({ getEquipment, categories, getCategories }: Iprops) => {
 };
 
 const mapStateToProps = (state: any) => {
+  console.log(state);
   return {
     addEquipment: state.ajoutMateriel.addEquipment,
-    categories: state.ajoutMateriel.categories
+    categories: state.ajoutMateriel.listCategoriesForFournisseur,
+    user: state.user.profil
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    getEquipment: (values: any) => {
-      dispatch({ type: "ADD_EQUIPMENT", values: values });
+    getEquipment: (values: any, user: any) => {
+      dispatch({ type: "ADD_EQUIPMENT", values: values, user: user});
     },
     getCategories: () => {
-      dispatch({ type: "GET_CATEGORIES" });
+      dispatch({ type: "GET_CATEGORIES_FORM_FOURNISSEUR" });
     }
   };
 };

@@ -35,3 +35,12 @@
     align-items: start;
     text-align: start;
 }
+.contentDetails .reservation{
+    align-items: end;
+    text-align: end;
+}
+.ant-divider-horizontal.ant-divider-with-text-left::before,
+.ant-divider-horizontal.ant-divider-with-text-left::after
+{
+    border-top: 1px solid black;
+}
