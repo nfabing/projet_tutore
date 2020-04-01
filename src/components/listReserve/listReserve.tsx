@@ -9,14 +9,7 @@ import { CardReserve } from "./cards/cardReserve";
 const listReservec = (listReserve:any) => {      
     //console.log("lista");
     //console.log(listReserve.listReserve.listReserve.equipments);
-    if(listReserve.listReserve.listReserve.equipments == undefined){
-      console.log(listReserve);
-      return (
-        <div>
-          error 
-        </div>
-      );
-    }else{
+    
     return (
         <div>
           <div className="site-card-wrapper">
@@ -31,8 +24,6 @@ const listReservec = (listReserve:any) => {
         </div>
       );}
             
-          
-};
 
 const mapStateToProps = (state:any) => {
     return {
