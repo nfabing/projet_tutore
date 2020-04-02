@@ -56,7 +56,7 @@ const listReservec = ({ listReserve,listEquipments}:Iprops) => {
       );}else{
         return(
           <div>
-            nel
+            LISTE D`EQUIPMENT VIDE'
           </div>
         );
       }

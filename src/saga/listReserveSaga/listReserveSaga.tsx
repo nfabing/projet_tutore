@@ -14,6 +14,7 @@ function* getListReserve() {
     try {
       yield db
         .collection("reservation")
+        .where("status", "==", "1")
         .onSnapshot(function(querySnapshot) {
         var Reserve: Array<any> = [];
         querySnapshot.forEach(function(doc) {
@@ -46,7 +47,16 @@ function* annuleReserve(id:any){
   
   };
 
+  function* updateStatus(idE:any){
+    console.log(idE.idE);
+    yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+ idE.idE,{
+      status: 0,
+    });
+    
+    };
+
   export function* watchReserve() {
     yield takeEvery("GET_RESERVE", getListReserve);
     yield takeEvery("DEL_RESERVE", annuleReserve);
+    yield takeEvery("PUT_STATUS", updateStatus);
   }

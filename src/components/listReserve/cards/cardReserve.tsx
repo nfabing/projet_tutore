@@ -12,6 +12,7 @@ export const CardReserve = (props: any) => {
 
     const delReservation = () => {
       store.dispatch({type:'DEL_RESERVE', id: props.reser.id});
+      store.dispatch({type:'PUT_STATUS', idE: props.equipo.id})
       }
 
   return (
