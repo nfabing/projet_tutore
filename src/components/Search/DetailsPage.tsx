@@ -148,11 +148,21 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment, catego
         return (
             <span className={'contentDetails'}>
             <span className={'reservation'}>
-                {connected === true ? <Button style={{height: '50px'}} color={'primary'} onClick={showModal}>
-                        <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
-                    </Button>
+                {connected ? <>
+                        {equipment.status == '3' || equipment.status == '1' || equipment.status == '4' ?
+                            <Button style={{height: '50px'}} color={'primary'} onClick={showModal}
+                                    disabled={true}>
+                                <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
+                            </Button>
+                            :
+                            <Button style={{height: '50px'}} color={'primary'} onClick={showModal}>
+                                <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
+                            </Button>
+                        }
+                    </>
                     :
-                    <Button style={{height: '50px'}} color={'primary'} onClick={showModal} disabled={true}>
+                    <Button style={{height: '50px'}} color={'primary'} onClick={showModal}
+                            disabled={true}>
                         <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
                     </Button>
                 }
