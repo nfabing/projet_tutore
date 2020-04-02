@@ -90,8 +90,8 @@ function* watchUserReservations() {
             const data = yield take(channel)
 
             data.forEach((reservation: any) => {
-
-                reservations.push(reservation.data())
+                let id = {id : reservation.id};
+                reservations.push(Object.assign(id, reservation.data()))
             })
 
             yield put(syncReservations(reservations))
@@ -119,7 +119,6 @@ function* returnReservation(data: any) {
             db.collection('reservation').where('idUser', '==', data.idUser).where('idEquipment', '==', data.idEquipment).limit(1))
 
         doc.forEach((reservation: any) => {
-
             ref = reservation.ref
         })
 

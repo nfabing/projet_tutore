@@ -139,9 +139,6 @@ return (
                     <p>
                         Catégorie : {equipment.category}
                     </p>
-                    <p>
-                        Tags : {equipment.tag}
-                    </p>
                 </span>
             </span>
         <span className={'bottom'}>

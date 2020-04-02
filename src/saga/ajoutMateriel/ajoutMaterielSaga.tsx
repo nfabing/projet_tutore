@@ -28,8 +28,7 @@ function* addEquipmentSaga(data: any) {
     category: data.values.equipment.category,
     brand: data.values.equipment.marque,
     modele: data.values.equipment.modele,
-    img: upload ? equipementPhoto : defaultPhoto,
-    reservation: [{dateDebut: '', dateFin: '', idUser: '', restitution: ''}]
+    img: upload ? equipementPhoto : defaultPhoto
   });
 }
 
