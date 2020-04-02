@@ -54,7 +54,7 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
 
     const callDispatch = (values: any) => {
         getEquipment(values, user.useruid);
-
+        store.dispatch({type: "UNSET_CATEGORIES"});
         setVisible(false);
         success();
     };
