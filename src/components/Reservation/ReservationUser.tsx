@@ -66,9 +66,9 @@ const ReservationUser = ({equipments, getEquipments, categories, getCategories, 
 
 
     useEffect(() => {
-        if (uid !== undefined && myUid =='') {
+        if (uid !== undefined && myUid == '') {
             setMyUid(uid);
-            store.dispatch({type:'GET_CONFIRM_OK_RESERVATION', id: uid});
+            store.dispatch({type: 'GET_CONFIRM_OK_RESERVATION', id: uid});
         }
     })
 
@@ -86,12 +86,12 @@ const ReservationUser = ({equipments, getEquipments, categories, getCategories, 
             });
         }
 
-        if (getConfirmReservation.length !=0 && !getConfirmReservation.id) {
-            console.log('LOGGGGGGGGGG',getConfirmReservation);
+        if (getConfirmReservation.length != 0 && !getConfirmReservation.id) {
+            console.log('LOGGGGGGGGGG', getConfirmReservation);
             getConfirmReservation.getConfirmReservation.map(
                 (data: any) => {
                     success(data.id);
-            }
+                }
             )
         }
 

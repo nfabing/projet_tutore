@@ -43,7 +43,7 @@ function* editUserProfil(values: any) {
 
     if ('displayName' in values.data) { // on met à jour le displayName dans User de firebase
         console.log('DISPLAY NAME')
-       try {
+        try {
             yield call(reduxSagaFirebase.auth.updateProfile, {
                 displayName: values.data.displayName,
             })
@@ -56,7 +56,7 @@ function* editUserProfil(values: any) {
     if ('email' in values.data) { // on met à jour l'email dans User de firebase
         console.log('DISPLAY EMAIL')
         try {
-            yield call(reduxSagaFirebase.auth.updateEmail, values.data.email )
+            yield call(reduxSagaFirebase.auth.updateEmail, values.data.email)
 
         } catch (error) {
             if (error.code === 'auth/requires-recent-login') {
@@ -71,7 +71,6 @@ function* editUserProfil(values: any) {
     yield call(reduxSagaFirebase.firestore.setDocument, `users/${uid}`, values.data, {merge: true})
 
 }
-
 
 
 function* uploadProfilPicture(file: any) {

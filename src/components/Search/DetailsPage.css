@@ -1,46 +1,54 @@
-.contentDetails{
+.contentDetails {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
 }
-.contentDetails .header{
+
+.contentDetails .header {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
 }
+
 .contentDetails .header img {
     height: 400px;
     width: 400px;
 }
+
 .contentDetails .header .title {
     align-items: center;
     text-align: center;
 }
-.contentDetails .header .title h3{
+
+.contentDetails .header .title h3 {
     opacity: 0.3;
 }
-.contentDetails .details{
+
+.contentDetails .details {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
 }
-.contentDetails .details .detailequipment{
+
+.contentDetails .details .detailequipment {
     align-items: start;
     text-align: start;
 }
-.contentDetails .details .detailfournisseur{
+
+.contentDetails .details .detailfournisseur {
     align-items: start;
     text-align: start;
 }
-.contentDetails .reservation{
+
+.contentDetails .reservation {
     align-items: end;
     text-align: end;
 }
+
 .ant-divider-horizontal.ant-divider-with-text-left::before,
-.ant-divider-horizontal.ant-divider-with-text-left::after
-{
+.ant-divider-horizontal.ant-divider-with-text-left::after {
     border-top: 1px solid black;
 }

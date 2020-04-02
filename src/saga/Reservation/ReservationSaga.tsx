@@ -90,7 +90,7 @@ function* watchUserReservations() {
             const data = yield take(channel)
 
             data.forEach((reservation: any) => {
-                let id = {id : reservation.id};
+                let id = {id: reservation.id};
                 reservations.push(Object.assign(id, reservation.data()))
             })
 

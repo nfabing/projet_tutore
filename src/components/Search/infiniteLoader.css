@@ -1,8 +1,9 @@
-.contentLoader{
-     display: flex;
+.contentLoader {
+    display: flex;
     justify-content: start;
 }
-.contentLoader .filter{
+
+.contentLoader .filter {
     width: 20%;
     display: flex;
     flex-direction: column;

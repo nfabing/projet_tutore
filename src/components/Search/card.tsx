@@ -49,7 +49,7 @@ const Card = ({equipment}: CardProps, {uid}: Iprops) => {
         } else if (equipment.status === '1') {
             setStatu('Reserve');
             setStatuColor('warning');
-        }else if (equipment.status === '3') {
+        } else if (equipment.status === '3') {
             setStatu('Indisponible');
             setStatuColor('error');
         }
@@ -148,8 +148,8 @@ const Card = ({equipment}: CardProps, {uid}: Iprops) => {
             <span className={'bottom'}>
                 <span className={'btn'}>
                     <Link to={`/Details/${equipment.id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
-                    {connected ?<>
-                            {statuColor == 'error' || statuColor == 'warning'  ?
+                    {connected ? <>
+                            {statuColor == 'error' || statuColor == 'warning' ?
                                 <CarryOutOutlined style={{fontSize: '30px', opacity: 0.3}}/>
                                 :
                                 <a href={'#'} onClick={showModal}>
@@ -207,17 +207,17 @@ const Card = ({equipment}: CardProps, {uid}: Iprops) => {
                             </Modal>
                 </span>
 
-                { statuColor != '' ? <>
-                    {statuColor == 'warning' ?
-                        <Badge status={'warning'} text={statu}/>
-                        : <>
-                        {statuColor == 'success' ?
-                            <Badge status={'success'} text={statu}/>
-                            :
-                            <Badge status={'error'} text={statu}/>
+                {statuColor != '' ? <>
+                        {statuColor == 'warning' ?
+                            <Badge status={'warning'} text={statu}/>
+                            : <>
+                                {statuColor == 'success' ?
+                                    <Badge status={'success'} text={statu}/>
+                                    :
+                                    <Badge status={'error'} text={statu}/>
+                                }
+                            </>
                         }
-                        </>
-                    }
                     </>
                     : null
                 }

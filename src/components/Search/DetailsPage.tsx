@@ -12,6 +12,7 @@ import moment from "moment";
 import store from "../../redux/store"; // css
 
 const {RangePicker} = DatePicker;
+
 interface Iprops {
     equipment: any;
     getEquipment: any;
@@ -25,7 +26,7 @@ interface Iprops {
     uEmail: any;
 }
 
-const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categories, getOneCategories,uid, uName, uEmail}: Iprops) => {
+const Details = ({equipment, user, getOwner, getEquipment, editEquipment, categories, getOneCategories, uid, uName, uEmail}: Iprops) => {
     const [visible, setVisible] = useState(false);
     const [userDataVisible, setUserDataVisible] = useState(false)
     const [categorieName, setCategorieName] = useState('')
@@ -52,8 +53,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
         if (user !== undefined) {
             console.log('test', user)
             setUserDataVisible(true)
-        }
-        else console.log('USEEEER', user)
+        } else console.log('USEEEER', user)
     }, [user])
 
     useEffect(() => {
@@ -91,7 +91,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
     let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
 
     const disabledDate = (current: any) => {
-        let dates: any[] = ['2020-04-05','2020-04-06','2020-04-07','2020-04-08' ];
+        let dates: any[] = ['2020-04-05', '2020-04-06', '2020-04-07', '2020-04-08'];
         return current < moment().subtract(7, "days") || current > moment().add(7, 'd')
     };
 
@@ -101,10 +101,10 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
 
         const onFinish = (values: any) => {
             const dateDebut = new Date(values.range[0]._d);
-            console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
+            console.log(dateDebut.getDate() + '/' + (dateDebut.getMonth() + 1) + '/' + dateDebut.getFullYear());
             const dateFin = new Date(values.range[1]._d);
-            const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
-            const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
+            const dateDebutStr = dateDebut.getDate() + '/' + (dateDebut.getMonth() + 1) + '/' + dateDebut.getFullYear();
+            const dateFinStr = dateFin.getDate() + '/' + (dateFin.getMonth() + 1) + '/' + dateFin.getFullYear();
             const dataReservation: {
                 dateDebut: string,
                 dateFin: string,
@@ -117,7 +117,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
                 nameUser: string,
                 status: string,
                 img: string
-            }[]= [];
+            }[] = [];
             dataReservation.push({
                 dateDebut: dateDebutStr,
                 dateFin: dateFinStr,
@@ -131,7 +131,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
                 status: '0',
                 img: equipment.img
             })
-            store.dispatch({type: 'ADD_RESERVATION', reservation : dataReservation})
+            store.dispatch({type: 'ADD_RESERVATION', reservation: dataReservation})
             //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
             // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
             //store.dispatch({type: "ADD_RESERVATION", reservation: dataReservation});
@@ -215,13 +215,13 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
                     </h1>
                     <h3>
 
-                        { userDataVisible ? user.storeName : 'NOM BOUTIQUE'}
+                        {userDataVisible ? user.storeName : 'NOM BOUTIQUE'}
                     </h3>
                 </span>
 
             </span>
                 <div className={'details'}>
-                    <Divider orientation={'left'} ><h2><b>Details sur l'équipement</b></h2></Divider>
+                    <Divider orientation={'left'}><h2><b>Details sur l'équipement</b></h2></Divider>
                     <span className={'detailequipment'}>
                 <p>
                     <b>Description : </b> {equipment.description}
@@ -279,9 +279,9 @@ const mapStateToProps = (state: any) => {
         equipment: state.editMateriel.getOneEquipment,
         categories: state.ajoutMateriel.oneCategories,
         user: state.editMateriel.user,
-        uid : state.login.user.uid,
-        uName : state.login.user.displayName,
-        uEmail : state.login.user.email,
+        uid: state.login.user.uid,
+        uName: state.login.user.displayName,
+        uEmail: state.login.user.email,
     }
 }
 
@@ -290,7 +290,7 @@ const mapDispatchToProps = (dispatch: any) => {
         getEquipment: (test: string) => dispatch({type: 'GET_THAT_EQUIPMENT', id: test}),
         getOwner: (ownerUid: string) => dispatch({type: 'GET_THAT_EQUIPMENT_OWNER', uid: ownerUid}),
         getOneCategories: (idCateg: string) => {
-            dispatch({ type: "GET_ONE_CATEGORIES", id: idCateg });
+            dispatch({type: "GET_ONE_CATEGORIES", id: idCateg});
         }
     }
 }

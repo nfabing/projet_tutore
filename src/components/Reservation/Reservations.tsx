@@ -31,9 +31,9 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
             setListEquipment(reservations)
 
             reservations.map(
-                (data :any) => {
-                console.log('123456',data)
-                    if( data.status === '0.5') {
+                (data: any) => {
+                    console.log('123456', data)
+                    if (data.status === '0.5') {
                         success(data.id, data.nameEquipment)
                     }
                 }
@@ -41,7 +41,6 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
         }
 
     }, [reservations])
-
 
 
     const handleReturnReservation = (reservation: any) => {
@@ -59,7 +58,7 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     }
     const success = (id: string, name: string) => {
         Modal.success({
-            content: 'Votre demande de location a été validé pour le produit : '+ name,
+            content: 'Votre demande de location a été validé pour le produit : ' + name,
             onOk: () => {
                 envmesdonnee(id)
             }
@@ -73,14 +72,14 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
         return (
             <div>
                 <h2>Espace réservations</h2>
-                    <Row>
-                        <Col>
-                            <p>Retrouvez ici toutes vos réservations en cours.</p>
-                            <p>Pour chaque réservation, vous pouver consulter le status, la date de début et de fin.
-                                Une fois le matériel rendu, vous pourrez confirmer la restitution ici.</p>
-                        </Col>
-                    </Row>
-                <Divider />
+                <Row>
+                    <Col>
+                        <p>Retrouvez ici toutes vos réservations en cours.</p>
+                        <p>Pour chaque réservation, vous pouver consulter le status, la date de début et de fin.
+                            Une fois le matériel rendu, vous pourrez confirmer la restitution ici.</p>
+                    </Col>
+                </Row>
+                <Divider/>
                 <List
                     header={<div><b>Vos réservation(s) :</b></div>}
                     loading={loading}

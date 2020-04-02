@@ -9,20 +9,24 @@
     margin: 5px;
     box-shadow: 1px 1px 5px grey;
 }
-.card .nameImg{
+
+.card .nameImg {
     display: flex;
     justify-content: start;
 }
-.card .nameImg .name{
-display: flex;
+
+.card .nameImg .name {
+    display: flex;
     align-items: start;
     justify-content: center;
     flex-direction: column;
     margin-left: 20px;
 }
-.card .nameImg .name h4{
-font-size: 20px;
+
+.card .nameImg .name h4 {
+    font-size: 20px;
 }
+
 .card img {
     display: inline-block;
     height: 130px;
@@ -36,13 +40,15 @@ font-size: 20px;
     flex-direction: column;
     align-items: end;
 }
-.card .bottom .btn{
+
+.card .bottom .btn {
     display: flex;
     justify-content: space-between;
     width: 80px;
 }
-.card .bottom .btn a{
-   text-decoration: none;
+
+.card .bottom .btn a {
+    text-decoration: none;
     color: #515354;
 }
 
@@ -52,6 +58,7 @@ font-size: 20px;
     text-shadow: limegreen 1px 0px 5px;
 
 }
+
 .card .orange {
     float: right;
     color: orangered;
