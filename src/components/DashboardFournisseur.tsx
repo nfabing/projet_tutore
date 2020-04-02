@@ -12,7 +12,6 @@ import {CardBooked} from "./cardsDashboardFournisseur/CardBooked";
 import AjoutMateriel from "../components/AjoutMateriel";
 import EditMateriel from "../components/EditMateriel";
 import ReturnMateriel from "../components/displayEquipmentsDashboardFournisseur/returnEquipment/ReturnEquipment";
-
 import {ListEquipments} from "./displayEquipmentsDashboardFournisseur/ListEquipments";
 
 import {Row, Col} from "antd";

@@ -49,7 +49,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
 
     //une fois que c'est bon j'affiche les infos de l'utilisateur
     useEffect(() => {
-        if (user.length != 0) {
+        if (user !== undefined) {
             console.log('test', user)
             setUserDataVisible(true)
         }
@@ -214,7 +214,8 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
                         {equipment.name}
                     </h1>
                     <h3>
-                        {user.storeName}
+
+                        { userDataVisible ? user.storeName : 'NOM BOUTIQUE'}
                     </h3>
                 </span>
 
