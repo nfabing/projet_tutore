@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Badge, Skeleton, List, Avatar, Button, Divider, Row, Col} from "antd";
+import {Badge, Skeleton, List, Avatar, Button, Popconfirm, Row, Col} from "antd";
 import Moment from "react-moment";
 
 interface IReservations {
@@ -41,7 +41,7 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     if (logged) {
         return (
             <div>
-                <h2>Réservations</h2>
+                <h2>Espace réservations</h2>
                     <Row>
                         <Col>
                             <p>Retrouvez ici toutes vos réservations en cours.</p>
@@ -51,7 +51,7 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
                     </Row>
 
                 <List
-                    header={<div>Vos réservations :</div>}
+                    header={<div><b>Vos réservation(s) :</b></div>}
                     className=""
                     loading={loading}
                     itemLayout="horizontal"
@@ -113,7 +113,15 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
 
 
                             {equipment.status === '3' ?
-                                <Button onClick={() => handleReturnReservation(equipment)}>Restituer</Button> : null}
+                                <Popconfirm
+                                    title="Êtes-vous sûr de vouloir restituer ce produit ?"
+                                    onConfirm={() => handleReturnReservation(equipment)}
+                                    okText="Oui"
+                                    cancelText="Non"
+                                >
+                                    <Button>Restituer</Button>
+                                </Popconfirm>
+                                : null}
 
                         </List.Item>
                     )}
