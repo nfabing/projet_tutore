@@ -1,11 +1,9 @@
-import { takeLatest, take, put, fork, takeEvery } from "redux-saga/effects";
+import { fork, takeEvery } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import "firebase/firestore";
 
-import { eventChannel, buffers } from "redux-saga";
-import { emit } from "cluster";
-import { equal } from "assert";
+
 
 import { listReserve,listAll } from '../../redux/listReserve/listReserveAction';
 
@@ -42,18 +40,17 @@ function* getListReserve() {
 };
 
 function* annuleReserve(id:any){
-  console.log(id.id);
-  yield fork(reduxSagaFirebase.firestore.deleteDocument, "reservation/"+ id.id);
-  
-  };
+  yield fork(reduxSagaFirebase.firestore.updateDocument, "reservation/"+ id.id,{
+    status: 5,
+  });
+};
 
-  function* updateStatus(idE:any){
-    console.log(idE.idE);
+function* updateStatus(idE:any){
     yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+ idE.idE,{
       status: 0,
     });
     
-    };
+};
 
   export function* watchReserve() {
     yield takeEvery("GET_RESERVE", getListReserve);
