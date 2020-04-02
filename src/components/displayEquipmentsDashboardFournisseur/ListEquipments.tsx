@@ -27,6 +27,7 @@ import EditMateriel from "../../components/EditMateriel";
 import {StatusBadge} from "./statusBadge/StatusBadge";
 import moment from "moment";
 import {CardConfirmReservation} from "./cardConfirmReservation/CardValidReservation";
+import {BookedToLoan} from "./bookedToLoan/bookedToLoan";
 
 const {Column} = Table;
 
@@ -89,6 +90,17 @@ export const ListEquipments = (props: any) => {
                                 <Column title="Date Début" dataIndex="dateDebut" key="dateDebut"/>
                                 <Column title="Date Fin" dataIndex="dateFin" key="dateFin"/>
                                 <Column title="Date Restitution" dataIndex="dateRestitution" key="dateRestitution"/>
+                                <Column
+                                    title="Équipement récupéré ?"
+                                    dataIndex="id"
+                                    key="id"
+                                    render={(id, dateDebut) => (
+                                        <div>
+                                            <BookedToLoan equipment={[id, dateDebut]}/>
+                                        </div>
+
+                                    )}
+                                />
                             </Table>
                         </div>
                     );

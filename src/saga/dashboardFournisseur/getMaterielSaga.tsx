@@ -41,7 +41,7 @@ function* getEquipments(userID: any) {
                 return store.dispatch(listLoanFournisseur(loan));
             });
 
-        //RECUPERE LES EQUIPMENT EN ATTENTE DE VALIDATION DE RESERVATION
+        //RECUPERE LES EQUIPMENTS EN ATTENTE DE VALIDATION DE RESERVATION
         yield db
             .collection("reservation")
             .where("idSupplier", "==", userID.value)
@@ -56,7 +56,7 @@ function* getEquipments(userID: any) {
                 return store.dispatch(listWaiting(waiting));
             });
 
-        //RECUPERE LES EQUIPMENT EN ATTENTE DE VALIDATION DE RESERVATION
+        //RECUPERE LES EQUIPMENTS RESERVES
         yield db
             .collection("reservation")
             .where("idSupplier", "==", userID.value)
@@ -64,6 +64,7 @@ function* getEquipments(userID: any) {
             .onSnapshot(function (querySnapshot) {
                 var booked: Array<any> = [];
                 querySnapshot.forEach(function (doc) {
+                    console.log(doc.data());
                     let objID = {id: doc.id};
                     let finalObj = Object.assign(objID, doc.data());
                     booked.push(finalObj);
@@ -82,11 +83,11 @@ function* getEquipments(userID: any) {
 
                     let dateResitution = (doc.data().dateRestitution);
                     dateResitution = dateResitution.split("/");
-                    dateResitution = dateResitution[1]+"/"+dateResitution[0]+"/"+dateResitution[2];
+                    dateResitution = dateResitution[1] + "/" + dateResitution[0] + "/" + dateResitution[2];
                     dateResitution = new Date(dateResitution);
 
-                    let dif = parseInt(Number((dateResitution.getTime() / 86400000) - (dateNow.getTime() / 86400000)+1).toFixed(0));
-                    if(dif < 0){
+                    let dif = parseInt(Number((dateResitution.getTime() / 86400000) - (dateNow.getTime() / 86400000) + 1).toFixed(0));
+                    if (dif < 0) {
                         let objID = {id: doc.id};
                         let finalObj = Object.assign(objID, doc.data());
                         overdue.push(finalObj);
@@ -284,28 +285,55 @@ function* getOverdueEquipments(userID: any) {
     const db = firebase.firestore();
     try {
         yield db.collection("reservation")
-                .where("idSupplier", "==", userID.value)
-                .where("status", "==", "3")
-                .onSnapshot(function (querySnapshot) {
-                    let overdue: Array<any> = [];
-                    querySnapshot.forEach(function (doc) {
-                        let dateNow = new Date();
+            .where("idSupplier", "==", userID.value)
+            .where("status", "==", "3")
+            .onSnapshot(function (querySnapshot) {
+                let overdue: Array<any> = [];
+                querySnapshot.forEach(function (doc) {
+                    let dateNow = new Date();
 
-                        let dateResitution = (doc.data().dateRestitution);
-                        dateResitution = dateResitution.split("/");
-                        dateResitution = dateResitution[1]+"/"+dateResitution[0]+"/"+dateResitution[2];
-                        dateResitution = new Date(dateResitution);
+                    let dateResitution = (doc.data().dateRestitution);
+                    dateResitution = dateResitution.split("/");
+                    dateResitution = dateResitution[1] + "/" + dateResitution[0] + "/" + dateResitution[2];
+                    dateResitution = new Date(dateResitution);
 
-                        let dif = parseInt(Number((dateResitution.getTime() / 86400000) - (dateNow.getTime() / 86400000)+1).toFixed(0));
-                        if(dif < 0){
-                            let objID = {id: doc.id};
-                            let finalObj = Object.assign(objID, doc.data());
-                            overdue.push(finalObj);
-                        }
-                    });
-                    console.log(overdue);
-                    return store.dispatch(displayListEquipments(overdue));
+                    let dif = parseInt(Number((dateResitution.getTime() / 86400000) - (dateNow.getTime() / 86400000) + 1).toFixed(0));
+                    if (dif < 0) {
+                        let objID = {id: doc.id};
+                        let finalObj = Object.assign(objID, doc.data());
+                        overdue.push(finalObj);
+                    }
                 });
+                console.log(overdue);
+                return store.dispatch(displayListEquipments(overdue));
+            });
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
+function* setBookedToLoan(ID: any) {
+    console.log(ID.values);
+    const db = firebase.firestore();
+    try {
+        yield db.collection("reservation").doc(ID.values)
+            .set({
+                status: "3"
+            }, {merge: true});
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+function* setBookedToCancel(ID: any) {
+    console.log(ID.values);
+    const db = firebase.firestore();
+    try {
+        yield db.collection("reservation").doc(ID.values)
+            .set({
+                status: "5"
+            }, {merge: true});
     } catch (error) {
         console.log(error);
     }
@@ -324,4 +352,6 @@ export function* watchEquipments() {
     yield takeLatest("SET_STATUS_RETURN", setStatusReturn);
     yield takeLatest("SET_STATUS_RETURN_PROBLEME", setStatusReturnProbleme);
     yield takeLatest("GET_OVERDUE_EQUIPMENTS", getOverdueEquipments);
+    yield takeLatest("SET_BOOKED_TO_LOAN", setBookedToLoan);
+    yield takeLatest("SET_BOOKED_TO_CANCEL", setBookedToCancel);
 }

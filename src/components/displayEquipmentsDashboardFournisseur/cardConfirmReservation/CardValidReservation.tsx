@@ -47,6 +47,7 @@ export const CardConfirmReservation = (props: any) => {
         if(values.equipment.idEquipment === undefined){
             values.equipment.idEquipment = idEquip;
         }
+        setVisible(false);
         store.dispatch({type: "CONFIRM_RESERVATION", values: values})
     };
 
