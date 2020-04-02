@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Badge, Skeleton, List, Avatar, Button, Popconfirm, Row, Col} from "antd";
+import {Badge, Skeleton, List, Avatar, Button, Popconfirm, Row, Col, Divider} from "antd";
 import Moment from "react-moment";
 
 interface IReservations {
@@ -49,7 +49,7 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
                                 Une fois le matériel rendu, vous pourrez confirmer la restitution ici.</p>
                         </Col>
                     </Row>
-
+                <Divider />
                 <List
                     header={<div><b>Vos réservation(s) :</b></div>}
                     className=""
@@ -131,11 +131,11 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     } else {
         return (
             <div>
-                <Skeleton/>
-                <Skeleton/>
-                <Skeleton/>
-                <Skeleton/>
-                <Skeleton/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
             </div>
         )
     }
