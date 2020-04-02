@@ -83,10 +83,9 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
                 <Divider />
                 <List
                     header={<div><b>Vos réservation(s) :</b></div>}
-                    className=""
                     loading={loading}
+                    locale={{emptyText: 'Aucune réservation !'}}
                     itemLayout="horizontal"
-                    /*loadMore={loadMore}*/
                     dataSource={listEquipment}
                     renderItem={(equipment: any) => (
                         <List.Item>

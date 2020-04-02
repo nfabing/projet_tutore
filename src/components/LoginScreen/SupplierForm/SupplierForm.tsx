@@ -12,7 +12,7 @@ interface IsupplierForm {
 
 const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm) => {
     if (type === 'content') {
-        return(
+        return (
             <>
                 <h3 className={'login-title'}>Informations Fournisseur</h3>
 
@@ -37,7 +37,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
 
                         }]}
                 >
-                    <Input placeholder={'Ville'} />
+                    <Input placeholder={'Ville'}/>
                 </Form.Item>
 
                 <Form.Item
@@ -64,7 +64,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
                 >
                     <Input placeholder={'Nom boutique'} suffix={
                         <Tooltip title="Le nom de votre boutique, visible par tous les utilisateurs">
-                            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                            <InfoCircleOutlined style={{color: 'rgba(0,0,0,.45)'}}/>
                         </Tooltip>
                     }/>
                 </Form.Item>
@@ -73,12 +73,12 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
     }
 
     if (type === 'form') {
-        return(
+        return (
             <Form
-            onFinish={formHandler}
-            hideRequiredMark={true}
-            labelCol={{span: 8}}
-            wrapperCol={{span: 16}}
+                onFinish={formHandler}
+                hideRequiredMark={true}
+                labelCol={{span: 8}}
+                wrapperCol={{span: 16}}
             >
                 <h3 className={'login-title'}>Informations Fournisseur</h3>
 
@@ -103,7 +103,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
 
                         }]}
                 >
-                    <Input placeholder={'Ville'} />
+                    <Input placeholder={'Ville'}/>
                 </Form.Item>
 
                 <Form.Item
@@ -130,7 +130,7 @@ const SupplierForm: any = ({type, loading, formHandler, onCancel}: IsupplierForm
                 >
                     <Input placeholder={'Nom boutique'} suffix={
                         <Tooltip title="Le nom de votre boutique, visible par tous les utilisateurs">
-                            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                            <InfoCircleOutlined style={{color: 'rgba(0,0,0,.45)'}}/>
                         </Tooltip>
                     }/>
                 </Form.Item>
