@@ -3,7 +3,8 @@ import {LIST_RESERVE,DEL_RESERVE,GET_ALL,PUT_STATUS} from "./listReserveType";
 const initialState = {
     listReserve: [],
     listAll: [],
-    idE: [],
+    id: [], //id reservation update status "supprimer"
+    idE: [], //id equipment update status
 }
 
 const listReserveReducer = (state = initialState, action: any) => {
