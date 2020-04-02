@@ -148,8 +148,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
                       >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
                           {arrayBrand.map( (data:string)=> {
+
                               return(
-                                  <Option value={data}>{data}</Option>
+                                  <Option key={data} value={data}>{data}</Option>
                               )
                           })}
                       </Select>
@@ -165,12 +166,12 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
                     >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
                         {categories.categories.map((cat: any) => {
-                            return <Option value={cat.id}>{cat.name}</Option>;
+                            return <Option key={cat.id} value={cat.id}>{cat.name}</Option>;
                         })}
                       </Select>
                     <a href={'#'} onClick={() => {
                         setSearch('');setCategory('');setBrand('');
-                    }}>Vider les fitlres</a>
+                    }}>Vider les filtres</a>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (
