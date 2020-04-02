@@ -29,6 +29,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
     const [visible, setVisible] = useState(false);
     const [userDataVisible, setUserDataVisible] = useState(false)
     const [categorieName, setCategorieName] = useState('')
+    const [connected, setConnected] = useState(false)
     const {materialId} = useParams(); // paramètre get
     const test: any = materialId;
 
@@ -61,6 +62,13 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
         }
     }, [categories])
 
+    useEffect(() => {
+        if (uid != undefined) {
+            setConnected(true)
+        }
+
+    }, [uid])
+
     const showModal = () => {
         setVisible(true)
     };
@@ -89,6 +97,8 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
 
 
     if (equipment.length != 0) {
+
+
         const onFinish = (values: any) => {
             const dateDebut = new Date(values.range[0]._d);
             console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
@@ -138,9 +148,15 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment,categor
         return (
             <span className={'contentDetails'}>
             <span className={'reservation'}>
-                <Button style={{height: '50px'}} color={'primary'} onClick={showModal}>
-                    <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
-                </Button>
+                {connected === true ? <Button style={{height: '50px'}} color={'primary'} onClick={showModal}>
+                        <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
+                    </Button>
+                    :
+                    <Button style={{height: '50px'}} color={'primary'} onClick={showModal} disabled={true}>
+                        <CarryOutOutlined style={{fontSize: '30px'}}/> Reserver
+                    </Button>
+                }
+
 
                 <Modal
                     title="Basic Modal"
