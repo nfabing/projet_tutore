@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Badge, Skeleton, List, Avatar, Button, Popconfirm, Row, Col} from "antd";
+import {Badge, Skeleton, List, Avatar, Button, Popconfirm, Row, Col, Modal} from "antd";
 import Moment from "react-moment";
+import store from "../../redux/store";
 
 interface IReservations {
     getReservations: any;
@@ -9,12 +10,15 @@ interface IReservations {
     reservations: any;
     loading: boolean;
     returnReservation: any;
+    uid: any;
+    getConfirmReservation: any;
 }
 
-const Reservations = ({logged, reservations, loading, getReservations, returnReservation}: IReservations) => {
+const Reservations = ({logged, reservations, loading, getReservations, returnReservation, getConfirmReservation, uid}: IReservations) => {
 
 
     const [listEquipment, setListEquipment] = useState([])
+    const [myUid, setMyUid] = useState('')
 
     useEffect(() => {
         if (logged) {
@@ -29,6 +33,14 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
 
     }, [reservations])
 
+    useEffect(() => {
+        if (uid !== undefined && myUid =='') {
+            setMyUid(uid);
+            console.log('jesuisla')
+            store.dispatch({type:'GET_CONFIRM_OK_RESERVATION', id: uid});
+        }
+    })
+
     const handleReturnReservation = (reservation: any) => {
         console.log('RESTITUTION')
         console.log(reservation.idEquipment)
@@ -37,8 +49,29 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
         returnReservation(reservation.idEquipment, reservation.idUser)
 
     }
+    const envmesdonnee = (id: string) => {
+        store.dispatch({type: "CONFIRM_OK_RESERVATION", id: id});
+    }
+    const success = (id: string) => {
+        Modal.success({
+            content: 'Votre demande de location a été validé',
+            onOk: () => {
+                envmesdonnee(id)
+            }
+        });
+    }
 
+    if (getConfirmReservation.length !=0 && !getConfirmReservation.id) {
+        console.log('LOGGGGGGGGGG',getConfirmReservation);
+        getConfirmReservation.getConfirmReservation.map(
+            (data: any) => {
+                success(data.id);
+            }
+        )
+    }
     if (logged) {
+
+
         return (
             <div>
                 <h2>Espace réservations</h2>
@@ -147,7 +180,9 @@ const mapStateToProps = (state: any) => {
     return {
         logged: state.login.logged,
         reservations: state.reservation.reservations,
-        loading: state.reservation.loading
+        loading: state.reservation.loading,
+        getConfirmReservation: state.reservation.getConfirmReservation,
+        uid: state.login.user.uid
     }
 }
 
