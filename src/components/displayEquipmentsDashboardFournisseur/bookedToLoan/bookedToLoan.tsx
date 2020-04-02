@@ -1,10 +1,10 @@
 import React from "react";
 
-import {Button} from "antd";
-import { CheckOutlined,CloseOutlined } from "@ant-design/icons";
+import {Button, Modal} from "antd";
+import { CheckOutlined,CloseOutlined, ExclamationCircleOutlined  } from "@ant-design/icons";
 import store from "../../../redux/store";
 
-
+const { confirm } = Modal;
 
 export const BookedToLoan = (props: any) => {
     // console.log(props);
@@ -17,12 +17,35 @@ export const BookedToLoan = (props: any) => {
     let dif = parseInt(Number((dateDebut.getTime() / 86400000) - (dateNow.getTime() / 86400000)+1).toFixed(0));
     console.log(props);
 
-    const bookedToLoan = (id: any) => {
-        store.dispatch({type: "SET_BOOKED_TO_LOAN", values: id})
+
+    const showConfirm = (id: any) => {
+        confirm({
+            title: 'Validation de récupération',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Cliquer sur OK si l\'utilisateur à récupéré son équipement.',
+            cancelText: 'Non',
+            onOk() {
+                store.dispatch({type: "SET_BOOKED_TO_LOAN", values: id})
+            },
+            onCancel() {
+            },
+        });
     };
 
-    const bookedToCancel = (id: any) => {
-        store.dispatch({type: "SET_BOOKED_TO_CANCEL", values: id})
+    const showDienied = (id: any) => {
+        confirm({
+            title: 'Validation de récupération',
+            icon: <ExclamationCircleOutlined />,
+            content: 'Cliquer sur OUI si l\'utilisateur n\'à pas récupéré son équipement.',
+            okText: 'OUI',
+            okType: 'danger',
+            cancelText: 'Non',
+            onOk() {
+                store.dispatch({type: "SET_BOOKED_TO_CANCEL", values: id})
+            },
+            onCancel() {
+            },
+        });
     };
 
 
@@ -32,12 +55,12 @@ export const BookedToLoan = (props: any) => {
                 <Button
                     type="primary"
                     icon={<CheckOutlined />}
-                    onClick={() => bookedToLoan(props.equipment[1].id)}
+                    onClick={() => showConfirm(props.equipment[1])}
                 />
                 <Button
                     type="default"
                     icon={<CloseOutlined />}
-                    onClick={() => bookedToCancel(props.equipment[1].id)}
+                    onClick={() => showDienied(props.equipment[1])}
                 />
             </div>
         );

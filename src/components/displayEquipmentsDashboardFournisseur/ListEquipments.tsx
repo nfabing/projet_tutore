@@ -95,7 +95,6 @@ export const ListEquipments = (props: any) => {
                     );
                 } else {
                     if (props.equipments.listEquipments[0].idEquipment != undefined && props.equipments.listEquipments[0].status === "3"){
-                        console.log("ZOZBBZBZBZBZBBZ");
                         return (
                             <div className="listEquipment">
                                 <Table
@@ -107,7 +106,7 @@ export const ListEquipments = (props: any) => {
                                     <Column title="Utilisateur" dataIndex="nameUser" key="nameUser"/>
                                     <Column title="E-Mail" dataIndex="mailUser" key="mailUser"/>
                                     <Column title="Equipement" dataIndex="nameEquipment" key="nameEquipment"/>
-                                    <Column title="Date Restitution" dataIndex="dateRestitution" key="dateRestitution"/>
+                                    <Column title="Date de Fin" dataIndex="dateFin" key="dateFin"/>
                                 </Table>
                             </div>
                         );

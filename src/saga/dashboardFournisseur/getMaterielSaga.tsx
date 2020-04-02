@@ -234,7 +234,12 @@ function* getReturnEquipment(userID: any) {
 }
 
 function* setStatusReturn(IDs: any) {
-    console.log(IDs);
+    let dateNow = new Date();
+    let day = dateNow.getDate();
+    let month = dateNow.getMonth()+1;
+    let year = dateNow.getFullYear();
+    let now = day+"/"+month+"/"+year;
+
     const db = firebase.firestore();
     try {
         yield db
@@ -249,7 +254,8 @@ function* setStatusReturn(IDs: any) {
         yield db
             .collection("reservation").doc(IDs.idReserve.id)
             .set({
-                status: "6"
+                status: "6",
+                dateRestitution: now
             }, {merge: true})
     } catch (error) {
         console.log(error);
@@ -257,7 +263,12 @@ function* setStatusReturn(IDs: any) {
 }
 
 function* setStatusReturnProbleme(IDs: any) {
-    console.log(IDs);
+    let dateNow = new Date();
+    let day = dateNow.getDate();
+    let month = dateNow.getMonth()+1;
+    let year = dateNow.getFullYear();
+    let now = day+"/"+month+"/"+year;
+
     const db = firebase.firestore();
     try {
         yield db
@@ -272,7 +283,8 @@ function* setStatusReturnProbleme(IDs: any) {
         yield db
             .collection("reservation").doc(IDs.idReserve.id)
             .set({
-                status: "6"
+                status: "6",
+                dateRestitution: now
             }, {merge: true})
     } catch (error) {
         console.log(error);
@@ -316,9 +328,17 @@ function* setBookedToLoan(ID: any) {
     console.log(ID.values);
     const db = firebase.firestore();
     try {
-        yield db.collection("reservation").doc(ID.values)
+        yield db.collection("reservation").doc(ID.values.id)
             .set({
                 status: "3"
+            }, {merge: true});
+    } catch (error) {
+        console.log(error);
+    }
+    try {
+        yield db.collection("equipment").doc(ID.values.idEquipment)
+            .set({
+                status: "1"
             }, {merge: true});
     } catch (error) {
         console.log(error);

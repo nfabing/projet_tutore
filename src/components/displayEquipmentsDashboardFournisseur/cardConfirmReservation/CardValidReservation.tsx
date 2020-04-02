@@ -52,6 +52,21 @@ export const CardConfirmReservation = (props: any) => {
         setIdEquipment(idEqmt.idEquipment);
     };
 
+    const showConfirm = (id: any, idEquipment: any) => {
+        confirm({
+            title: 'Confirmer ?',
+            icon: <ExclamationCircleOutlined />,
+            content: 'En cliquant sur Oui vous confirmez la validation de cette reservation.',
+            okText: 'Oui',
+            okType: 'primary',
+            cancelText: 'Non',
+            onOk() {
+                console.log(idEquipment);
+                store.dispatch({type: "CONFIRM_RESERVATION", values: idEquipment})
+            },
+            onCancel() {},
+        });
+    };
     const showDeleteConfirm = (values: any) => {
         confirm({
             title: 'Confirmer ?',
@@ -86,51 +101,6 @@ export const CardConfirmReservation = (props: any) => {
 
     return (
         <div>
-            <Modal
-                title="Valider la réservation"
-                visible={visible}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                        Annuler
-                    </Button>
-                ]}
-            >
-                <Form
-                    name="nest-messages"
-                    onFinish={valideReservation}
-                    validateMessages={validateMessages}
-                >
-                    <Form.Item
-                        name={["equipment", "restitution"]}
-                        label="Date de restitution : "
-                        rules={[{required: true}]}
-                    >
-                        <DatePicker
-                            format="DD/MM/YYYY"
-                            defaultValue={moment(new Date(), "DD/MM/YYYY")}
-                            disabledDate={disabledDate}
-                        />
-                    </Form.Item>
-                    <div className="inputIdEdit">
-                        <Form.Item name={["equipment", "id"]} label="id">
-                            <Input defaultValue={idReserve} disabled={true}/>
-                        </Form.Item>
-                    </div>
-                    <div className="inputIdEdit">
-                        <Form.Item name={["equipment", "idEquipment"]} label="id">
-                            <Input defaultValue={idEquip} disabled={true}/>
-                        </Form.Item>
-                    </div>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
-
             <Table
                 dataSource={equip}
                 pagination={{
@@ -150,7 +120,7 @@ export const CardConfirmReservation = (props: any) => {
                             <Button
                                 type="primary"
                                 icon={<CheckOutlined/>}
-                                onClick={() => showModal(id, idEquipment)}
+                                onClick={() => showConfirm(id, idEquipment)}
                             />
                             <Button
                                 type="default"
