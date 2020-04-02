@@ -169,7 +169,7 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment, catego
 
 
                 <Modal
-                    title="Basic Modal"
+                    title={equipment.name}
                     visible={visible}
                     onOk={handleOk}
                     onCancel={handleCancel}
@@ -197,7 +197,6 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment, catego
                                         ]}
                                     >
                                     <RangePicker
-                                        disabledDate={disabledDate}
                                         defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
                                         format={dateFormat}
                                     />

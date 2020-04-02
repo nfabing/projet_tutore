@@ -82,7 +82,6 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid, uNam
 
         let filterData = dataCard.filter(
             (data: any) => {
-                console.log('FILTRE', data);
                 return data.titre.toLowerCase().indexOf(
                     search.toLowerCase()
                 ) !== -1;

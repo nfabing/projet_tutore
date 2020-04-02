@@ -161,7 +161,7 @@ const Card = ({equipment}: CardProps, {uid}: Iprops) => {
                         <CarryOutOutlined style={{fontSize: '30px', opacity: 0.3}}/>}
 
                     <Modal
-                        title={equipment.uid}
+                        title={equipment.titre}
                         visible={visible}
                         onOk={handleOk}
                         onCancel={handleCancel}
@@ -189,7 +189,6 @@ const Card = ({equipment}: CardProps, {uid}: Iprops) => {
                                         ]}
                                     >
                                     <RangePicker
-                                        disabledDate={disabledDate}
                                         defaultValue={[moment(dateNowPlus1sem, dateFormat), moment(dateNow, dateFormat)]}
                                         format={dateFormat}
                                     />
