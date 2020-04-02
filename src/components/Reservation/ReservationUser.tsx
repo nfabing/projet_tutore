@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import '../Search/card.css'
 import {AutoSizer} from 'react-virtualized';
 import {FixedSizeList as List} from "react-window";
-import {Layout, Menu, Select} from 'antd';
+import {Layout, Menu, Modal, Select} from 'antd';
 import {
     SearchOutlined,
 } from '@ant-design/icons';
@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 
 import '../Search/infiniteLoader.css'
 import store from "../../redux/store";
+import {emailChangeSuccess} from "../../redux/email/emailActions";
 
 type LoaderProps = {
     data: any,
@@ -30,21 +31,23 @@ interface Iprops {
     categories: any;
     getCategories: any;
     uid: any;
+    getConfirmReservation: any;
 }
 
 const {Option} = Select;
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
 
-
 store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
 store.dispatch({type: 'GET_CATEGORIES'});
-const Reservation = ({equipments, getEquipments, categories, getCategories, uid}: Iprops) => {
+const ReservationUser = ({equipments, getEquipments, categories, getCategories, uid, getConfirmReservation}: Iprops) => {
 
 
     const [category, setCategory] = useState('');
+    const [myUid, setMyUid] = useState('');
     const {Search} = Input;
-    let dataCard: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string
+    let dataCard: {
+        id: string, img: string, titre: string, userHandle: string, status: string, tag: string, brand: string, category: string, uid: string
     }[] = [];
     let arrayBrand: string[] = [];
     const arrayCategory: string[] = [];
@@ -54,69 +57,52 @@ const Reservation = ({equipments, getEquipments, categories, getCategories, uid}
         style: any, // Style object to be applied to row (to position it)
     }
 
-    console.log('Taille', equipments);
 
+    /*useEffect(() => {
+        if (getConfirmReservation.lenght != 0) {
+        console.log(getConfirmReservation);
+    }
+    }, [getConfirmReservation]);*/
+
+
+    useEffect(() => {
+        if (uid !== undefined && myUid =='') {
+            setMyUid(uid);
+            store.dispatch({type:'GET_CONFIRM_OK_RESERVATION', id: uid});
+        }
+    })
 
     if (equipments.length != 0 && categories.length != 0) {
 
-        equipments.equipments.map((data: any) => {
-            const equipement: any = data;
-            const key: any = data.id;
-
-            let testBrand: boolean = false;
-            for (let j = 0; j < arrayBrand.length; j++) {
-                if (arrayBrand[j] === equipement.brand) {
-                    testBrand = true;
+        const envmesdonnee = (id: string) => {
+            store.dispatch({type: "CONFIRM_OK_RESERVATION", id: id});
+        }
+        const success = (id: string) => {
+            Modal.success({
+                content: 'Votre demande de location a été validé',
+                onOk: () => {
+                    envmesdonnee(id)
                 }
+            });
+        }
+
+        if (getConfirmReservation.length !=0 && !getConfirmReservation.id) {
+            console.log('LOGGGGGGGGGG',getConfirmReservation);
+            getConfirmReservation.getConfirmReservation.map(
+                (data: any) => {
+                    success(data.id);
             }
-            if (!testBrand) arrayBrand.push(equipement.brand);
-            arrayCategory.push(equipement.category);
-            let tags: string = equipement.modele + ',' + equipement.brand + ',' + equipement.category;
-            dataCard.push({
-                id: key,
-                img: equipement.img,
-                titre: equipement.name,
-                userHandle:equipement.userHandle,
-                status: equipement.status,
-                tag: tags,
-                brand: equipement.brand,
-                category: equipement.category,
-                uid: uid
-            });
-
-        });
-
-        console.log('DATAAAAAAAAAAAA',dataCard);
-        let filterData = dataCard;
-
-
-        const Row = ({index, style}: RowType) => {
-            const item = filterData[index];
-            const category: string = categories.categories.map((cat: any) => {
-                if (filterData[index].category === cat.id) return cat.name;
-            });
-            return (
-                <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
-                     style={style}>
-                   ok
-                </div>
             )
-        };
+        }
+
 
         return (
 
             <div className={'contentLoader'}>
-                <AutoSizer style={{height: '85vh'}}>
-                    {({height, width}) => (
-                        <List itemSize={170}
-                              height={height}
-                              itemCount={filterData.length}
-                              width={width}
-                        >
-                            {Row}
-                        </List>
-                    )}
-                </AutoSizer>
+                <Button onClick={() => success(
+                    'TyZe1SwIFGjnmG3CrEgZ')}>
+                    Ok
+                </Button>
             </div>
         )
     } else {
@@ -138,6 +124,7 @@ const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
         categories: state.ajoutMateriel.categories,
+        getConfirmReservation: state.reservation.getConfirmReservation,
         uid: state.login.user.uid
     };
 };
@@ -153,4 +140,4 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps)(Reservation);
+    mapDispatchToProps)(ReservationUser);

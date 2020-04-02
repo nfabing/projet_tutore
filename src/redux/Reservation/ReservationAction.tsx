@@ -1,4 +1,4 @@
-import {SYNC_RESERVATIONS, SYNC_RESERVATIONS_ERROR} from "./ReservationType";
+import {GET_CONFIRM_OK_RESERVATION, GET_RESERVATION,SYNC_RESERVATIONS, SYNC_RESERVATIONS_ERROR} from "./ReservationType";
 
 export const syncReservations = (data: any) => {
     return {
@@ -14,8 +14,6 @@ export const syncReservationsError = (error: string) => {
         error: error
     }
 }
-
-
 /*
 export const getReservationsSuccess = (data: any) => {
     return{
@@ -29,6 +27,12 @@ export const getReservationsError = (error: string) => {
         type: GET_RESERVATIONS_ERROR,
         error: error
     }
+};*/
+export const getConfirmReservation = (data: any) => {
+    return{
+        type: GET_CONFIRM_OK_RESERVATION,
+        getConfirmReservation : data
+    }
 };
 
-*/
+

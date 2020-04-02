@@ -15,6 +15,7 @@ import {Route, BrowserRouter as Router, Switch, Link} from "react-router-dom";
 import Search from "./components/Search/SearchPage";
 import {Layout, Menu} from 'antd';
 import Reservation from "./components/Reservation/Reservations";
+import ReservationUser from "./components/Reservation/ReservationUser";
 
 
 const {Header, Content, Footer} = Layout;

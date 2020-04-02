@@ -1,4 +1,5 @@
 import {
+    GET_RESERVATION,GET_CONFIRM_OK_RESERVATION,
     SYNC_RESERVATIONS, SYNC_RESERVATIONS_REQUEST, SYNC_RESERVATIONS_ERROR
 } from './ReservationType';
 import {LOGOUT_SUCCESS} from "../login/loginTypes";
@@ -6,11 +7,17 @@ import {LOGOUT_SUCCESS} from "../login/loginTypes";
 const initialState = {
     reservations: [],
     loading: false,
+    getConfirmReservation: [],
     error: ''
 }
 
 export const ReservationReducer = (state = initialState, action: any) => {
     switch (action.type) {
+        case GET_CONFIRM_OK_RESERVATION:
+            return{
+                ...state,
+                getConfirmReservation: action
+            };
         case SYNC_RESERVATIONS:
             return {
                 ...state,
@@ -35,7 +42,5 @@ export const ReservationReducer = (state = initialState, action: any) => {
                 loading: false,
             }
         default: return state
-
-
     }
 }

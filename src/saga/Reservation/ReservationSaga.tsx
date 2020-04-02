@@ -1,23 +1,16 @@
 import { call, all, takeEvery, takeLatest, take, put, select, fork} from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga';
-import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
+import store, {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import 'firebase/firestore';
-
-import {
-    syncReservations
-} from "../../redux/Reservation/ReservationAction";
-
-
+import firebase, {firestore} from "firebase";
+import {getConfirmReservation,syncReservations} from '../../redux/Reservation/ReservationAction';
+import {listEquipmentsForFournisseur} from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 
 export function* watchReservation() {
-
-    yield all([
-        takeLatest('ADD_RESERVATION', AddReservation),
-        takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations)
-    ])
-
+    yield takeLatest('GET_CONFIRM_OK_RESERVATION', GetConfirmOkReservation);
+    yield takeLatest('ADD_RESERVATION', AddReservation);
+    yield takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations);
 }
-
 
 function* AddReservation(value: any) {
     console.log('DATAA', value.reservation[0]);
@@ -58,6 +51,25 @@ function* AddReservation(value: any) {
 }
 
 
+
+function* GetConfirmOkReservation(values: any) {
+    const idUser = values.id;
+    const db = firebase.firestore();
+    yield db.collection("reservation")
+        .where("status", "==", '0.5')
+        .where('idUser' , '==', idUser)
+        .onSnapshot(function(querySnapshot) {
+        let reserv: Array<any> = [];
+        querySnapshot.forEach(function(doc) {
+            let objID = { id: doc.id };
+            let finalObj = Object.assign(objID, doc.data());
+            reserv.push(finalObj);
+        });
+        return store.dispatch(getConfirmReservation(reserv));
+    });
+}
+
+
 function* watchUserReservations() {
     const db = firebaseApp.firestore()
     // user uid
@@ -65,7 +77,7 @@ function* watchUserReservations() {
     const ref = db.collection('reservation').where('idUser', '==', uid)
 
     const channel = eventChannel(emit => ref.onSnapshot(emit))
-    let reservations: any[] = []
+    let reservations: any[] = [];
     try {
         while (true) {
             const data = yield take(channel)
@@ -87,5 +99,14 @@ function* watchUserReservations() {
    yield take('LOGOUT_SUCCESS')
     console.log('STOPPED LISTENING TO RESERVATIONS')
 
-
 }
+
+
+/*export function* watchReservation() {
+    yield takeLatest('ADD_RESERVATION', AddReservation);
+
+    yield takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations);
+    yield takeLatest('ADD_RESERVATION', AddReservation)
+}*/
+
+

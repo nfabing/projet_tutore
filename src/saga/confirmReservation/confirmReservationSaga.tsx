@@ -1,4 +1,4 @@
-import {takeLatest, call} from "redux-saga/effects";
+import {takeLatest, call, fork} from "redux-saga/effects";
 import store, {reduxSagaFirebase} from "../../redux/store";
 import firebase, {firestore} from "firebase";
 import "firebase/firestore";
@@ -32,7 +32,19 @@ function* refuseReservation(values: any) {
         }, {merge: true});
 }
 
+function* ConfirmOkReservation(values: any) {
+    const idResevration = values.id;
+    yield fork(
+        reduxSagaFirebase.firestore.updateDocument,
+        "reservation/" + idResevration,
+        {
+            status: "1"
+        }
+    );
+}
+
 export function* watchConfirm() {
     yield takeLatest("CONFIRM_RESERVATION", confirmReservation);
+    yield takeLatest("CONFIRM_OK_RESERVATION", ConfirmOkReservation);
     yield takeLatest("REFUSE_RESERVATION", refuseReservation);
 }
