@@ -137,17 +137,17 @@ return (
                 <span className={'name'}>
                     <h4>{equipment.titre}</h4>
                     <p>
-                        Category : {equipment.category}
+                        Catégorie : {equipment.category}
                     </p>
                     <p>
-                        tags : {equipment.tag}
+                        Tags : {equipment.tag}
                     </p>
                 </span>
             </span>
         <span className={'bottom'}>
                 <span className={'btn'}>
                     <Link to={`/Details/${equipment.id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
-                    { connected === true ?
+                    { connected ?
                     <a href={'#'} onClick={showModal} >
                         <CarryOutOutlined style={{fontSize: '30px'}}/>
                         </a>
