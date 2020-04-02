@@ -13,16 +13,18 @@ import moment from 'moment';
 import './popup.css';
 import store from "../../redux/store";
 import {connect} from "react-redux";
+import empty from "firebase/empty-import";
 
 
 type CardProps = {
-    equipment: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string },
+    equipment: { id: string, img: string, titre: string, userHandle: string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string },
 }
+
 interface Iprops {
     uid: any;
 }
 
-const Card = ({equipment}: CardProps, {uid} : Iprops) => {
+const Card = ({equipment}: CardProps, {uid}: Iprops) => {
     const [visible, setVisible] = useState(false);
     const [connected, setConnected] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -47,13 +49,16 @@ const Card = ({equipment}: CardProps, {uid} : Iprops) => {
         } else if (equipment.status === '1') {
             setStatu('Reserve');
             setStatuColor('warning');
+        }else if (equipment.status === '3') {
+            setStatu('Indisponible');
+            setStatuColor('error');
         }
     });
 
     useEffect(() => {
-        if(equipment.uid != undefined) setConnected(true);
+        if (equipment.uid != undefined) setConnected(true);
     })
-  const {RangePicker} = DatePicker;
+    const {RangePicker} = DatePicker;
 
     const showModal = () => {
         setVisible(true)
@@ -77,16 +82,16 @@ const Card = ({equipment}: CardProps, {uid} : Iprops) => {
     let dateNowPlus1sem = (date1sem.getDate()) + '/' + (date1sem.getMonth() + 1) + '/' + date1sem.getFullYear();
 
     const disabledDate = (current: any) => {
-        let dates: any[] = ['2020-04-05','2020-04-06','2020-04-07','2020-04-08' ];
-        return current < moment().subtract(7, "days") || current > moment().add(7, 'd')
+        let dates: any[] = ['2020-04-05', '2020-04-06', '2020-04-07', '2020-04-08'];
+        return current < moment().subtract(moment().format('2020-04-05'), "days") || current > moment().add(7, 'd')
     };
 
     const onFinish = (values: any) => {
         const dateDebut = new Date(values.range[0]._d);
-        console.log(dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear());
+        console.log(dateDebut.getDate() + '/' + (dateDebut.getMonth() + 1) + '/' + dateDebut.getFullYear());
         const dateFin = new Date(values.range[1]._d);
-        const dateDebutStr = dateDebut.getDate()+'/'+(dateDebut.getMonth()+1)+'/'+dateDebut.getFullYear();
-        const dateFinStr = dateFin.getDate()+'/'+(dateFin.getMonth()+1)+'/'+dateFin.getFullYear();
+        const dateDebutStr = dateDebut.getDate() + '/' + (dateDebut.getMonth() + 1) + '/' + dateDebut.getFullYear();
+        const dateFinStr = dateFin.getDate() + '/' + (dateFin.getMonth() + 1) + '/' + dateFin.getFullYear();
         const dataReservation: {
             dateDebut: string,
             dateFin: string,
@@ -99,7 +104,7 @@ const Card = ({equipment}: CardProps, {uid} : Iprops) => {
             nameUser: string,
             status: string,
             img: string
-        }[]= [];
+        }[] = [];
         dataReservation.push({
             dateDebut: dateDebutStr,
             dateFin: dateFinStr,
@@ -113,9 +118,9 @@ const Card = ({equipment}: CardProps, {uid} : Iprops) => {
             status: '0',
             img: equipment.img
         })
-        store.dispatch({type: 'ADD_RESERVATION', reservation : dataReservation})
+        store.dispatch({type: 'ADD_RESERVATION', reservation: dataReservation})
         //const reservation: {dateDebut: string, dateFin: string , idUser: string} [] =
-           // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
+        // [{dateDebut: dateDebutStr, dateFin: dateFinStr, idUser: 'lLB0SOycpZhEdCbXBnADPotnsIs1'}];
         //store.dispatch({type: "ADD_RESERVATION", reservation: dataReservation});
 
         setVisible(false);
@@ -129,9 +134,8 @@ const Card = ({equipment}: CardProps, {uid} : Iprops) => {
     };
 
 
-
-return (
-    <div className={'card'} id={'test'}>
+    return (
+        <div className={'card'} id={'test'}>
             <span className={'nameImg'}>
                 <img src={imgSrc}/>
                 <span className={'name'}>
@@ -141,27 +145,32 @@ return (
                     </p>
                 </span>
             </span>
-        <span className={'bottom'}>
+            <span className={'bottom'}>
                 <span className={'btn'}>
                     <Link to={`/Details/${equipment.id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
-                    { connected ?
-                    <a href={'#'} onClick={showModal} >
-                        <CarryOutOutlined style={{fontSize: '30px'}}/>
-                        </a>
+                    {connected ?<>
+                            {statuColor == 'error' || statuColor == 'warning'  ?
+                                <CarryOutOutlined style={{fontSize: '30px', opacity: 0.3}}/>
+                                :
+                                <a href={'#'} onClick={showModal}>
+                                    <CarryOutOutlined style={{fontSize: '30px'}}/>
+                                </a>
+                            }
+                        </>
                         :
                         <CarryOutOutlined style={{fontSize: '30px', opacity: 0.3}}/>}
 
-                            <Modal
-                                title={equipment.uid}
-                                visible={visible}
-                                onOk={handleOk}
-                                onCancel={handleCancel}
-                                footer={[
-                                    <Button key="back" onClick={handleCancel}>
-                                        Retour
-                                    </Button>,
-                                ]}
-                            >
+                    <Modal
+                        title={equipment.uid}
+                        visible={visible}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                        footer={[
+                            <Button key="back" onClick={handleCancel}>
+                                Retour
+                            </Button>,
+                        ]}
+                    >
                             <span className={'contentPopup'}>
                             <h1>Réservation</h1>
                               <Form
@@ -197,11 +206,26 @@ return (
 
                             </Modal>
                 </span>
-            <Badge status={statuColor == 'warning' ? 'warning' : 'success' } text={statu} />
+
+                { statuColor != '' ? <>
+                    {statuColor == 'warning' ?
+                        <Badge status={'warning'} text={statu}/>
+                        : <>
+                        {statuColor == 'success' ?
+                            <Badge status={'success'} text={statu}/>
+                            :
+                            <Badge status={'error'} text={statu}/>
+                        }
+                        </>
+                    }
+                    </>
+                    : null
+                }
+
             </span>
 
-    </div>
-)
+        </div>
+    )
 }
 /*
 <a href={`/Details/${id}`}>
@@ -222,6 +246,5 @@ const mapStateToProps = (state: any) => {
         uid: state.login.user.uid
     };
 };
-
 export default connect(mapStateToProps)(Card)
 
