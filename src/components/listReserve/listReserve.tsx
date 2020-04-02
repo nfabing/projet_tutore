@@ -26,7 +26,7 @@ const listReservec = ({ listReserve,listEquipments}:Iprops) => {
           <div className="site-card-wrapper">
           <Row gutter={{ xs: 8, sm: 16, md: 32, lg: 64 }}>
           {listEquipments.equipments.equipments != undefined ? listReserve.listReserve.equipments.map((reservation:any) => {
-            
+
             let string = reservation.dateDebut;
             let dd = string.indexOf("/");
             let mm = string.lastIndexOf("/");
@@ -39,14 +39,14 @@ const listReservec = ({ listReserve,listEquipments}:Iprops) => {
               if(eq.id == reservation.idEquipment){
                 return eq;
               }
-            });   
+            });
             if(dateR < date){
-              return ( <Col className="gutter-row"  key={reservation.id} xs={{ span: 24, offset:0 }} sm={{ span: 12 }} 
+              return ( <Col className="gutter-row"  key={reservation.id} xs={{ span: 24, offset:0 }} sm={{ span: 12 }}
               md={{ span: 12 }} lg={{ span: 8}} >
               <CardReserve className="gutter-box" key={equip.id} equipo={equip[0]} reser={reservation}/>
               </Col>);
               }
-              }):'LISTE D`EQUIPMENT VIDE'}
+              }):'LISTE D`EQUIPMENT VIDE'};
             </Row>
           </div>
         </div>

@@ -153,7 +153,6 @@ const Login = ({loading, logged, error, providerSignUp, changeToSupplier, stayTo
                 <div>
                     {children}
                 </div> : null}
-
         </div>
     )
 }

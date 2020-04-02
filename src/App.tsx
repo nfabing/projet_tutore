@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import "antd/dist/antd.css";
 
-import {Input, Space} from 'antd';
 import Details from "./components/Search/DetailsPage";
 
 // components
@@ -20,11 +19,12 @@ import {connect} from "react-redux";
 import store from "./redux/store";
 
 
-const {Header, Content, Footer} = Layout;
+const {Header, Content} = Layout;
 interface IProps {
-    uid: any;
+    status: string;
+    logged: boolean;
 }
-function App( {uid} : IProps) {
+function App({status, logged} : IProps) {
 
 const deconnection = () => {
             return (
@@ -32,27 +32,58 @@ const deconnection = () => {
             )
     }
 
+    // @ts-ignore
     return (
         <div className="App">
             <Router>
                 <Layout>
                     <Header style={{position: 'fixed', zIndex: 1, width: '100%',alignItems: 'left',textAlign: 'left'}} >
+                        {/* Menu if user is connected and is a supplier */}
+                        {logged && status === 'supplier' ?
                         <Menu
                             theme={'dark'}
                             mode={'horizontal'}
                         >
 
                             <Menu.Item key={'1'}><Link to={'/'}>Recherche</Link></Menu.Item>
-                            <Menu.Item key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard
-                                Fournisseur</Link></Menu.Item>
-                            <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
-                            {uid !== undefined ?
-                                <Menu.Item key={'10'}  style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
-                                : null}
-                            <Menu.Item key={'2'}  style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>{ uid == undefined ? 'Connexion' : 'Mon compte'}</Link></Menu.Item>
-                            <Menu.Item key={'7'}  style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
 
-                        </Menu>
+                                    <Menu.Item  key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard Fournisseur</Link></Menu.Item>
+                                    <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
+                            <Menu.Item key={'10'} style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
+                                <Menu.Item key={'7'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
+                                <Menu.Item key={'2'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>Mon Compte</Link></Menu.Item>
+
+
+                        </Menu> : null}
+
+                        {/* Menu if user is connected and not a supplier */}
+                        {logged && status === 'user' ?
+                            <Menu
+                                theme={'dark'}
+                                mode={'horizontal'}
+                            >
+
+                                <Menu.Item key={'1'}><Link to={'/'}>Recherche</Link></Menu.Item>
+                                <Menu.Item key={'10'} style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
+                                <Menu.Item key={'7'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
+                                <Menu.Item key={'2'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>Mon Compte</Link></Menu.Item>
+
+
+                            </Menu>
+                        : null}
+
+                        {/* Menu if user is not connected */}
+                        {!logged ?
+                            <Menu
+                                theme={'dark'}
+                                mode={'horizontal'}
+                            >
+
+                                <Menu.Item key={'1'}><Link to={'/'}>Recherche</Link></Menu.Item>
+                                <Menu.Item key={'2'}><Link to={'/Login'}>Connexion</Link></Menu.Item>
+                            </Menu>
+                            : null }
+
                     </Header>
 
                     <Content className={'site-layout'}
@@ -78,7 +109,8 @@ const deconnection = () => {
 
 const mapStateToProps = (state: any) => {
     return {
-        uid: state.login.user.uid
+        status: state.user.profil.userType,
+        logged: state.login.logged
     };
 };
 
