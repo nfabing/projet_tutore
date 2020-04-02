@@ -16,10 +16,11 @@ export const CardReserve = (props: any) => {
 
   return (
     <Card title={props.equipo.name} bordered={true}>
-      <p><Avatar size={100} src={props.equipo.img} /></p>
+      <p><Avatar size={100}  src={props.equipo.img} /></p>
       Description: <p>{props.equipo.description.substr(0,19)}</p>
       Modele: <p>{props.equipo.modele}</p>
-  date debut: <p>{ props.reser.dateDebut }</p>
+      Date Debut: <p>{ props.reser.dateDebut }</p>
+      Réserve par: {props.reser.nameUser}
       <Button  type="primary" danger onClick={
         delReservation
       }>
