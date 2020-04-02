@@ -1,8 +1,9 @@
-import {LIST_RESERVE,DEL_RESERVE} from "./listReserveType";
+import {LIST_RESERVE,DEL_RESERVE,GET_ALL,PUT_STATUS} from "./listReserveType";
 
 const initialState = {
     listReserve: [],
-    id:[],
+    listAll: [],
+    idE: [],
 }
 
 const listReserveReducer = (state = initialState, action: any) => {
@@ -12,10 +13,20 @@ const listReserveReducer = (state = initialState, action: any) => {
                 ...state,
                 listReserve: action
             };
-        case LIST_RESERVE:
+        case DEL_RESERVE:
             return {
                 ...state,
                 id: action
+            };
+        case GET_ALL:
+            return {
+                ...state,
+                listAll: action
+            };
+            case PUT_STATUS:
+            return {
+                ...state,
+                idE: action
             };   
         default:
             return state;
