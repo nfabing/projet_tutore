@@ -5,7 +5,9 @@ import {
     LIST_WAITING,
     LIST_EQUIPMENTS_FOR_FOURNISSEUR,
     LIST_BOOKED,
-    LIST_LOAN_FOURNISSEUR
+    LIST_LOAN_FOURNISSEUR,
+    DISPLAY_RETURN_EQUIPMENTS,
+    LIST_OVERDUE
 } from "./DashboardFournisseurType";
 
 const initialState = {
@@ -14,6 +16,8 @@ const initialState = {
     listEquipments: [],
     equipmentsForFournisseur: [],
     listLoanFournisseur: [],
+    listReturnEquipments: [],
+    listOverdue: [],
     listBooked: []
 };
 
@@ -49,10 +53,20 @@ const listEquipmentReducer = (state = initialState, action: any) => {
                 ...state,
                 listBooked: action
             };
+        case LIST_OVERDUE:
+            return {
+                ...state,
+                listOverdue: action
+            };
         case DISPLAY_LIST_EQUIPMENTS:
             return {
                 ...state,
                 listEquipments: action
+            };
+        case DISPLAY_RETURN_EQUIPMENTS:
+            return {
+                ...state,
+                listReturnEquipments: action
             };
         default:
             return state;

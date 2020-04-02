@@ -176,13 +176,13 @@ const EditMateriel = ({equipment, categories, getEquipment}: Iprops) => {
 
                                 <Form.Item wrapperCol={{...layout.wrapperCol, offset: 4}}>
                                     <Button type="primary" htmlType="submit">
-                                        Submit
+                                        Envoyer
                                     </Button>
                                     <Button
                                         className="cancelBtnAddEquipment"
                                         onClick={unSetCategories}
                                     >
-                                        Cancel
+                                        Annuler
                                     </Button>
                                 </Form.Item>
                             </Form>

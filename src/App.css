@@ -67,3 +67,8 @@
   padding-bottom: 10px;
   border-bottom: solid 1px lightgray;
 }
+
+.buttonDashboard{
+  width: 100%;
+  margin-bottom: 10px;
+}

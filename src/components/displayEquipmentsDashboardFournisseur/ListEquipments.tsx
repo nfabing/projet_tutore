@@ -74,7 +74,7 @@ export const ListEquipments = (props: any) => {
                     </div>
                 );
             } else {
-                if (props.equipments.listEquipments[0].idEquipment != undefined && (props.equipments.listEquipments[0].status === "1" || props.equipments.listEquipments[0].status === "3")) {
+                if (props.equipments.listEquipments[0].idEquipment != undefined && props.equipments.listEquipments[0].status === "1") {
                     return (
                         <div className="listEquipment">
                             <Table
@@ -93,11 +93,31 @@ export const ListEquipments = (props: any) => {
                         </div>
                     );
                 } else {
-                    return (
-                        <div className="listEquipment">
-                            <CardConfirmReservation equipment={props.equipments.listEquipments}/>
-                        </div>
-                    );
+                    if (props.equipments.listEquipments[0].idEquipment != undefined && props.equipments.listEquipments[0].status === "3"){
+                        console.log("ZOZBBZBZBZBZBBZ");
+                        return (
+                            <div className="listEquipment">
+                                <Table
+                                    dataSource={props.equipments.listEquipments}
+                                    pagination={{
+                                        pageSize: 5
+                                    }}
+                                >
+                                    <Column title="Utilisateur" dataIndex="nameUser" key="nameUser"/>
+                                    <Column title="E-Mail" dataIndex="mailUser" key="mailUser"/>
+                                    <Column title="Equipement" dataIndex="nameEquipment" key="nameEquipment"/>
+                                    <Column title="Date Restitution" dataIndex="dateRestitution" key="dateRestitution"/>
+                                </Table>
+                            </div>
+                        );
+                    }else{
+                        return (
+                            <div className="listEquipment">
+                                <CardConfirmReservation equipment={props.equipments.listEquipments}/>
+                            </div>
+                        );
+                    }
+
                 }
 
             }

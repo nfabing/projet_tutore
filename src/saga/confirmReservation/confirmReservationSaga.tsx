@@ -18,7 +18,7 @@ function* confirmReservation(values: any) {
 
     yield db.collection("equipment").doc(values.values.equipment.idEquipment)
         .set({
-            status: "1"
+            status: "2"
         }, {merge: true});
 }
 

@@ -7,16 +7,17 @@ import {CardLoan} from "./cardsDashboardFournisseur/CardLoan";
 import {CardTotal} from "./cardsDashboardFournisseur/CardTotal";
 import {CardWainting} from "./cardsDashboardFournisseur/CardWainting";
 import {CardOverdue} from "./cardsDashboardFournisseur/CardOverdue";
+import {CardBooked} from "./cardsDashboardFournisseur/CardBooked";
 
 import AjoutMateriel from "../components/AjoutMateriel";
 import EditMateriel from "../components/EditMateriel";
+import ReturnMateriel from "../components/displayEquipmentsDashboardFournisseur/returnEquipment/ReturnEquipment";
 
 import {ListEquipments} from "./displayEquipmentsDashboardFournisseur/ListEquipments";
 
 import {Row, Col, Button, Card} from "antd";
 import {WarningOutlined, CalendarOutlined} from "@ant-design/icons";
 import {render} from "react-dom";
-import {CardBooked} from "./cardsDashboardFournisseur/CardBooked";
 
 interface Iprops {
     equipments: any;
@@ -25,11 +26,12 @@ interface Iprops {
     listWaiting: any;
     listBooked: any;
     listEquipments: any;
+    listOverdue: any;
     user: any;
 }
 
 
-const DashboardFournisseur = ({equipments, listLoan, listWaiting, listEquipments, listBooked, user}: Iprops) => {
+const DashboardFournisseur = ({equipments, listLoan, listWaiting, listEquipments, listBooked, listOverdue, user}: Iprops) => {
     const [nameList, setNameList] = useState("");
 
     if (user.userType === "supplier") {
@@ -51,6 +53,10 @@ const DashboardFournisseur = ({equipments, listLoan, listWaiting, listEquipments
                 store.dispatch({type: "GET_BOOKED_EQUIPMENTS", value: user.useruid});
                 setNameList("Équipement(s) réservés");
             };
+            const displayOverdueEquipment = () => {
+                store.dispatch({type: "GET_OVERDUE_EQUIPMENTS", value: user.useruid});
+                setNameList("Équipement(s) en retard");
+            };
             return (
                 <div className="divDashboardFournisseur">
 
@@ -68,11 +74,12 @@ const DashboardFournisseur = ({equipments, listLoan, listWaiting, listEquipments
                             <Col xs={24} sm={12} md={8} lg={4} onClick={displayWaitingEquipment}>
                                 <CardWainting waiting={listWaiting}/>
                             </Col>
-                            <Col xs={24} sm={12} md={8} lg={4}>
-                                <CardOverdue late={""}/>
+                            <Col xs={24} sm={12} md={8} lg={4} onClick={displayOverdueEquipment}>
+                                <CardOverdue overdue={listOverdue}/>
                             </Col>
                             <Col xs={24} sm={12} md={8} lg={4}>
                                 <AjoutMateriel/>
+                                <ReturnMateriel/>
                             </Col>
                         </Row>
                     </div>
@@ -98,6 +105,7 @@ const mapStateToProps = (state: any) => {
         listWaiting: state.dashboardFournisseur.listWaiting,
         listEquipments: state.dashboardFournisseur.listEquipments,
         listBooked: state.dashboardFournisseur.listBooked,
+        listOverdue: state.dashboardFournisseur.listOverdue,
         user: state.user.profil
     };
 };

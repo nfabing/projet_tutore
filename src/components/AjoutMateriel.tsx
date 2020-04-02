@@ -50,9 +50,6 @@ interface Iprops {
     user: any;
 }
 
-const unSetCategories = () => {
-    store.dispatch({type: "UNSET_CATEGORIES"});
-};
 
 const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) => {
     const [visible, setVisible] = useState(false);
@@ -62,6 +59,10 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
 
         setVisible(false);
         success();
+    };
+    const unSetCategories = () => {
+        setVisible(false);
+        store.dispatch({type: "UNSET_CATEGORIES"});
     };
     const success = () => {
         Modal.success({
@@ -94,7 +95,14 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
                         visible={visible}
                         onOk={handleOk}
                         onCancel={handleCancel}
-                        footer={[]}
+                        footer={[
+                            <Button
+                                className="cancelBtnAddEquipment"
+                                onClick={unSetCategories}
+                            >
+                                Annuler
+                            </Button>
+                        ]}
                     >
                         <Form
                             {...layout}
@@ -166,14 +174,9 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
 
                             <Form.Item wrapperCol={{...layout.wrapperCol, offset: 4}}>
                                 <Button type="primary" htmlType="submit">
-                                    Submit
+                                    Envoyer
                                 </Button>
-                                <Button
-                                    className="cancelBtnAddEquipment"
-                                    onClick={unSetCategories}
-                                >
-                                    Cancel
-                                </Button>
+
                             </Form.Item>
                         </Form>
                     </Modal>
@@ -182,15 +185,15 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user}: Iprops) 
             );
         } else {
             return (
-                <Button onClick={showModal} size={"large"}>
-                    <PlusCircleOutlined /> Ajouter un équipement
+                <Button onClick={showModal} size={"middle"} className="buttonDashboard">
+                    <PlusCircleOutlined/> Ajouter un équipement
                 </Button>
             );
         }
     } else {
         return (
-            <Button onClick={showModal} size={"large"}>
-                <PlusCircleOutlined /> Ajouter un équipement
+            <Button onClick={showModal} size={"middle"} className="buttonDashboard">
+                <PlusCircleOutlined/> Ajouter un équipement
             </Button>
         );
     }
