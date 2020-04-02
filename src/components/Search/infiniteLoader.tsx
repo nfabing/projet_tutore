@@ -1,18 +1,16 @@
-import React, {useEffect, useState} from 'react'
-import './card.css'
+import React, {useState} from 'react'
+import {connect} from "react-redux";
 import {AutoSizer} from 'react-virtualized';
 import {FixedSizeList as List} from "react-window";
-import {Layout, Menu, Select} from 'antd';
-import {
-    SearchOutlined,
-} from '@ant-design/icons';
+import './card.css'
+import {Select} from 'antd';
 import Card from "./card";
-import {Button, Input, Skeleton} from "antd";
-import {connect} from "react-redux";
+import {Input, Skeleton} from "antd";
+
 
 import './infiniteLoader.css'
 import store from "../../redux/store";
-import FormItemLabel from "antd/es/form/FormItemLabel";
+
 
 interface Iprops {
     equipments: any;
@@ -23,26 +21,22 @@ interface Iprops {
     uName: any;
     uEmail: any;
 }
-const { Option } = Select;
-const {SubMenu} = Menu;
-const {Header, Content, Footer, Sider} = Layout;
 
+const {Option} = Select;
 
 
 store.dispatch({type: 'GET_ALL_EQUIPMENTS_SEARCH'});
 store.dispatch({type: 'GET_CATEGORIES'});
-const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName,uEmail}: Iprops) => {
+const Loader = ({equipments, getEquipments, categories, getCategories, uid, uName, uEmail}: Iprops) => {
 
 
-    const [connected, setConnected] = useState(false);
     const [search, setSearch] = useState('');
-    const [filtre, setFiltre] = useState('');
     const [brand, setBrand] = useState('');
     const [category, setCategory] = useState('');
     const {Search} = Input;
-    let dataCard: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string }[] = [];
-    let arrayBrand: string[]= [];
-    const arrayCategory: string[]= [];
+    let dataCard: { id: string, img: string, titre: string, userHandle: string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string }[] = [];
+    let arrayBrand: string[] = [];
+    const arrayCategory: string[] = [];
 
     type RowType = {
         index: any, // Index of row within collection
@@ -60,33 +54,30 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
             const equipement: any = data;
             const key: any = data.id;
             let testBrand: boolean = false;
-            for (let j = 0; j < arrayBrand.length; j++)
-            {
-                if (arrayBrand[j] === equipement.brand)
-                {
+            for (let j = 0; j < arrayBrand.length; j++) {
+                if (arrayBrand[j] === equipement.brand) {
                     testBrand = true;
                 }
             }
-            if(!testBrand) arrayBrand.push(equipement.brand);
+            if (!testBrand) arrayBrand.push(equipement.brand);
             arrayCategory.push(equipement.category);
-            let tags: string = equipement.modele+','+equipement.brand+','+equipement.category;
+            let tags: string = equipement.modele + ',' + equipement.brand + ',' + equipement.category;
             dataCard.push({
                 id: key,
                 img: equipement.img,
                 titre: equipement.name,
-                userHandle : equipement.userHandle,
+                userHandle: equipement.userHandle,
                 status: equipement.status,
                 tag: tags,
                 brand: equipement.brand,
                 category: equipement.category,
-                uid : uid,
+                uid: uid,
                 uName: uName,
-                uEmail:uEmail
+                uEmail: uEmail
             });
-            console.log('DATA' , dataCard);
+            console.log('DATA', dataCard);
 
         });
-
 
 
         let filterData = dataCard.filter(
@@ -115,13 +106,13 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
 
         const Row = ({index, style}: RowType) => {
             const item = filterData[index];
-            const category:string = categories.categories.map((cat: any) => {
-                if(filterData[index].category === cat.id) return filterData[index].category = cat.name;
+            const category: string = categories.categories.map((cat: any) => {
+                if (filterData[index].category === cat.id) return filterData[index].category = cat.name;
             });
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card equipment={filterData[index]} /> : 'Loading...'}
+                    {item ? <Card equipment={filterData[index]}/> : 'Loading...'}
 
                 </div>
             )
@@ -130,8 +121,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
 
             <div className={'contentLoader'}>
                 <span className={'filter'}>
+                    <h3>Recherche et filtre</h3>
                     <Search
-                        placeholder="input search text"
+                        placeholder="Recherche..."
                         defaultValue={search}
                         onSearch={value => setSearch(value)}
                         style={{width: 200}}
@@ -147,9 +139,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
                           }
                       >
                         <Option value=""><i style={{opacity: 0.5}}>vide</i></Option>
-                          {arrayBrand.map( (data:string)=> {
+                          {arrayBrand.map((data: string) => {
 
-                              return(
+                              return (
                                   <Option key={data} value={data}>{data}</Option>
                               )
                           })}
@@ -170,7 +162,9 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
                         })}
                       </Select>
                     <a href={'#'} onClick={() => {
-                        setSearch('');setCategory('');setBrand('');
+                        setSearch('');
+                        setCategory('');
+                        setBrand('');
                     }}>Vider les filtres</a>
                 </span>
                 <AutoSizer>
@@ -190,12 +184,12 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
 
         return (
             <>
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
-                <Skeleton active />
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
+                <Skeleton active/>
             </>
         )
     }
@@ -205,9 +199,9 @@ const mapStateToProps = (state: any) => {
     return {
         equipments: state.dashboardFournisseur.equipments,
         categories: state.ajoutMateriel.categories,
-        uid : state.login.user.uid,
-        uName : state.login.user.displayName,
-        uEmail : state.login.user.email,
+        uid: state.login.user.uid,
+        uName: state.login.user.displayName,
+        uEmail: state.login.user.email,
     };
 };
 
@@ -215,7 +209,7 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         getEquipments: () => dispatch({type: "GET_EQUIPMENTS"}),
         getCategories: () => {
-            dispatch({ type: "GET_CATEGORIES" });
+            dispatch({type: "GET_CATEGORIES"});
         }
     };
 };
