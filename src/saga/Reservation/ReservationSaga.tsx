@@ -1,10 +1,9 @@
-import { call, all, takeEvery, takeLatest, take, put, select, fork} from 'redux-saga/effects';
+import {call, all, takeLatest, take, put, select, fork} from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga';
-import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
+import store, {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import 'firebase/firestore';
-import firebase, {firestore} from "firebase";
-import {getConfirmReservation,syncReservations} from '../../redux/Reservation/ReservationAction';
-import {listEquipmentsForFournisseur} from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
+import firebase from "firebase";
+import {getConfirmReservation, syncReservations} from '../../redux/Reservation/ReservationAction';
 
 export function* watchReservation() {
 
@@ -26,24 +25,24 @@ function* AddReservation(value: any) {
     const idEquipment = value.reservation[0].idEquipment;
     const idSupplier = value.reservation[0].idSupplier;
     const idUser = value.reservation[0].idUser;
-    const mailUser =value.reservation[0].mailUser;
+    const mailUser = value.reservation[0].mailUser;
     const nameEquipment = value.reservation[0].nameEquipment;
-    const nameUser =value.reservation[0].nameUser;
+    const nameUser = value.reservation[0].nameUser;
     const status = value.reservation[0].status;
     const img = value.reservation[0].img;
 
 
     const doc = yield call(reduxSagaFirebase.firestore.addDocument, 'reservation', {
-        dateDebut:dateDebut,
-        dateFin:dateFin,
-        dateRestitution:dateRestitution,
-        idEquipment:idEquipment,
-        idSupplier:idSupplier,
-        idUser:idUser,
-        mailUser:mailUser,
-        nameEquipment:nameEquipment,
-        nameUser:nameUser,
-        status:status,
+        dateDebut: dateDebut,
+        dateFin: dateFin,
+        dateRestitution: dateRestitution,
+        idEquipment: idEquipment,
+        idSupplier: idSupplier,
+        idUser: idUser,
+        mailUser: mailUser,
+        nameEquipment: nameEquipment,
+        nameUser: nameUser,
+        status: status,
         img: img
     });
     yield fork(
@@ -57,22 +56,21 @@ function* AddReservation(value: any) {
 }
 
 
-
 function* GetConfirmOkReservation(values: any) {
     const idUser = values.id;
     const db = firebase.firestore();
     yield db.collection("reservation")
         .where("status", "==", '0.5')
-        .where('idUser' , '==', idUser)
-        .onSnapshot(function(querySnapshot) {
-        let reserv: Array<any> = [];
-        querySnapshot.forEach(function(doc) {
-            let objID = { id: doc.id };
-            let finalObj = Object.assign(objID, doc.data());
-            reserv.push(finalObj);
+        .where('idUser', '==', idUser)
+        .onSnapshot(function (querySnapshot) {
+            let reserv: Array<any> = [];
+            querySnapshot.forEach(function (doc) {
+                let objID = {id: doc.id};
+                let finalObj = Object.assign(objID, doc.data());
+                reserv.push(finalObj);
+            });
+            return store.dispatch(getConfirmReservation(reserv));
         });
-        return store.dispatch(getConfirmReservation(reserv));
-    });
 }
 
 
@@ -91,9 +89,9 @@ function* watchUserReservations() {
         while (true) {
             const data = yield take(channel)
 
-             data.forEach((reservation: any) => {
+            data.forEach((reservation: any) => {
 
-                 reservations.push(reservation.data())
+                reservations.push(reservation.data())
             })
 
             yield put(syncReservations(reservations))
@@ -106,7 +104,7 @@ function* watchUserReservations() {
     }
 
 
-   yield take('LOGOUT_SUCCESS')
+    yield take('LOGOUT_SUCCESS')
     console.log('STOPPED LISTENING TO RESERVATIONS')
 
 }
@@ -115,18 +113,18 @@ function* returnReservation(data: any) {
     const db = firebaseApp.firestore()
 
     try {
-            let ref
+        let ref
         // @ts-ignore
         const doc = yield call(reduxSagaFirebase.firestore.getDocument,
             db.collection('reservation').where('idUser', '==', data.idUser).where('idEquipment', '==', data.idEquipment).limit(1))
 
-         doc.forEach((reservation: any) => {
+        doc.forEach((reservation: any) => {
 
             ref = reservation.ref
         })
-        console.log(ref)
+
         // @ts-ignore
-        yield call(reduxSagaFirebase.firestore.updateDocument, ref, 'status', '4' )
+        yield call(reduxSagaFirebase.firestore.updateDocument, ref, 'status', '4')
     } catch (error) {
         console.log(error.code)
         console.log(error.message)

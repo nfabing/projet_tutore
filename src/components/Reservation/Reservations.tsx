@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {Badge, Skeleton, List, Avatar, Button, Divider} from "antd";
+import {Badge, Skeleton, List, Avatar, Button, Divider, Row, Col} from "antd";
 import Moment from "react-moment";
 
 interface IReservations {
@@ -23,12 +23,8 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     }, [logged])
 
     useEffect(() => {
-
-        console.log(reservations.length)
         if (reservations.length > 0) {
-            console.log(reservations)
-           setListEquipment(reservations)
-            console.log('EFFECT')
+            setListEquipment(reservations)
         }
 
     }, [reservations])
@@ -42,13 +38,20 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
 
     }
 
-
-
     if (logged) {
         return (
             <div>
-                <h2>Vos réservations</h2>
+                <h2>Réservations</h2>
+                    <Row>
+                        <Col>
+                            <p>Retrouvez ici toutes vos réservations en cours.</p>
+                            <p>Pour chaque réservation, vous pouver consulter le status, la date de début et de fin.
+                                Une fois le matériel rendu, vous pourrez confirmer la restitution ici.</p>
+                        </Col>
+                    </Row>
+
                 <List
+                    header={<div>Vos réservations :</div>}
                     className=""
                     loading={loading}
                     itemLayout="horizontal"
@@ -57,29 +60,60 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
                     renderItem={(equipment: any) => (
                         <List.Item>
 
+                            <List.Item.Meta
+                                avatar={
+                                    <Avatar src={equipment.img}/>
+                                }
+                                title={equipment.nameEquipment}
+                            />
+
+                            {equipment.status === '0' ?
                                 <List.Item.Meta
-                                    avatar={
-                                        <Avatar src={equipment.img} />
-                                    }
-                                    title={equipment.nameEquipment}
+                                    title={'Status'}
+                                    description={<span> En attente de validation fournisseur... </span>}
                                 />
+                                : null}
 
+                            {equipment.status === '0.5' ?
                                 <List.Item.Meta
-                                    title={'Date de début'}
-                                    description={<span> {equipment.dateDebut} </span>}
+                                    title={'Status'}
+                                    description={<span> En attente de validation client... </span>}
                                 />
+                                : null}
 
+                            {equipment.status === '1' ?
                                 <List.Item.Meta
-                                    title={'Date de fin'}
-                                    description={<span> {equipment.dateFin} </span>}
+                                    title={'Status'}
+                                    description={<span> Validé </span>}
                                 />
+                                : null}
 
+                            {equipment.status === '3' ?
                                 <List.Item.Meta
-                                    description={<span><Moment parse={'DD/MM/YYYY'} fromNow>{equipment.dateFin}</Moment> <Badge status="processing" />  </span>}
+                                    title={'Status'}
+                                    description={<span> Emprunté </span>}
                                 />
+                                : null}
+
+                            <List.Item.Meta
+                                title={'Date de début'}
+                                description={<span> {equipment.dateDebut} </span>}
+                            />
+
+                            <List.Item.Meta
+                                title={'Date de fin'}
+                                description={<span> {equipment.dateFin} </span>}
+                            />
+
+                            <List.Item.Meta
+                                description={<span><Moment parse={'DD/MM/YYYY'}
+                                                           fromNow>{equipment.dateFin}</Moment> <Badge
+                                    status="processing"/>  </span>}
+                            />
 
 
-                            {equipment.status === '3' ? <Button onClick={() => handleReturnReservation(equipment)}>Restituer</Button> : null }
+                            {equipment.status === '3' ?
+                                <Button onClick={() => handleReturnReservation(equipment)}>Restituer</Button> : null}
 
                         </List.Item>
                     )}
@@ -89,7 +123,11 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     } else {
         return (
             <div>
-                <h2>NON CONNECTEE</h2>
+                <Skeleton/>
+                <Skeleton/>
+                <Skeleton/>
+                <Skeleton/>
+                <Skeleton/>
             </div>
         )
     }
@@ -108,7 +146,11 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
     return {
         getReservations: () => dispatch({type: 'SYNC_RESERVATIONS_REQUEST'}),
-        returnReservation: (idEquipment: string, idUser: string) => dispatch({type: 'RETURN_RESERVATION_REQUEST', idEquipment: idEquipment, idUser: idUser})
+        returnReservation: (idEquipment: string, idUser: string) => dispatch({
+            type: 'RETURN_RESERVATION_REQUEST',
+            idEquipment: idEquipment,
+            idUser: idUser
+        })
     }
 }
 

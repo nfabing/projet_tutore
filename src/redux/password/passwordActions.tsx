@@ -20,7 +20,7 @@ export const passwordChangeSuccess = () => {
 export const passwordChangeError = (error: string) => {
     let errorMessage
     if (error === 'auth/requires-recent-login') {
-        errorMessage = 'Une vérification est requise pour effectué cette action'
+        errorMessage = 'Une vérification est requise pour effectuer cette action'
     } else {
         errorMessage = 'Une erreur est survenue'
     }
