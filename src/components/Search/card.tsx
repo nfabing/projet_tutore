@@ -19,12 +19,12 @@ type CardProps = {
     equipment: { id: string, img: string, titre: string,userHandle:string, status: string, tag: string, brand: string, category: string, uid: string, uName: string, uEmail: string },
 }
 interface Iprops {
-    user: any;
-    getOwner: any;
+    uid: any;
 }
 
-const Card = ({equipment}: CardProps) => {
+const Card = ({equipment}: CardProps, {uid} : Iprops) => {
     const [visible, setVisible] = useState(false);
+    const [connected, setConnected] = useState(false);
     const [loading, setLoading] = useState(false);
     const [statu, setStatu] = useState('Reserve');
     const [imgSrc, setImg] = useState('');
@@ -50,6 +50,9 @@ const Card = ({equipment}: CardProps) => {
         }
     });
 
+    useEffect(() => {
+        if(equipment.uid != undefined) setConnected(true);
+    })
   const {RangePicker} = DatePicker;
 
     const showModal = () => {
@@ -144,10 +147,12 @@ return (
         <span className={'bottom'}>
                 <span className={'btn'}>
                     <Link to={`/Details/${equipment.id}`}> <SearchOutlined style={{fontSize: '30px'}}/></Link>
-
-                    <a href={'#'} onClick={showModal}>
+                    { connected === true ?
+                    <a href={'#'} onClick={showModal} >
                         <CarryOutOutlined style={{fontSize: '30px'}}/>
-                    </a>
+                        </a>
+                        :
+                        <CarryOutOutlined style={{fontSize: '30px', opacity: 0.3}}/>}
 
                             <Modal
                                 title={equipment.uid}
@@ -215,7 +220,11 @@ return (
     <CarryOutOutlined style={{fontSize: '30px'}}/>
 </Popover>*/
 
+const mapStateToProps = (state: any) => {
+    return {
+        uid: state.login.user.uid
+    };
+};
 
-
-export default Card
+export default connect(mapStateToProps)(Card)
 

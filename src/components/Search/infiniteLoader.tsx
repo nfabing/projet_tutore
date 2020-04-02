@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 
 import './infiniteLoader.css'
 import store from "../../redux/store";
+import FormItemLabel from "antd/es/form/FormItemLabel";
 
 interface Iprops {
     equipments: any;
@@ -33,6 +34,7 @@ store.dispatch({type: 'GET_CATEGORIES'});
 const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName,uEmail}: Iprops) => {
 
 
+    const [connected, setConnected] = useState(false);
     const [search, setSearch] = useState('');
     const [filtre, setFiltre] = useState('');
     const [brand, setBrand] = useState('');
@@ -53,10 +55,10 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
     if (equipments.length != 0 && categories.length != 0) {
         console.log('EQUIPMENT', equipments);
 
+
         equipments.equipments.map((data: any) => {
             const equipement: any = data;
             const key: any = data.id;
-
             let testBrand: boolean = false;
             for (let j = 0; j < arrayBrand.length; j++)
             {
@@ -119,7 +121,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
             return (
                 <div className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} key={index} id={'card' + index}
                      style={style}>
-                    {item ? <Card equipment={filterData[index]}/> : 'Loading...'}
+                    {item ? <Card equipment={filterData[index]} /> : 'Loading...'}
 
                 </div>
             )
@@ -169,7 +171,6 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid,uName
                     <a href={'#'} onClick={() => {
                         setSearch('');setCategory('');setBrand('');
                     }}>Vider les fitlres</a>
-                    <Button onClick={() => store.dispatch({type: 'ADD_RESERVATION'})}> TEST</Button>
                 </span>
                 <AutoSizer>
                     {({height, width}) => (
