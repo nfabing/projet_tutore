@@ -5,7 +5,7 @@ import "firebase/firestore";
 
 
 
-import { listReserve,listAll } from '../../redux/listReserve/listReserveAction';
+import { listReserve,listAll,listHistorique } from '../../redux/listReserve/listReserveAction';
 
 function* getListReserve() {
     const db = firebase.firestore();
@@ -52,8 +52,29 @@ function* updateStatus(idE:any){
     
 };
 
+function* getHistorique(idU:any){
+  const db = firebase.firestore();
+    try {
+      yield db
+        .collection("reservation")
+        .where("idUser", "==", idU.idU)
+        .onSnapshot(function(querySnapshot) {
+        var historique: Array<any> = [];
+        querySnapshot.forEach(function(doc) {
+          let objID = { id: doc.id };
+          let finalObj = Object.assign(objID, doc.data());
+          historique.push(finalObj);
+        });
+        return store.dispatch(listHistorique(historique));
+        });
+      } catch (error) {
+        console.log(error);
+          }
+};
+
   export function* watchReserve() {
     yield takeEvery("GET_RESERVE", getListReserve);
     yield takeEvery("DEL_RESERVE", annuleReserve);
     yield takeEvery("PUT_STATUS", updateStatus);
+    yield takeEvery("GET_HISTORIQUE", getHistorique);
   }

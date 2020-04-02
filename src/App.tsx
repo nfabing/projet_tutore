@@ -15,6 +15,7 @@ import {Route, BrowserRouter as Router, Switch, Link} from "react-router-dom";
 import Search from "./components/Search/SearchPage";
 import {Layout, Menu} from 'antd';
 import Reservation from "./components/Reservation/ReservationUser";
+import historiqueReservation from "./components/historiqueReservation/historiqueReservation";
 
 
 const {Header, Content, Footer} = Layout;
@@ -38,6 +39,7 @@ function App() {
                             <Menu.Item key={'5'}><Link to={'/AjoutMateriel'}>AjoutMateriel</Link></Menu.Item>
                             <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
                             <Menu.Item key={'7'}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
+                            <Menu.Item key={'8'}><Link to={'/historique'}>historique</Link></Menu.Item>
                         </Menu>
                     </Header>
                     {/* A <Switch> looks through its children <Route>s and
@@ -57,6 +59,7 @@ function App() {
                                 <Route path="/AjoutMateriel" component={AjoutMateriel}/>
                                 <Route path="/ListReserve" component={listReserve}/>
                                 <Route path="/Reservation" component={Reservation}/>
+                                <Route path="/historique" component={historiqueReservation}/>
                             </Switch>
                         </div>
 
