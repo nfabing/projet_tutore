@@ -29,17 +29,20 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
     useEffect(() => {
         if (reservations.length > 0) {
             setListEquipment(reservations)
+
+            reservations.map(
+                (data :any) => {
+                console.log('123456',data)
+                    if( data.status === '0.5') {
+                        success(data.id, data.nameEquipment)
+                    }
+                }
+            )
         }
 
     }, [reservations])
 
-    useEffect(() => {
-        if (uid !== undefined && myUid =='') {
-            setMyUid(uid);
-            console.log('jesuisla')
-            store.dispatch({type:'GET_CONFIRM_OK_RESERVATION', id: uid});
-        }
-    })
+
 
     const handleReturnReservation = (reservation: any) => {
         console.log('RESTITUTION')
@@ -49,26 +52,21 @@ const Reservations = ({logged, reservations, loading, getReservations, returnRes
         returnReservation(reservation.idEquipment, reservation.idUser)
 
     }
+
+
     const envmesdonnee = (id: string) => {
         store.dispatch({type: "CONFIRM_OK_RESERVATION", id: id});
     }
-    const success = (id: string) => {
+    const success = (id: string, name: string) => {
         Modal.success({
-            content: 'Votre demande de location a été validé',
+            content: 'Votre demande de location a été validé pour le produit : '+ name,
             onOk: () => {
                 envmesdonnee(id)
             }
         });
     }
 
-    if (getConfirmReservation.length !=0 && !getConfirmReservation.id) {
-        console.log('LOGGGGGGGGGG',getConfirmReservation);
-        getConfirmReservation.getConfirmReservation.map(
-            (data: any) => {
-                success(data.id);
-            }
-        )
-    }
+
     if (logged) {
 
 
