@@ -7,14 +7,13 @@ import { eventChannel, buffers } from "redux-saga";
 import { emit } from "cluster";
 import { equal } from "assert";
 
-import { listReserve } from '../../redux/listReserve/listReserveAction';
+import { listReserve,listAll } from '../../redux/listReserve/listReserveAction';
 
 function* getListReserve() {
     const db = firebase.firestore();
     try {
       yield db
-        .collection("equipment")
-        .where("status", "==", "1")
+        .collection("reservation")
         .onSnapshot(function(querySnapshot) {
         var Reserve: Array<any> = [];
         querySnapshot.forEach(function(doc) {
@@ -24,18 +23,28 @@ function* getListReserve() {
         });
         return store.dispatch(listReserve(Reserve));
         });
+
+        yield db
+        .collection("equipment")
+        .onSnapshot(function(querySnapshot) {
+        var Equip: Array<any> = [];
+        querySnapshot.forEach(function(doc) {
+          let objID = { id: doc.id };
+          let finalObj = Object.assign(objID, doc.data());
+          Equip.push(finalObj);
+        });
+        return store.dispatch(listAll(Equip));
+        });
     } catch (error) {
     console.log(error);
       }
 };
 
 function* annuleReserve(id:any){
-console.log(id.id);
-yield fork(reduxSagaFirebase.firestore.updateDocument, "equipment/"+id.id, {
-  status: 0,
-});
-
-};
+  console.log(id.id);
+  yield fork(reduxSagaFirebase.firestore.deleteDocument, "reservation/"+ id.id);
+  
+  };
 
   export function* watchReserve() {
     yield takeEvery("GET_RESERVE", getListReserve);

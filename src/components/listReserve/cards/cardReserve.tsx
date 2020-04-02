@@ -6,20 +6,20 @@ import { Card,Button,Avatar} from "antd";
 
 
 
-store.dispatch({ type: "GET_RESERVE" });
+
 
 export const CardReserve = (props: any) => {  
 
     const delReservation = () => {
-      store.dispatch({type:'DEL_RESERVE', id: props.equipo.id});
-    }
+      store.dispatch({type:'DEL_RESERVE', id: props.reser.id});
+      }
 
   return (
     <Card title={props.equipo.name} bordered={true}>
       <p><Avatar size={100} src={props.equipo.img} /></p>
-      Description: <p>{props.equipo.description}</p>
+      Description: <p>{props.equipo.description.substr(0,19)}</p>
       Modele: <p>{props.equipo.modele}</p>
-      User: <p>  </p>
+  date debut: <p>{ props.reser.dateDebut }</p>
       <Button  type="primary" danger onClick={
         delReservation
       }>
