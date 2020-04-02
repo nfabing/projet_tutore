@@ -1,4 +1,4 @@
-import React, {ReactDOM, useEffect, useState} from "react";
+import React, { useState} from "react";
 import {connect} from "react-redux";
 
 import store from "../redux/store";
@@ -15,9 +15,8 @@ import ReturnMateriel from "../components/displayEquipmentsDashboardFournisseur/
 
 import {ListEquipments} from "./displayEquipmentsDashboardFournisseur/ListEquipments";
 
-import {Row, Col, Button, Card} from "antd";
+import {Row, Col} from "antd";
 import {WarningOutlined, CalendarOutlined} from "@ant-design/icons";
-import {render} from "react-dom";
 
 interface Iprops {
     equipments: any;

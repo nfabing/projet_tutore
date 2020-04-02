@@ -1,6 +1,6 @@
-import {takeLatest, take, put, fork, takeEvery} from "redux-saga/effects";
-import store, {reduxSagaFirebase} from "../../redux/store";
-import firebase, {firestore} from "firebase";
+import {takeLatest, takeEvery} from "redux-saga/effects";
+import store from "../../redux/store";
+import firebase from "firebase";
 import "firebase/firestore";
 import {
     listEquipments,
@@ -10,8 +10,7 @@ import {
     listEquipmentsForFournisseur, listBooked, listLoanFournisseur, displayReturnEquipments, listOverdue
 } from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 import {eventChannel, buffers} from "redux-saga";
-import {emit} from "cluster";
-import {equal} from "assert";
+
 
 function* getEquipments(userID: any) {
     const db = firebase.firestore();

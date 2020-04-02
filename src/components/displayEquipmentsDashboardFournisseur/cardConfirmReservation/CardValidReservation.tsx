@@ -1,14 +1,9 @@
 import React, {useState} from "react";
 
 import {
-    Card,
-    Badge,
-    Row,
-    Col,
     Button,
     Table,
     Modal,
-    Avatar,
     DatePicker,
     Form,
     Input
@@ -30,7 +25,6 @@ import store from "../../../redux/store";
 
 export const CardConfirmReservation = (props: any) => {
     const [visible, setVisible] = useState(false);
-    const [visibleDenied, setVisibleDenied] = useState(false);
     const [idReserve, setId] = useState("");
     const [idEquip, setIdEquipment] = useState("");
     let equip = props.equipment;

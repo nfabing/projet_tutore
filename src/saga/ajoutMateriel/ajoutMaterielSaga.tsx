@@ -7,7 +7,7 @@ import {
 } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
 import "firebase/firestore";
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import { categories,oneCategories, categoriesForFournisseur } from "../../redux/ajoutMateriel/AjoutMeterielAction";
 
 function* addEquipmentSaga(data: any) {
@@ -43,7 +43,7 @@ function* getCategories() {
         let objID = { id: doc.id };
         let finalObj = Object.assign(objID, doc.data());
         cat.push(finalObj);
-      })
+      });
       return store.dispatch(categories(cat));
     })
   }catch{

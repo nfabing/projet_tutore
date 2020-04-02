@@ -6,15 +6,11 @@ import {
     Select,
     DatePicker,
     Button,
-    Col,
-    Row,
-    Upload,
     Modal
 } from "antd";
 import moment from "moment";
 import store from "../redux/store";
 import {UploadOutlined} from "@ant-design/icons";
-import firebase from "firebase";
 
 const {Option} = Select;
 const {YearPicker} = DatePicker;
@@ -43,7 +39,7 @@ const unSetCategories = () => {
 };
 
 
-const EditMateriel = ({equipment, categories, getEquipment}: Iprops) => {
+const EditMateriel = ({equipment, categories}: Iprops) => {
 
     const [visible, setVisible] = useState(false);
     const [equip, setEquipment] = useState<any>({});

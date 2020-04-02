@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
-import {Button, Card} from "antd";
+import {Button} from "antd";
 import { CheckOutlined,CloseOutlined } from "@ant-design/icons";
 import store from "../../../redux/store";
 
-let nbrTotal = "";
+
 
 export const BookedToLoan = (props: any) => {
     // console.log(props);

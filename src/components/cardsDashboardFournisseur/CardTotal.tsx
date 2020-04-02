@@ -1,17 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Card } from "antd";
 import { DatabaseOutlined } from "@ant-design/icons";
 
 let nbrTotal = null;
 
-const changeColorIn = (e: any) => {
-  e.target.style.background = "#111111";
-};
-
-const changeColorOut = (e: any) => {
-  e.target.style.background = "";
-};
 
 export const CardTotal = (props: any) => {
   if (props.total.length === 0) {
@@ -20,7 +13,6 @@ export const CardTotal = (props: any) => {
     nbrTotal = props.total.length;
   }
   return (
-    // <div onMouseEnter={changeColorIn} onMouseLeave={changeColorOut}>
     <div>
       <Card title="Total Matériel" bordered={true} hoverable={true} headStyle={{backgroundColor: '#fafafa'}}>
         {nbrTotal} <DatabaseOutlined />

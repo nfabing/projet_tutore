@@ -1,6 +1,6 @@
 import { takeLatest, fork, put, call } from "redux-saga/effects";
 import store, { reduxSagaFirebase } from "../../redux/store";
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import "firebase/firestore";
 import {
   getOneEquipment,
@@ -8,7 +8,6 @@ import {
   getListCategoriesForEdit,
   getOneEquipmentForEdit
 } from "../../redux/editMateriel/EditMaterielAction";
-// import { getEquipmentID } from "../../components/EditMateriel";
 import { getListCategories } from "../../redux/editMateriel/EditMaterielAction";
 
 function* getOneEquipmentSaga(value: any) {
@@ -22,23 +21,6 @@ function* getOneEquipmentSaga(value: any) {
   yield fork(reduxSagaFirebase.firestore.syncCollection, "categories", {
     successActionCreator: getListCategories
   });
-  /*const db = firebase.firestore();
-  const id = yield value.id;
-  const docRef = db.collection("equipment").doc(id);
-  docRef.get().then(function(doc) {
-    let objID = { id: doc.id };
-    let finalObj = Object.assign(objID, doc.data());
-    return store.dispatch(getOneEquipment(finalObj))
-  });
-  yield db.collection("categories").onSnapshot(function(querySnapshot) {
-    var cat: Array<any> = [];
-    querySnapshot.forEach(function(doc) {
-      let objID = { id: doc.id };
-      let finalObj = Object.assign(objID, doc.data());
-      cat.push(finalObj);
-    })
-    return store.dispatch(getListCategories(cat));
-  })*/
 }
 function* unSetCategories() {
   const data: Array<any> = [];

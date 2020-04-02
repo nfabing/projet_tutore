@@ -1,17 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 
 import {
-    Card,
-    Badge,
-    Row,
-    Col,
     Button,
     Table,
-    Modal,
-    Avatar,
-    DatePicker,
-    Form,
-    Input
 } from "antd";
 
 import {
@@ -23,9 +14,7 @@ import {
 } from "@ant-design/icons";
 import store from "../../redux/store";
 
-import EditMateriel from "../../components/EditMateriel";
 import {StatusBadge} from "./statusBadge/StatusBadge";
-import moment from "moment";
 import {CardConfirmReservation} from "./cardConfirmReservation/CardValidReservation";
 import {BookedToLoan} from "./bookedToLoan/bookedToLoan";
 

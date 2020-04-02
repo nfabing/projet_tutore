@@ -21,11 +21,11 @@ export const CardBooked = (props: any) => {
                 </Card>
             );
         } else {
-            return <div>NOPE</div>;
+            return <div>Loading ...</div>;
         }
 
 
     } else {
-        return <div>NOPE</div>;
+        return <div>Loading ...</div>;
     }
 };

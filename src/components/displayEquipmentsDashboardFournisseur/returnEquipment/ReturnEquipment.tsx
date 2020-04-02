@@ -4,46 +4,14 @@ import {connect} from "react-redux";
 import store from "../../../redux/store";
 
 import {
-    Form,
-    Input,
-    Select,
-    DatePicker,
     Button,
-    Col,
-    Row,
-    Upload,
     Modal,
     Table
 } from "antd";
 import {UploadOutlined, RollbackOutlined, CheckOutlined,CloseOutlined} from "@ant-design/icons";
-import {StatusBadge} from "../statusBadge/StatusBadge";
 
-const {Option} = Select;
-const {YearPicker} = DatePicker;
 const {Column} = Table;
 
-const layout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 18}
-};
-
-const validateMessages = {
-    required: "Ce champ est requis",
-    types: {
-        email: "Email non valide"
-    }
-};
-
-const onFinish = (values: any) => {
-    values.equipment["buyingDate"].format("YYYY");
-};
-
-const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e && e.fileList;
-};
 
 interface Iprops {
     addEquipment: any;
@@ -62,11 +30,6 @@ const AjoutMateriel = ({getEquipment, categories, getCategories, user, listRetur
     const [visibleReturn, setVisibleReturn] = useState(false);
 
     console.log(listReturnEquipments);
-    const callDispatch = (values: any) => {
-        getEquipment(values, user.useruid);
-        setVisibleReturn(false);
-        success();
-    };
 
     const success = () => {
         Modal.success({

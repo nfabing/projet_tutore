@@ -1,6 +1,6 @@
-import {takeLatest, call, fork} from "redux-saga/effects";
-import store, {reduxSagaFirebase} from "../../redux/store";
-import firebase, {firestore} from "firebase";
+import {takeLatest, fork} from "redux-saga/effects";
+import {reduxSagaFirebase} from "../../redux/store";
+import firebase from "firebase";
 import "firebase/firestore";
 
 function* confirmReservation(values: any) {

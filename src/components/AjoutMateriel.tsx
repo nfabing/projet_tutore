@@ -9,8 +9,6 @@ import {
     Select,
     DatePicker,
     Button,
-    Col,
-    Row,
     Upload,
     Modal
 } from "antd";
