@@ -1,16 +1,22 @@
 import { call, all, takeEvery, takeLatest, take, put, select, fork} from 'redux-saga/effects';
 import {eventChannel} from 'redux-saga';
-import store, {firebaseApp, reduxSagaFirebase} from "../../redux/store";
+import {firebaseApp, reduxSagaFirebase} from "../../redux/store";
 import 'firebase/firestore';
 import firebase, {firestore} from "firebase";
 import {getConfirmReservation,syncReservations} from '../../redux/Reservation/ReservationAction';
 import {listEquipmentsForFournisseur} from "../../redux/dashboardFournisseur/DashboardFournisseurAction";
 
 export function* watchReservation() {
-    yield takeLatest('GET_CONFIRM_OK_RESERVATION', GetConfirmOkReservation);
-    yield takeLatest('ADD_RESERVATION', AddReservation);
-    yield takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations);
+
+    yield all([
+        takeLatest('ADD_RESERVATION', AddReservation),
+        takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations),
+        takeLatest('GET_CONFIRM_OK_RESERVATION', GetConfirmOkReservation),
+        takeLatest('RETURN_RESERVATION_REQUEST', returnReservation)
+    ])
+
 }
+
 
 function* AddReservation(value: any) {
     console.log('DATAA', value.reservation[0]);
@@ -74,10 +80,13 @@ function* watchUserReservations() {
     const db = firebaseApp.firestore()
     // user uid
     const uid = yield select(state => state.login.user.uid)
-    const ref = db.collection('reservation').where('idUser', '==', uid)
+    const ref = db.collection('reservation')
+        .where('idUser', '==', uid)
+        .where('status', 'in', ['0', '0.5', '1', '2', '3'])
+
 
     const channel = eventChannel(emit => ref.onSnapshot(emit))
-    let reservations: any[] = [];
+    let reservations: any[] = []
     try {
         while (true) {
             const data = yield take(channel)
@@ -88,6 +97,7 @@ function* watchUserReservations() {
             })
 
             yield put(syncReservations(reservations))
+            reservations = []
 
         }
     } catch (error) {
@@ -101,12 +111,26 @@ function* watchUserReservations() {
 
 }
 
+function* returnReservation(data: any) {
+    const db = firebaseApp.firestore()
 
-/*export function* watchReservation() {
-    yield takeLatest('ADD_RESERVATION', AddReservation);
+    try {
+            let ref
+        // @ts-ignore
+        const doc = yield call(reduxSagaFirebase.firestore.getDocument,
+            db.collection('reservation').where('idUser', '==', data.idUser).where('idEquipment', '==', data.idEquipment).limit(1))
 
-    yield takeLatest('SYNC_RESERVATIONS_REQUEST', watchUserReservations);
-    yield takeLatest('ADD_RESERVATION', AddReservation)
-}*/
+         doc.forEach((reservation: any) => {
+
+            ref = reservation.ref
+        })
+        console.log(ref)
+        // @ts-ignore
+        yield call(reduxSagaFirebase.firestore.updateDocument, ref, 'status', '4' )
+    } catch (error) {
+        console.log(error.code)
+        console.log(error.message)
+    }
 
 
+}

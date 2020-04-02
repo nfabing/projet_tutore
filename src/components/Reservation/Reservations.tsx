@@ -5,14 +5,15 @@ import Moment from "react-moment";
 
 interface IReservations {
     getReservations: any;
-    logged: boolean
-    reservations: any
-    loading: boolean
+    logged: boolean;
+    reservations: any;
+    loading: boolean;
+    returnReservation: any;
 }
 
-const Reservations = ({logged, reservations, loading, getReservations}: IReservations) => {
+const Reservations = ({logged, reservations, loading, getReservations, returnReservation}: IReservations) => {
 
-    const [isVisible, setIsVisible] = useState(false)
+
     const [listEquipment, setListEquipment] = useState([])
 
     useEffect(() => {
@@ -26,18 +27,22 @@ const Reservations = ({logged, reservations, loading, getReservations}: IReserva
         console.log(reservations.length)
         if (reservations.length > 0) {
             console.log(reservations)
-            setIsVisible(true)
-
-            reservations.forEach((reservation : any) => {
-            })
-
-
-
-        } else {
-            setIsVisible(false)
+           setListEquipment(reservations)
+            console.log('EFFECT')
         }
 
     }, [reservations])
+
+    const handleReturnReservation = (reservation: any) => {
+        console.log('RESTITUTION')
+        console.log(reservation.idEquipment)
+        console.log(reservation.idUser)
+
+        returnReservation(reservation.idEquipment, reservation.idUser)
+
+    }
+
+
 
     if (logged) {
         return (
@@ -48,7 +53,7 @@ const Reservations = ({logged, reservations, loading, getReservations}: IReserva
                     loading={loading}
                     itemLayout="horizontal"
                     /*loadMore={loadMore}*/
-                    dataSource={reservations}
+                    dataSource={listEquipment}
                     renderItem={(equipment: any) => (
                         <List.Item>
 
@@ -73,10 +78,9 @@ const Reservations = ({logged, reservations, loading, getReservations}: IReserva
                                     description={<span><Moment parse={'DD/MM/YYYY'} fromNow>{equipment.dateFin}</Moment> <Badge status="processing" />  </span>}
                                 />
 
-                            <Divider style={{textAlign: 'center'}} type="vertical" />
 
+                            {equipment.status === '3' ? <Button onClick={() => handleReturnReservation(equipment)}>Restituer</Button> : null }
 
-                            <Button onClick={() => console.log(equipment.mailUser)}>TEST</Button>
                         </List.Item>
                     )}
                 />
@@ -103,7 +107,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        getReservations: () => dispatch({type: 'SYNC_RESERVATIONS_REQUEST'})
+        getReservations: () => dispatch({type: 'SYNC_RESERVATIONS_REQUEST'}),
+        returnReservation: (idEquipment: string, idUser: string) => dispatch({type: 'RETURN_RESERVATION_REQUEST', idEquipment: idEquipment, idUser: idUser})
     }
 }
 
