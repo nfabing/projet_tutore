@@ -249,8 +249,8 @@ const Details = ({equipment, user, getOwner, getEquipment, editEquipment, catego
                 </p>
 
             </span>
-                    {userDataVisible ? <div>
                         <Divider orientation={'left'}><h2><b>Details du Fournisseur</b></h2></Divider>
+                    {userDataVisible ? <div>
                         <span className={'detailfournisseur'}>
                 <p>
                     <b>Adresse : </b> {user.adress}
