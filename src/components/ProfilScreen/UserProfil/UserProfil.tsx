@@ -72,9 +72,9 @@ const UserProfil = ({userData, loading, updateProfilPicture, changeToSupplier}: 
                 </Row>
 
                 <Row className={'row-profil-banner'} justify={'center'} align={'middle'}>
-                    <Col className={'col-banner-avatar'} span={3}>
-                        {'photoURL' in userData ? <Avatar size={'large'} src={userData.photoURL}/> :
-                            <Avatar size={'large'} src={' '}/> }
+                    <Col className={'col-banner-avatar'} span={3} >
+                        {'photoURL' in userData ? <Avatar size={80} src={userData.photoURL}/> :
+                            <Avatar size={80} src={' '}/> }
 
 
                     </Col>

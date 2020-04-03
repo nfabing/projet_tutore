@@ -74,14 +74,14 @@ function* editUserProfil(values: any) {
 
 
 function* uploadProfilPicture(file: any) {
-
     const uid = yield select(state => state.login.user.uid)
+
+    // upload de la photo
     const task = reduxSagaFirebase.storage.uploadFile(`users/${uid}`, file.img);
     yield task
 
     // récupération de l'url de la photo
     const url = yield call(reduxSagaFirebase.storage.getDownloadURL, `users/${uid}`)
-
 
     // MAJ de l'url dans le document
     yield call(reduxSagaFirebase.firestore.updateDocument, `users/${uid}`, 'photoURL', url)
