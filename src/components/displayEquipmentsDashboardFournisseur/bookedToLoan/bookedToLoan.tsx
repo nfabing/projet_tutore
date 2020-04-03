@@ -15,7 +15,6 @@ export const BookedToLoan = (props: any) => {
     dateDebut = new Date(dateDebut);
 
     let dif = parseInt(Number((dateDebut.getTime() / 86400000) - (dateNow.getTime() / 86400000)).toFixed(0));
-    console.log(dif);
 
 
     const showConfirm = (id: any) => {
