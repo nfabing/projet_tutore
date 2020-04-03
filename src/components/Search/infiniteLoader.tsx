@@ -116,6 +116,7 @@ const Loader = ({equipments, getEquipments, categories, getCategories, uid, uNam
                 </div>
             )
         };
+
         return (
 
             <div className={'contentLoader'}>
