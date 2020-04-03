@@ -80,7 +80,7 @@ function* getEquipments(userID: any) {
                 querySnapshot.forEach(function (doc) {
                     let dateNow = new Date();
 
-                    let dateResitution = (doc.data().dateRestitution);
+                    let dateResitution = (doc.data().dateFin);
                     dateResitution = dateResitution.split("/");
                     dateResitution = dateResitution[1] + "/" + dateResitution[0] + "/" + dateResitution[2];
                     dateResitution = new Date(dateResitution);
@@ -301,14 +301,16 @@ function* getOverdueEquipments(userID: any) {
             .onSnapshot(function (querySnapshot) {
                 let overdue: Array<any> = [];
                 querySnapshot.forEach(function (doc) {
+
                     let dateNow = new Date();
 
-                    let dateResitution = (doc.data().dateRestitution);
+                    let dateResitution = (doc.data().dateFin);
                     dateResitution = dateResitution.split("/");
                     dateResitution = dateResitution[1] + "/" + dateResitution[0] + "/" + dateResitution[2];
                     dateResitution = new Date(dateResitution);
 
                     let dif = parseInt(Number((dateResitution.getTime() / 86400000) - (dateNow.getTime() / 86400000) + 1).toFixed(0));
+                    console.log(dateNow);
                     if (dif < 0) {
                         let objID = {id: doc.id};
                         let finalObj = Object.assign(objID, doc.data());
