@@ -17,6 +17,7 @@ import Reservation from "./components/Reservation/Reservations";
 import ReservationUser from "./components/Reservation/ReservationUser";
 import {connect} from "react-redux";
 import store from "./redux/store";
+import historiqueReservation from "./components/historiqueReservation/historiqueReservation";
 
 
 const {Header, Content} = Layout;
@@ -49,6 +50,7 @@ const deconnection = () => {
 
                                     <Menu.Item  key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard Fournisseur</Link></Menu.Item>
                                     <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
+                                    <Menu.Item key={'8'}><Link to={'/historique'}>Historique des réservations</Link></Menu.Item>
                             <Menu.Item key={'10'} style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
                                 <Menu.Item key={'7'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
                                 <Menu.Item key={'2'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>Mon Compte</Link></Menu.Item>
@@ -98,6 +100,7 @@ const deconnection = () => {
                                 <Route path="/DashboardFournisseur" component={DashboardFournisseur}/>
                                 <Route path="/ListReserve" component={listReserve}/>
                                 <Route path="/Reservation" component={Reservation}/>
+                                <Route path="/historique" component={historiqueReservation}/>
                             </Switch>
                         </div>
                     </Content>
