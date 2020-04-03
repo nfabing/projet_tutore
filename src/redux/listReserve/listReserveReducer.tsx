@@ -1,10 +1,12 @@
-import {LIST_RESERVE,DEL_RESERVE,GET_ALL,PUT_STATUS} from "./listReserveType";
+import {LIST_RESERVE,DEL_RESERVE,GET_ALL,PUT_STATUS,GET_HISTORIQUE} from "./listReserveType";
 
 const initialState = {
     listReserve: [],
     listAll: [],
     id: [], //id reservation update status "supprimer"
     idE: [], //id equipment update status
+    listHistorique: [], // "historique"
+    idU:[]
 }
 
 const listReserveReducer = (state = initialState, action: any) => {
@@ -28,6 +30,11 @@ const listReserveReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 idE: action
+            };
+            case GET_HISTORIQUE:
+            return {
+                ...state,
+                idU: action
             };   
         default:
             return state;

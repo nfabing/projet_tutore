@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import store from "../../redux/store";
 import { connect } from "react-redux";
 import { Row, Col, Spin } from "antd";
