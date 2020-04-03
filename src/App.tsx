@@ -50,7 +50,6 @@ const deconnection = () => {
 
                                     <Menu.Item  key={'3'}><Link to={'/DashboardFournisseur'}>Dashboard Fournisseur</Link></Menu.Item>
                                     <Menu.Item key={'6'}><Link to={'/ListReserve'}>ListReserve</Link></Menu.Item>
-                                    <Menu.Item key={'8'}><Link to={'/historique'}>Historique des réservations</Link></Menu.Item>
                             <Menu.Item key={'10'} style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
                                 <Menu.Item key={'7'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
                                 <Menu.Item key={'2'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>Mon Compte</Link></Menu.Item>
@@ -66,6 +65,7 @@ const deconnection = () => {
                             >
 
                                 <Menu.Item key={'1'}><Link to={'/'}>Recherche</Link></Menu.Item>
+                                <Menu.Item key={'8'}><Link to={'/historique'}>Historique des réservations</Link></Menu.Item>
                                 <Menu.Item key={'10'} style={{alignItems: "right", textAlign: "right", float: "right"}}><a href={'#'} onClick={() => store.dispatch({type: 'LOGOUT_REQUEST'})}>Déconnexion</a></Menu.Item>
                                 <Menu.Item key={'7'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Reservation'}>Mes réservations</Link></Menu.Item>
                                 <Menu.Item key={'2'} style={{alignItems: "right", textAlign: "right", float: "right"}}><Link to={'/Login'}>Mon Compte</Link></Menu.Item>
