@@ -11,7 +11,7 @@ import firebase from "firebase";
 
 
 // Auth Provider
-const authGoogleProvider = new firebase.auth.GoogleAuthProvider();
+const authGoogleProvider = new firebase.auth.GoogleAuthProvider()
 const authGithubProvider = new firebase.auth.GithubAuthProvider()
 
 let defaultPhoto: string
@@ -39,6 +39,7 @@ function* googleLoginAsync() {
         console.log('GOOGLE LOGIN SUCCESS')
 
     } catch (error) {
+        console.log(error.code)
         console.log('ERREUR DE LOGIN !', error.message)
         yield put(loginError(error.code))
     }
@@ -78,16 +79,14 @@ function* watchUser() {
             const userExist = yield checkUserExist(user.uid)
 
             if (!userExist && user.providerData[0].providerId !== 'password') {
-                console.log('NEW USER GOOGLE/GITHUB')
                 yield createUserDocument(user)
                 yield put(loginProviderFirstTime())
             }
             console.log('CONNECTED', user)
             yield put(loginSuccess(user))
 
-
         } else {
-            console.log('NOT CONNECTED', error)
+            console.log('DISCONNECTED', error)
             yield put(logoutSuccess())
 
         }
@@ -126,7 +125,6 @@ function* createUserDocument(user: any, action?: any) {
 
                 })
         } else if (action.data.userType === 'supplier') {
-            console.log('IS_SUPPLIER')
             // @ts-ignore
             yield call(reduxSagaFirebase.firestore.setDocument, `users/${user.uid}`,
                 {

@@ -78,7 +78,6 @@ export const ListEquipments = (props: any) => {
                                 <Column title="Equipement" dataIndex="nameEquipment" key="nameEquipment"/>
                                 <Column title="Date Début" dataIndex="dateDebut" key="dateDebut"/>
                                 <Column title="Date Fin" dataIndex="dateFin" key="dateFin"/>
-                                <Column title="Date Restitution" dataIndex="dateRestitution" key="dateRestitution"/>
                                 <Column
                                     title="Équipement récupéré ?"
                                     dataIndex="id"
